@@ -1,4 +1,4 @@
-package org.seekay.contract.configuration.local.local;
+package org.seekay.contract.configuration.local;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j;

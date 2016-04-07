@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.log4j.Appender
 import org.apache.log4j.Level
 import org.apache.log4j.spi.LoggingEvent
-import org.seekay.contract.configuration.local.local.LocalConfigurationSource
 import org.seekay.contract.configuration.ConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification

@@ -1,7 +1,6 @@
 package org.seekay.contract.configuration.git
 import org.eclipse.jgit.api.errors.CheckoutConflictException
 import org.seekay.contract.configuration.ConfigurationSource
-import org.seekay.contract.configuration.git.git.GitConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
@@ -18,7 +17,7 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "contract files can be downloaded from a git repo and unmarshalled into contract objects" () {
         given:
-            ConfigurationSource source = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz")
+            ConfigurationSource source = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git")
         when:
             List<Contract> contracts = source.load()
             Contract contract = first(contracts)
@@ -30,9 +29,9 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "the config source should delete an old source files before continuing" () {
         given:
-            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz")
+            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git")
             oldConfigurationSource.load()
-            ConfigurationSource newConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz")
+            ConfigurationSource newConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git")
         when:
             List<Contract> contracts = newConfigurationSource.load()
             Contract contract = first(contracts)
@@ -44,8 +43,8 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "a problem during cloning the repository should be thrown as an illegal state" () {
         given:
-            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz"])
-            1 * source.cloneRepository(_ as File) >> {throw new CheckoutConflictException("Its broken yo")}
+            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git"])
+            1 * source.clonePublicRepository(_ as File) >> {throw new CheckoutConflictException("Its broken yo")}
         when:
             source.load()
         then:
@@ -54,9 +53,9 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "a problem during deleting existing contracts should be thrown as an illegal state" () {
         given:
-            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz")
+            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git")
             oldConfigurationSource.load()
-            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://harmingcola@bitbucket.org/harmingcola/contract-test.git","harmingcola", "existenz"])
+            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://harmingcola@bitbucket.org/harmingcola/contract-test-public.git"])
             source.deleteDirectory(_ as File) >> {throw new IOException("Its broken yo")}
         when:
             source.load()
