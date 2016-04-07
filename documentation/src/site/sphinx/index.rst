@@ -1,7 +1,7 @@
-Jenkins Pipeline Configuration
+Contract
 ..............................
 
-Pipeline configuration for Logentries Jenkins
+A jvm contract based testing tool for http clients and servers.
 
 .. toctree::
     :maxdepth: 1
