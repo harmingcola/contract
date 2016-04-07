@@ -58,7 +58,7 @@ public class GitConfigurationSource implements ConfigurationSource {
     private Git setupRepositoryConnection(File localPath) {
         log.info("Cloning from {} to {}", this.repositoryUrl, localPath.getAbsolutePath());
         try {
-            if(this.username == null && this.password == null) {
+            if(this.password == null) {
                 return clonePublicRepository(localPath);
             }
             return clonePrivateRepository(localPath);

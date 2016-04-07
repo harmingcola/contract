@@ -3,7 +3,7 @@ package org.seekay.contract.server.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.jcontract.common.matchers.WhiteSpaceIgnoringBodyMatcher;
+import org.seekay.contract.common.matchers.WhiteSpaceIgnoringBodyMatcher;
 import org.seekay.contract.model.domain.Method;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;

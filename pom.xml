@@ -32,6 +32,7 @@
 		<module>contract-configuration</module>
 		<module>contract-client</module>
 		<module>contract-common</module>
+		<module>documentation</module>
 	</modules>
 
 	<dependencies>

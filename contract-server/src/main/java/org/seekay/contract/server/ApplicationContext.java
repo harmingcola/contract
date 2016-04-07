@@ -1,7 +1,7 @@
 package org.seekay.contract.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.seekay.jcontract.common.matchers.WhiteSpaceIgnoringBodyMatcher;
+import org.seekay.contract.common.matchers.WhiteSpaceIgnoringBodyMatcher;
 import org.seekay.contract.server.builder.ContractBuilder;
 import org.seekay.contract.server.match.ExactPathMatcher;
 import org.seekay.contract.server.match.MethodMatcher;
@@ -59,7 +59,7 @@ public class ApplicationContext {
             matchingService.setMethodMatcher(methodMatcher());
             matchingService.setExactPathMatcher(exactPathMatcher());
             matchingService.setHeaderMatcher(headerMatcher());
-			      matchingService.setWhiteSpaceIgnoringBodyMatcher(whiteSpaceIgnoringBodyMatcher());
+            matchingService.setWhiteSpaceIgnoringBodyMatcher(whiteSpaceIgnoringBodyMatcher());
             matchingService.setObjectMapper(objectMapper());
         }
         return matchingService;

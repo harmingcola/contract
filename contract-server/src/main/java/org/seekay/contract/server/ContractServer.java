@@ -35,6 +35,7 @@ public class ContractServer {
     private ContractServer() {
         sources = new ArrayList<ConfigurationSource>();
         objectMapper = new ObjectMapper();
+        tomcat = new Tomcat();
     }
 
     public static ContractServer newServer() {
@@ -63,15 +64,19 @@ public class ContractServer {
         return this;
     }
 
+    public ContractServer withGitConfig(String repositoryUrl) {
+        sources.add(new GitConfigurationSource(repositoryUrl));
+        return this;
+    }
+
     public ContractServer startServer() {
-        tomcat = new Tomcat();
         tomcat.setPort(this.port);
         tomcat.setBaseDir("target/tomcat/");
         configureServer();
         try {
             tomcat.start();
         } catch (LifecycleException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Problem occurred starting tomcat",e);
         }
         addContractsFromConfigSources();
         return this;
@@ -84,9 +89,8 @@ public class ContractServer {
             tomcat.getServer().await();
             tomcat.destroy();
         } catch (LifecycleException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
-
     }
 
     public String path() {
