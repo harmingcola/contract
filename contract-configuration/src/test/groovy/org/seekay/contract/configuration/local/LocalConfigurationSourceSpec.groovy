@@ -1,8 +1,5 @@
 package org.seekay.contract.configuration.local
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.apache.log4j.Appender
-import org.apache.log4j.Level
-import org.apache.log4j.spi.LoggingEvent
+
 import org.seekay.contract.configuration.ConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
@@ -59,23 +56,5 @@ class LocalConfigurationSourceSpec extends Specification {
                 assert contract.response.body == "hello world"
                 assert contract.response.status == 200
             }
-    }
-
-    def "when an exception is thrown loading a contract, it should be logged" () {
-        given:
-			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/crazyFolderLayout")
-			ObjectMapper objectMapper = Mock(ObjectMapper)
-			source.objectMapper = objectMapper
-			Appender appender = Mock(Appender)
-			source.log.addAppender(appender)
-		when:
-			source.load()
-		then:
-			objectMapper.readValue(_, Contract.class) >> {throw new IOException()}
-			appender.doAppend(_) >>  { LoggingEvent loggingEvent ->
-				if(loggingEvent.getLevel() == Level.ERROR) {
-					assert loggingEvent.getMessage().contains("Problem with unmarshalling")
-				}
-		}
     }
 }

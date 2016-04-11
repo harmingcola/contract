@@ -115,7 +115,7 @@ public class ContractServer {
         try {
             return objectMapper.writeValueAsString(contract);
         } catch (JsonProcessingException e) {
-            log.error("Error configuring server with contract ["+ contract +"]", e);
+            //log.error("Error configuring server with contract ["+ contract +"]", e);
             throw new IllegalStateException(e);
         }
     }

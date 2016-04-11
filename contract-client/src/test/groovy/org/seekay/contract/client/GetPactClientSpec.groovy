@@ -15,7 +15,7 @@ class GetContractClientSpec extends Specification {
             ContractServer server = ContractServer.newServer().onRandomPort().startServer()
             server.addContract(contract)
         expect:
-            ContractClient.fromContracts([contract]).toPath(server.path()).execute()
+            ContractClient.fromContracts([contract]).againstPath(server.path()).runTests()
         cleanup:
             server.stopServer()
     }
@@ -27,7 +27,7 @@ class GetContractClientSpec extends Specification {
             ContractServer server = ContractServer.newServer().onRandomPort().startServer()
             server.addContract(serverContract)
         when:
-            ContractClient.fromContracts([clientContract]).toPath(server.path()).execute()
+            ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
             def e = thrown(AssertionError)
             e.message.contains("Response and Contract status codes are expected to match")
@@ -42,7 +42,7 @@ class GetContractClientSpec extends Specification {
             ContractServer server = ContractServer.newServer().onRandomPort().startServer()
             server.addContract(serverContract)
         when:
-            ContractClient.fromContracts([clientContract]).toPath(server.path()).execute()
+            ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
             def e = thrown(AssertionError)
             e.message.contains("Response and Contract bodies are expected to match")
@@ -60,7 +60,7 @@ class GetContractClientSpec extends Specification {
             ContractServer server = ContractServer.newServer().onRandomPort().startServer()
             server.addContract(serverContract)
         expect:
-            ContractClient.fromContracts([clientContract]).toPath(server.path()).execute()
+            ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         cleanup:
             server.stopServer()
     }

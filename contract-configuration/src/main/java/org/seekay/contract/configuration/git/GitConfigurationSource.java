@@ -56,14 +56,14 @@ public class GitConfigurationSource implements ConfigurationSource {
     }
 
     private Git setupRepositoryConnection(File localPath) {
-        log.info("Cloning from {} to {}", this.repositoryUrl, localPath.getAbsolutePath());
+        //log.info("Cloning from {} to {}", this.repositoryUrl, localPath.getAbsolutePath());
         try {
             if(this.password == null) {
                 return clonePublicRepository(localPath);
             }
             return clonePrivateRepository(localPath);
         } catch (GitAPIException e) {
-            log.error("Problem occurred when contacting git", e);
+            //log.error("Problem occurred when contacting git", e);
             throw new IllegalStateException(e);
         }
     }

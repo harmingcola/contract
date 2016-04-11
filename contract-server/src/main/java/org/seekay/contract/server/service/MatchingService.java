@@ -50,8 +50,8 @@ public class MatchingService {
   }
   
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
-    log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
-    log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
+    //log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
+    //log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
   }
   
   private Set<Contract> matchByMethod(Method method) {

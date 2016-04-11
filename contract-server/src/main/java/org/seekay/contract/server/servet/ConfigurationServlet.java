@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.seekay.contract.model.util.PrintTools.prettyPrint;
 import static org.seekay.contract.server.ApplicationContext.*;
 import static org.seekay.contract.server.util.RequestReader.from;
 import static org.seekay.contract.server.util.ResponseWriter.to;
@@ -51,6 +50,6 @@ public class ConfigurationServlet extends HttpServlet {
         Contract contract = contractBuilder.fromJson(contractDefinition);
         contractService.create(contract);
         to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
-        log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
+        //log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
     }
 }
