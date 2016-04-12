@@ -1,5 +1,6 @@
 package org.seekay.contract.client.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.configuration.git.GitConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
@@ -13,6 +14,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Slf4j
 public class ContractClient {
 
     private List<Contract> contracts;
@@ -47,10 +49,12 @@ public class ContractClient {
 
     public void runTests() {
         for(Contract contract : contracts) {
+            log.info("Checking contract " + contract);
             ContractRequest request = contract.getRequest();
             ContractResponse response = Http.method(request.getMethod())
                     .toPath(path + request.getPath())
                     .withHeaders(request.getHeaders())
+                    .withBody(request.getBody())
                     .execute()
                     .toResponse();
             assertResponseIsValid(contract.getResponse(), response);
@@ -69,6 +73,9 @@ public class ContractClient {
     }
 
     private void assertBodiesMatch(ContractResponse expectedResponse, ContractResponse actualResponse) {
+        if(expectedResponse.getBody() == null) {
+            return;
+        }
         String strippedExpectedResponseBody = expectedResponse.getBody().replaceAll("\\s","");
         String strippedActualResponseBody = actualResponse.getBody().replaceAll("\\s","");
         assertThat("Response and Contract bodies are expected to match", strippedExpectedResponseBody, is(strippedActualResponseBody));
@@ -80,3 +87,4 @@ public class ContractClient {
 
 
 }
+

@@ -35,6 +35,7 @@ public class ConfigurationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+        log.info("Configuration request received");
         Set<Contract> contracts = contractService.read();
         if(!contracts.isEmpty()) {
             String responseBody = objectMapper.writeValueAsString(contracts);

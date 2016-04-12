@@ -1,5 +1,6 @@
+========
 Contract
-..............................
+========
 
 A jvm contract based testing tool for http clients and servers.
 
