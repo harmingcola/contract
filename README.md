@@ -1,5 +1,5 @@
-So, um, yeah, jContract yo!
+#### Contract
+### A JVM contract testing tool
 
-Build environment details:
-Java 1.7
-Lombok
+## Full Documentation
+[Link](http://harmingcola.github.io/contract/)
