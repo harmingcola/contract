@@ -1,8 +1,8 @@
 Key Value Server
 ================
 
-The Key Value server (kvServer) is a testing project we use to validate the Contract project. It is treated as
-a project that is a user of our code and wants to use every possible feature.
+The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
+It is treated as a project that is a user of our code and wants to use every possible feature.
 
 Its contracts are held seperately in the [kvContracts repository](https://github.com/harmingcola/kvContracts) in order
 to share them with kvClient project.
