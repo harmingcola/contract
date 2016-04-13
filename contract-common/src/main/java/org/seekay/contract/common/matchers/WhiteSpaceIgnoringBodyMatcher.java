@@ -12,10 +12,16 @@ public class WhiteSpaceIgnoringBodyMatcher {
 
 		for(Contract contract : contracts) {
 			String expectedBody = contract.getRequest().getBody();
-			String strippedExpectedBody = expectedBody.replaceAll("\\s","");
-			String strippedActualBody = actualBody.replaceAll("\\s","");
-			if(strippedActualBody.equals(strippedExpectedBody)) {
+			if(expectedBody == null && actualBody != null) {
+				break;
+			} else if(expectedBody == null && actualBody == null) {
 				result.add(contract);
+			} else {
+				String strippedExpectedBody = expectedBody.replaceAll("\\s", "");
+				String strippedActualBody = actualBody.replaceAll("\\s", "");
+				if (strippedActualBody.equals(strippedExpectedBody)) {
+					result.add(contract);
+				}
 			}
 		}
 
