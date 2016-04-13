@@ -84,7 +84,8 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Key Value Server</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#urls">Urls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#endpoints">Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-contractclient">Running the ContractClient</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
@@ -136,10 +137,10 @@
 <h1>Key Value Server<a class="headerlink" href="#key-value-server" title="Permalink to this headline">¶</a></h1>
 <p>The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
 It is treated as a project that is a user of our code and wants to use every possible feature.</p>
-<p>Its contracts are held seperately in the [kvContracts repository](<a class="reference external" href="https://github.com/harmingcola/kvContracts">https://github.com/harmingcola/kvContracts</a>) in order
+<p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvContracts">kvContracts repository</a> in order
 to share them with kvClient project.</p>
-<div class="section" id="urls">
-<h2>Urls<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="endpoints">
+<h2>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this headline">¶</a></h2>
 <p>The following urls are accessible on the server.</p>
 <ul>
 <li><dl class="first docutils">
@@ -163,6 +164,42 @@ to share them with kvClient project.</p>
 </dl>
 </li>
 </ul>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-contractclient">
+<h2>Running the ContractClient<a class="headerlink" href="#running-the-contractclient" title="Permalink to this headline">¶</a></h2>
+<p>The server facing tests are wrapped in a standard junit test. The contracts are stored in our <a class="reference external" href="https://github.com/harmingcola/kvContracts">kvContracts repository</a></p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.seekay.contract.client.client.ContractClient</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">KvServerContractTests</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runContractTestsAgainstServer</span><span class="o">()</span> <span class="o">{</span>
+
+        <span class="n">ContractClient</span><span class="o">.</span><span class="na">newClient</span><span class="o">().</span><span class="na">againstPath</span><span class="o">(</span><span class="s">&quot;http://localhost:8080/kv&quot;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">withGitConfig</span><span class="o">(</span><span class="s">&quot;https://github.com/harmingcola/kvContracts.git&quot;</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">runTests</span><span class="o">();</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 
