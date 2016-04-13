@@ -27,12 +27,12 @@
 	</properties>
 
 	<modules>
+		<module>documentation</module>
 		<module>contract-server</module>
 		<module>contract-model</module>
 		<module>contract-configuration</module>
 		<module>contract-client</module>
 		<module>contract-common</module>
-		<module>documentation</module>
 	</modules>
 
 	<dependencies>
