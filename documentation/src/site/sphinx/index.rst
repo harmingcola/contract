@@ -17,9 +17,10 @@ driven contracts* and you're left with just contracts. By favouring neither side
     quick_start
     features
     contract_files
-    contributing
     kv_server
     kv_client
+    building
+    contributing
 
 
 Indices and tables
