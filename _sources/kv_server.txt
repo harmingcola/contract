@@ -7,6 +7,16 @@ It is treated as a project that is a user of our code and wants to use every pos
 Its contracts are held separately in the `kvContracts repository <https://github.com/harmingcola/kvContracts>`_ in order
 to share them with kvClient project.
 
+Running the server
+------------------
+
+The server can be started with the following command from the root directory
+
+.. code-block::
+
+    mvn spring-boot:run
+
+
 Endpoints
 ---------
 
@@ -28,7 +38,7 @@ The following urls are accessible on the server.
     {
       "request" : {
         "method" : "POST",
-        "path" : "/pair",
+        "path" : "/kv/pair",
         "headers": {
           "Content-Type" : "application/json"
         },
@@ -57,7 +67,7 @@ The server facing tests are wrapped in a standard junit test. The contracts are 
         @Test
         public void runContractTestsAgainstServer() {
 
-            ContractClient.newClient().againstPath("http://localhost:8080/kv")
+            ContractClient.newClient().againstPath("http://localhost:8080")
                     .withGitConfig("https://github.com/harmingcola/kvContracts.git")
                     .runTests();
 
