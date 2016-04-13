@@ -19,6 +19,7 @@ driven contracts* and you're left with just contracts. By favouring neither side
     contract_files
     contributing
     kv_server
+    kv_client
 
 
 Indices and tables

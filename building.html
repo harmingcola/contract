@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Client facing example : Key Value Client &mdash; Python  documentation</title>
+  <title>Building the library from source &mdash; Python  documentation</title>
   
 
   
@@ -30,8 +30,7 @@
   
 
   
-    <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="prev" title="Key Value Server" href="kv_server.html"/> 
+    <link rel="top" title="Python  documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -77,16 +76,13 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Key Value Server</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Client facing example : Key Value Client</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
 </ul>
 
             
@@ -117,11 +113,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Client facing example : Key Value Client</li>
+    <li>Building the library from source</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="_sources/kv_client.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/building.txt" rel="nofollow"> View page source</a>
         
       
     </li>
@@ -131,38 +127,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="client-facing-example-key-value-client">
-<h1>Client facing example : Key Value Client<a class="headerlink" href="#client-facing-example-key-value-client" title="Permalink to this headline">¶</a></h1>
-<p>The Key value client (kvClient) is a project we&#8217;re using to validate the client facing aspects of the Contract project.
-Its treated like a project that is a user of our code that wants to use every possible feature.</p>
-<p>Its contracts are held seperately in the [kvContracts repository](<a class="reference external" href="https://github.com/harmingcola/kvContracts">https://github.com/harmingcola/kvContracts</a>) in order
-to share them with kvClient project.</p>
-<div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><dl class="first docutils">
-<dt>Create</dt>
-<dd><ul class="first last simple">
-<li>Exposes a method allowing creation of a key on the KvServer</li>
+  <div class="section" id="building-the-library-from-source">
+<h1>Building the library from source<a class="headerlink" href="#building-the-library-from-source" title="Permalink to this headline">¶</a></h1>
+<p>You&#8217;ll need the follow</p>
+<ol class="arabic simple">
+<li>Java 1.8</li>
+<li>Maven 3.3.3</li>
+</ol>
+<p>Steps</p>
+<ol class="arabic simple">
+<li>git clone <a class="reference external" href="https://github.com/harmingcola/contract">https://github.com/harmingcola/contract</a></li>
+<li>mvn clean install</li>
+</ol>
+<ul class="simple">
+<li>The build enforces 95% code unit test coverage.</li>
 </ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div>
 </div>
 
 
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="kv_server.html" class="btn btn-neutral" title="Key Value Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
