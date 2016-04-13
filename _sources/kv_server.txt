@@ -1,5 +1,5 @@
-Key Value Server
-================
+Client facing example : Key Value Server
+========================================
 
 The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
 It is treated as a project that is a user of our code and wants to use every possible feature.

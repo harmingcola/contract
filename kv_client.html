@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="prev" title="Key Value Server" href="kv_server.html"/> 
+        <link rel="prev" title="Client facing example : Key Value Server" href="kv_server.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -82,9 +82,10 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Key Value Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Client facing example : Key Value Client</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create">Create</a></li>
 </ul>
 </li>
 </ul>
@@ -139,16 +140,61 @@ Its treated like a project that is a user of our code that wants to use every po
 to share them with kvClient project.</p>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><dl class="first docutils">
-<dt>Create</dt>
-<dd><ul class="first last simple">
-<li>Exposes a method allowing creation of a key on the KvServer</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
+</div>
+<div class="section" id="create">
+<h2>Create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h2>
+<p>Exposes a method allowing creation of a key on the KvServer. The contract and unit test for this functionality is below.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-java"><div class="highlight"><pre><span></span>import org.seekay.contract.server.ContractServer
+import spock.lang.Shared
+import spock.lang.Specification
+
+class CreatePairSpec extends Specification {
+
+    @Shared
+    ContractServer server;
+
+    @Shared
+    KvClient client;
+
+    def setupSpec() {
+        server = ContractServer.newServer()
+                .onRandomPort()
+                .withGitConfig(&#39;https://github.com/harmingcola/kvContracts&#39;)
+                .startServer()
+
+        client = new KvClient(server.path() + &#39;/kv&#39;)
+    }
+
+    def &#39;a pair should be created and returned on the server&#39;() {
+        given:
+            Pair pair = new Pair( key:&#39;name&#39;, value:&#39;create key value pair, test 0001&#39;)
+        when:
+            Pair createdPair = client.create(pair)
+        then:
+            createdPair.key == &#39;age&#39;
+            createdPair.value == &#39;27&#39;
+
+    }
+
+}
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -160,7 +206,7 @@ to share them with kvClient project.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="kv_server.html" class="btn btn-neutral" title="Key Value Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="kv_server.html" class="btn btn-neutral" title="Client facing example : Key Value Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
