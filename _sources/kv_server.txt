@@ -28,6 +28,20 @@ The following urls are accessible on the server.
     * Response : {"key": "name","value": "ann"}
     * Description : Returns the key value pair for that key
 
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "GET",
+        "path" : "/kv/pair/weight"
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "{\"key\": \"weight\",\"value\": \"220\"}"
+      }
+    }
+
+
 * POST
     * URL : http://{host}:{port}/kv/pair
     * Response : {"key": "age","value": 27}
