@@ -18,6 +18,7 @@ driven contracts* and you're left with just contracts. By favouring neither side
     features
     contract_files
     contributing
+    kv_server
 
 
 Indices and tables

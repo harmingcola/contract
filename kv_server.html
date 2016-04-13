@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; Python  documentation</title>
+  <title>Key Value Server &mdash; Python  documentation</title>
   
 
   
@@ -31,8 +31,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="next" title="Key Value Server" href="kv_server.html"/>
-        <link rel="prev" title="Contract Files" href="contract_files.html"/> 
+        <link rel="prev" title="Contributing" href="contributing.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -82,8 +81,11 @@
 <li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Key Value Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Key Value Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#urls">Urls</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -114,11 +116,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Contributing</li>
+    <li>Key Value Server</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="_sources/contributing.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/kv_server.txt" rel="nofollow"> View page source</a>
         
       
     </li>
@@ -128,8 +130,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="key-value-server">
+<h1>Key Value Server<a class="headerlink" href="#key-value-server" title="Permalink to this headline">¶</a></h1>
+<p>The Key Value server (kvServer) is a testing project we use to validate the Contract project. It is treated as
+a project that is a user of our code and wants to use every possible feature.</p>
+<p>Its contracts are held seperately in the [kvContracts repository](<a class="reference external" href="https://github.com/harmingcola/kvContracts">https://github.com/harmingcola/kvContracts</a>) in order
+to share them with kvClient project.</p>
+<div class="section" id="urls">
+<h2>Urls<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h2>
+<p>The following urls are accessible on the server.</p>
+<ul>
+<li><dl class="first docutils">
+<dt>GET</dt>
+<dd><ul class="first last simple">
+<li>URL : <a class="reference external" href="http:/">http:/</a>/{host}:{port}/kv/pair/{key}</li>
+<li>Response : {&#8220;key&#8221;: &#8220;name&#8221;,&#8221;value&#8221;: &#8220;ann&#8221;}</li>
+<li>Description : Returns the key value pair for that key</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>POST</dt>
+<dd><ul class="first last simple">
+<li>URL : <a class="reference external" href="http:/">http:/</a>/{host}:{port}/kv/pair</li>
+<li>Response : {&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
+<li>Description : Accepts and stores a key/value pair</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -139,10 +171,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="kv_server.html" class="btn btn-neutral float-right" title="Key Value Server" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="contract_files.html" class="btn btn-neutral" title="Contract Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral" title="Contributing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
