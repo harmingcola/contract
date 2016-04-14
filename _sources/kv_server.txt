@@ -12,7 +12,7 @@ Running the server
 
 The server can be started with the following command from the root directory
 
-.. code-block::
+.. code-block:: bash
 
     mvn spring-boot:run
 
