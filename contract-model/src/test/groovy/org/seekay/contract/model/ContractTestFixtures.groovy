@@ -6,28 +6,34 @@ class ContractTestFixtures {
     static Set<Contract> oneDefaultContractOfEachMethod() {
         return [
                 defaultGetContract().build(),
-                defaultPostContract().build()
+                defaultPostContract().build(),
+                defaultPutContract().build()
         ]
     }
+
+
 
     static Set<Contract> oneDefaultContractOfEachMethodWithoutHeaders() {
         return [
                 defaultGetContract().requestHeaders(null).build(),
-                defaultPostContract().requestHeaders(null).build()
+                defaultPostContract().requestHeaders(null).build(),
+                defaultPutContract().requestHeaders(null).build()
         ]
     }
 
-    static Set<Contract> twoContractsDifferentMethodsSamePath() {
+    static Set<Contract> multipleContractsDifferentMethodsSamePath() {
         return [
                 defaultGetContract().path("/default/1").build(),
-                defaultPostContract().path("/default/1").build()
+                defaultPostContract().path("/default/1").build(),
+                defaultPutContract().path("/default/1").build()
         ]
     }
 
-    static Set<Contract> twoPostContractsDifferentPaths() {
+    static Set<Contract> multiplePostContractsDifferentPaths() {
         return [
                 defaultPostContract().path("hello world").build(),
-                defaultPostContract().path("goodbye world").build()
+                defaultPostContract().path("goodbye world").build(),
+                defaultPutContract().path("cruel world").build()
         ]
     }
 
@@ -49,6 +55,16 @@ class ContractTestFixtures {
                 .status(200)
                 .responseHeaders(["incredible":"hulk"])
                 .responseBody("I like cheese")
+    }
+
+    static ContractTestBuilder defaultPutContract() {
+        return ContractTestBuilder.put()
+                .path("/builder/4")
+                .requestBody("I'm the request body")
+                .requestHeaders(["iron":"man"])
+                .status(200)
+                .responseHeaders(["war":"machine"])
+                .responseBody("I like eggs")
     }
 
 

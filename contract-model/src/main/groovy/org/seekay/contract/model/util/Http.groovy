@@ -5,15 +5,16 @@ import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.methods.HttpPut
 import org.apache.http.client.methods.HttpUriRequest
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.util.EntityUtils
-import org.seekay.contract.model.domain.Method
 import org.seekay.contract.model.domain.ContractResponse
+import org.seekay.contract.model.domain.Method
 
-import static Method.GET
-import static Method.POST
+import static org.seekay.contract.model.domain.Method.*
+
 
 class Http {
 
@@ -39,6 +40,7 @@ class Http {
         switch (method) {
             case GET : get(); break;
             case POST: post(); break;
+            case PUT: put(); break;
             default: throw new IllegalStateException("Unsupported method ["+ method +"] requested, supported are [GET, POST]")
         }
     }
@@ -49,6 +51,10 @@ class Http {
 
     static Http post() {
         return new Http(POST);
+    }
+
+    static Http put() {
+        return new Http(PUT);
     }
 
 
@@ -88,6 +94,11 @@ class Http {
             HttpPost post = new HttpPost(path)
             post.setEntity(new StringEntity(body));
             request = post
+        }
+        if(method == PUT) {
+            HttpPut put = new HttpPut(path)
+            put.setEntity(new StringEntity(body));
+            request = put
         }
         addHeaders()
         response = httpClient.execute(request)

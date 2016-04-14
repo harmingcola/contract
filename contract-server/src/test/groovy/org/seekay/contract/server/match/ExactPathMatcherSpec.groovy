@@ -34,11 +34,11 @@ class ExactPathMatcherSpec extends Specification {
 
     def "multiple contracts with the same path can be returned"() {
         given:
-            Set<Contract> contracts = ContractTestFixtures.twoContractsDifferentMethodsSamePath()
+            Set<Contract> contracts = ContractTestFixtures.multipleContractsDifferentMethodsSamePath()
         when:
             Set<Contract> result = matcher.match(contracts, "/default/1")
         then:
-            result.size() == 2
+            result.size() == contracts.size()
             result.collect { contract ->
                 assert contract.request.path == "/default/1"
             }

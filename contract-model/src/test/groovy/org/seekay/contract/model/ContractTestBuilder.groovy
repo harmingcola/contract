@@ -33,6 +33,10 @@ class ContractTestBuilder {
         return new ContractTestBuilder(POST)
     }
 
+    static ContractTestBuilder put() {
+        return new ContractTestBuilder(PUT)
+    }
+
 
     /*
      * Parameter methods

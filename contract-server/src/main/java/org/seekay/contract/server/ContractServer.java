@@ -76,7 +76,7 @@ public class ContractServer {
         try {
             tomcat.start();
         } catch (LifecycleException e) {
-            throw new IllegalStateException("Problem occurred starting tomcat",e);
+            throw new IllegalStateException("Problem occurred starting tomcat", e);
         }
         addContractsFromConfigSources();
         return this;

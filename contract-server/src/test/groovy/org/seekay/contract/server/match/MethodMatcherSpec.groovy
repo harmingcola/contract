@@ -26,7 +26,7 @@ class MethodMatcherSpec extends Specification {
 
     def "if no contracts match, an empty list will be returned"() {
         given:
-            Set contracts = ContractTestFixtures.twoPostContractsDifferentPaths()
+            Set contracts = ContractTestFixtures.multiplePostContractsDifferentPaths()
         when:
             Set result = matcher.match(contracts, GET)
         then:
@@ -37,7 +37,7 @@ class MethodMatcherSpec extends Specification {
 
     def "if multiple contracts match, then multiple contracts will be returned" () {
         given:
-            Set contracts = ContractTestFixtures.twoPostContractsDifferentPaths()
+            Set contracts = ContractTestFixtures.multiplePostContractsDifferentPaths()
         when:
             Set result = matcher.match(contracts, POST)
         then:

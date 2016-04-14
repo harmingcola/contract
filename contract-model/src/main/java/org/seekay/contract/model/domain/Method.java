@@ -2,8 +2,8 @@ package org.seekay.contract.model.domain;
 
 public enum Method {
 
-    GET, POST, CONNECT
+    GET, POST, PUT, CONNECT
 
     // Not Yet Implemented
-    //  PUT DELETE HEAD OPTIONS
+    //  DELETE HEAD OPTIONS
 }

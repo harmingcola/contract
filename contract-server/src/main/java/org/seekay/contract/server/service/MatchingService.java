@@ -48,10 +48,27 @@ public class MatchingService {
     Set<Contract> matchedByBody = matchByBody(contractRequest);
     return getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
   }
-  
+
+  public Contract matchPutRequest(ContractRequest contractRequest) {
+    logRequestAgainstContracts(contractRequest, contractService.read());
+    Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
+    Set<Contract> matchedByPath = matchByPath(contractRequest);
+    Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    Set<Contract> matchedByBody = matchByBody(contractRequest);
+
+    Contract result = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+
+    if(result == null) {
+      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
+              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    }
+
+    return result;
+  }
+
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
-    //log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
-    //log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
+    log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
+    log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
   }
   
   private Set<Contract> matchByMethod(Method method) {
@@ -82,5 +99,6 @@ public class MatchingService {
             + prettyPrint(matchedContracts, objectMapper));
     }
   }
-  
+
+
 }

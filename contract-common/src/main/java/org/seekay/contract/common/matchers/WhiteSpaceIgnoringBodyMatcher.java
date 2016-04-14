@@ -13,7 +13,7 @@ public class WhiteSpaceIgnoringBodyMatcher {
 		for(Contract contract : contracts) {
 			String expectedBody = contract.getRequest().getBody();
 			if(expectedBody == null && actualBody != null) {
-				break;
+				continue;
 			} else if(expectedBody == null && actualBody == null) {
 				result.add(contract);
 			} else {
