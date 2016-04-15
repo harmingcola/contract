@@ -5,7 +5,6 @@ import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
-import org.apache.http.client.methods.HttpOptions
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
 import org.apache.http.client.methods.HttpUriRequest
@@ -44,7 +43,6 @@ class Http {
             case POST: post(); break;
             case PUT: put(); break;
             case DELETE: delete(); break;
-            case OPTIONS: options(); break;
             default: throw new IllegalStateException("Unsupported method ["+ method +"] requested, supported are [GET, POST]")
         }
     }
@@ -63,10 +61,6 @@ class Http {
 
     static Http delete() {
         return new Http(DELETE);
-    }
-
-    static Http options() {
-        return new Http(OPTIONS);
     }
 
 
@@ -115,10 +109,6 @@ class Http {
         if(method == DELETE) {
             HttpDelete delete = new HttpDelete(path)
             request = delete
-        }
-        if(method == OPTIONS) {
-            HttpOptions options = new HttpOptions(path)
-            request = options
         }
         addHeaders()
         response = httpClient.execute(request)

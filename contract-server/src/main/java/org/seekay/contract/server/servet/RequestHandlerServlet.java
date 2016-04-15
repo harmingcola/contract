@@ -55,13 +55,6 @@ public class RequestHandlerServlet extends HttpServlet {
         writeResponse(httpsResponse, contract);
     }
 
-    @Override
-    protected void doOptions(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
-        ContractRequest contractRequest = from(httpRequest).toContractRequest();
-        Contract contract = matchingService.matchOptionsRequest(contractRequest);
-        writeResponse(httpsResponse, contract);
-    }
-
     private void writeResponse(HttpServletResponse httpResponse, Contract contract) throws JsonProcessingException {
         if(contract != null && contract.getResponse() != null) {
             to(httpResponse)

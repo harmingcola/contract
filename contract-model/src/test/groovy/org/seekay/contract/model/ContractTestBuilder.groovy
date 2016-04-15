@@ -41,10 +41,6 @@ class ContractTestBuilder {
         return new ContractTestBuilder(DELETE)
     }
 
-    static ContractTestBuilder options() {
-        return new ContractTestBuilder(OPTIONS)
-    }
-
 
     /*
      * Parameter methods

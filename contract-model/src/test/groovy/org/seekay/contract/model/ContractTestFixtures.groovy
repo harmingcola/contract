@@ -75,11 +75,4 @@ class ContractTestFixtures {
                 .requestHeaders(["scarlet":"witch"])
                 .status(204)
     }
-
-    static ContractTestBuilder defaultOptionsContract() {
-        return ContractTestBuilder.options()
-                .path("/builder/6")
-                .status(200)
-                .responseHeaders(["allow":"OPTIONS,GET,HEAD,POST,PUT,DELETE"])
-    }
 }
