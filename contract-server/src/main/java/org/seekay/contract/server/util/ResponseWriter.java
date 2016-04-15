@@ -29,7 +29,9 @@ public class ResponseWriter {
     public void write(String body) {
         try {
             ServletOutputStream out = response.getOutputStream();
-            out.write(body.getBytes());
+            if(body != null) {
+                out.write(body.getBytes());
+            }
             out.flush();
             out.close();
         } catch (IOException e) {

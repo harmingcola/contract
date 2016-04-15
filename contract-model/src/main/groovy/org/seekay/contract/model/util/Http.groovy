@@ -3,6 +3,7 @@ package org.seekay.contract.model.util
 import org.apache.http.Header
 import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
@@ -41,6 +42,7 @@ class Http {
             case GET : get(); break;
             case POST: post(); break;
             case PUT: put(); break;
+            case DELETE: delete(); break;
             default: throw new IllegalStateException("Unsupported method ["+ method +"] requested, supported are [GET, POST]")
         }
     }
@@ -55,6 +57,10 @@ class Http {
 
     static Http put() {
         return new Http(PUT);
+    }
+
+    static Http delete() {
+        return new Http(DELETE);
     }
 
 
@@ -99,6 +105,10 @@ class Http {
             HttpPut put = new HttpPut(path)
             put.setEntity(new StringEntity(body));
             request = put
+        }
+        if(method == DELETE) {
+            HttpDelete delete = new HttpDelete(path)
+            request = delete
         }
         addHeaders()
         response = httpClient.execute(request)

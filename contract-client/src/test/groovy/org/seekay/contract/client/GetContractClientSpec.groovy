@@ -50,6 +50,21 @@ class GetContractClientSpec extends Specification {
             server.stopServer()
     }
 
+    def "a server and client configured from identical sources should operate correctly" () {
+        given:
+            ContractServer server = ContractServer.newServer()
+                .withGitConfig("https://bitbucket.org/harmingcola/contract-test-public")
+                .onRandomPort()
+                .startServer()
+        when:
+            ContractClient.newClient()
+                .withGitConfig("https://bitbucket.org/harmingcola/contract-test-public")
+                .againstPath(server.path())
+                .runTests()
+        then:
+            noExceptionThrown()
+    }
+
     /*
      * possible bug?
      */

@@ -11,8 +11,10 @@ import spock.lang.Specification
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+import static org.seekay.contract.model.ContractTestFixtures.defaultDeleteContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultPostContract
+import static org.seekay.contract.model.ContractTestFixtures.defaultPutContract
 
 class RequestHandlerServletSpec extends Specification {
 
@@ -34,7 +36,7 @@ class RequestHandlerServletSpec extends Specification {
             requestHandlerServlet.matchingService != null
     }
 
-    def "a get request should be handled correctly" () {
+    def "a GET request should be handled correctly" () {
         given:
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
@@ -47,7 +49,7 @@ class RequestHandlerServletSpec extends Specification {
             response.getContentAsString() == "hello world"
     }
 
-    def "a post request should be handled correctly" () {
+    def "a POST request should be handled correctly" () {
         given:
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
@@ -58,6 +60,30 @@ class RequestHandlerServletSpec extends Specification {
             response.getHeaderValue("incredible") == "hulk"
             response.getStatus() == 200
             response.getContentAsString() == "I like cheese"
+    }
+
+    def "a PUT request should be handled correctly" () {
+        given:
+            HttpServletRequest request = buildServletRequest()
+            HttpServletResponse response = new MockHttpServletResponse()
+            1 * matchingService.matchPutRequest(_ as ContractRequest) >> {defaultPutContract().build()}
+        when:
+            servlet.doPut(request, response)
+        then:
+            response.getHeaderValue("war") == "machine"
+            response.getStatus() == 200
+            response.getContentAsString() == "I like eggs"
+    }
+
+    def "a DELETE request should be handled correctly" () {
+        given:
+            HttpServletRequest request = buildServletRequest()
+            HttpServletResponse response = new MockHttpServletResponse()
+            1 * matchingService.matchDeleteRequest(_ as ContractRequest) >> {defaultDeleteContract().build()}
+        when:
+            servlet.doDelete(request, response)
+        then:
+            response.getStatus() == 204
     }
 
     def "if no matching contracts are found, a NOT_FOUND and error message should be returned" () {

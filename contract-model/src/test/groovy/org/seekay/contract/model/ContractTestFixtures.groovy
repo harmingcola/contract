@@ -7,7 +7,8 @@ class ContractTestFixtures {
         return [
                 defaultGetContract().build(),
                 defaultPostContract().build(),
-                defaultPutContract().build()
+                defaultPutContract().build(),
+                defaultDeleteContract().build()
         ]
     }
 
@@ -17,7 +18,8 @@ class ContractTestFixtures {
         return [
                 defaultGetContract().requestHeaders(null).build(),
                 defaultPostContract().requestHeaders(null).build(),
-                defaultPutContract().requestHeaders(null).build()
+                defaultPutContract().requestHeaders(null).build(),
+                defaultDeleteContract().requestHeaders(null).build()
         ]
     }
 
@@ -25,7 +27,8 @@ class ContractTestFixtures {
         return [
                 defaultGetContract().path("/default/1").build(),
                 defaultPostContract().path("/default/1").build(),
-                defaultPutContract().path("/default/1").build()
+                defaultPutContract().path("/default/1").build(),
+                defaultDeleteContract().path("/default/1").build()
         ]
     }
 
@@ -33,7 +36,8 @@ class ContractTestFixtures {
         return [
                 defaultPostContract().path("hello world").build(),
                 defaultPostContract().path("goodbye world").build(),
-                defaultPutContract().path("cruel world").build()
+                defaultPutContract().path("cruel world").build(),
+                defaultDeleteContract().path("speak no evil").build()
         ]
     }
 
@@ -67,5 +71,10 @@ class ContractTestFixtures {
                 .responseBody("I like eggs")
     }
 
-
+    static ContractTestBuilder defaultDeleteContract() {
+        return ContractTestBuilder.delete()
+                .path("/builder/5")
+                .requestHeaders(["scarlet":"witch"])
+                .status(204)
+    }
 }

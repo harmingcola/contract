@@ -42,4 +42,22 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 		then:
 			results.size() == 0
 	}
+
+	def "when a contract doesnt specify a body, and one has been received, it should not match" () {
+		given:
+			Contract contractWithNoBody = ContractTestBuilder.get().build()
+		when:
+			Set results = matcher.matchRequestBody([contractWithNoBody] as Set, "goodbye world")
+		then:
+			results.size() == 0
+	}
+
+	def "when a contract doesnt specify a body, and none is received, it should match" () {
+		given:
+			Contract contractWithNoBody = ContractTestBuilder.get().build()
+		when:
+			Set results = matcher.matchRequestBody([contractWithNoBody] as Set, null)
+		then:
+			results.size() == 1
+	}
 }

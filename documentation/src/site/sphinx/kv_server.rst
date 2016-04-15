@@ -99,6 +99,24 @@ The following urls are accessible on the server.
     }
 
 
+* DELETE
+    * URL : *http://{host}:{port}/kv/pair/{key}*
+    * Description : Deletes an existing a key/value pair
+    * Will respond with a 404 if they key to be updated doesnt exist.
+
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "DELETE",
+        "path" : "/kv/pair/blood-pressure"
+      },
+      "response" : {
+        "status" : 204
+      }
+    }
+
 
 Running the ContractClient
 --------------------------

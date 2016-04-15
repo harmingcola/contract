@@ -48,6 +48,13 @@ public class RequestHandlerServlet extends HttpServlet {
         writeResponse(httpResponse, contract);
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
+        ContractRequest contractRequest = from(httpRequest).toContractRequest();
+        Contract contract = matchingService.matchDeleteRequest(contractRequest);
+        writeResponse(httpsResponse, contract);
+    }
+
 
     private void writeResponse(HttpServletResponse httpResponse, Contract contract) throws JsonProcessingException {
         if(contract != null && contract.getResponse() != null) {

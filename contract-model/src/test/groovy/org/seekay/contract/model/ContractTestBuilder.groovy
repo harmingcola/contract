@@ -37,6 +37,10 @@ class ContractTestBuilder {
         return new ContractTestBuilder(PUT)
     }
 
+    static ContractTestBuilder delete() {
+        return new ContractTestBuilder(DELETE)
+    }
+
 
     /*
      * Parameter methods
