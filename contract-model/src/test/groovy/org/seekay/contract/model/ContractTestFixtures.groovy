@@ -12,8 +12,6 @@ class ContractTestFixtures {
         ]
     }
 
-
-
     static Set<Contract> oneDefaultContractOfEachMethodWithoutHeaders() {
         return [
                 defaultGetContract().requestHeaders(null).build(),
@@ -76,5 +74,12 @@ class ContractTestFixtures {
                 .path("/builder/5")
                 .requestHeaders(["scarlet":"witch"])
                 .status(204)
+    }
+
+    static ContractTestBuilder defaultOptionsContract() {
+        return ContractTestBuilder.options()
+                .path("/builder/6")
+                .status(200)
+                .responseHeaders(["allow":"OPTIONS,GET,HEAD,POST,PUT,DELETE"])
     }
 }

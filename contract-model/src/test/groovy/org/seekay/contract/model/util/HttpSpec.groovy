@@ -6,6 +6,7 @@ import org.apache.http.ProtocolVersion
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpDelete
 import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpOptions
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.methods.HttpPut
 import org.apache.http.client.methods.HttpUriRequest
@@ -70,6 +71,19 @@ class HttpSpec extends Specification {
 		then:
 			httpClient.execute(_ as HttpUriRequest) >>  { request ->
 				assert request[0] instanceof HttpDelete
+			}
+	}
+
+	def "correct method should be set via builders, options" () {
+		given:
+			def http = Http.method(Method.OPTIONS)
+			def httpClient = Mock(HttpClient)
+			http.httpClient = httpClient
+		when:
+			http.toPath("/hello/world").withBody("if i have to").execute()
+		then:
+			httpClient.execute(_ as HttpUriRequest) >>  { request ->
+				assert request[0] instanceof HttpOptions
 			}
 	}
 

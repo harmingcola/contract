@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultDeleteContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
+import static org.seekay.contract.model.ContractTestFixtures.defaultOptionsContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultPostContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultPutContract
 
@@ -84,6 +85,17 @@ class RequestHandlerServletSpec extends Specification {
             servlet.doDelete(request, response)
         then:
             response.getStatus() == 204
+    }
+
+    def "an OPTIONS request should be handled correctly" () {
+        given:
+            HttpServletRequest request = buildServletRequest()
+            HttpServletResponse response = new MockHttpServletResponse()
+            1 * matchingService.matchOptionsRequest(_ as ContractRequest) >> {defaultOptionsContract().build()}
+        when:
+            servlet.doOptions(request, response)
+        then:
+            response.getStatus() == 200
     }
 
     def "if no matching contracts are found, a NOT_FOUND and error message should be returned" () {

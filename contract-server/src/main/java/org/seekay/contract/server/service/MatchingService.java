@@ -74,6 +74,14 @@ public class MatchingService {
     return getResult(matchedByMethod, matchedByPath, matchedByHeaders);
   }
 
+  public Contract matchOptionsRequest(ContractRequest contractRequest) {
+    logRequestAgainstContracts(contractRequest, contractService.read());
+    Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
+    Set<Contract> matchedByPath = matchByPath(contractRequest);
+    Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    return getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+  }
+
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
     log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
     log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
@@ -107,5 +115,4 @@ public class MatchingService {
             + prettyPrint(matchedContracts, objectMapper));
     }
   }
-
 }
