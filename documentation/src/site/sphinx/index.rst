@@ -14,7 +14,6 @@ driven contracts* and you're left with just contracts. By favouring neither side
 .. toctree::
     :maxdepth: 1
 
-    quick_start
     features
     contract_files
     kv_server
