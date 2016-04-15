@@ -89,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#create">Create</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#read">Read</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#update">Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delete">Delete</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
@@ -200,6 +201,32 @@ to share them with kvClient project.</p>
     <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delete">
+<h2>Delete<a class="headerlink" href="#delete" title="Permalink to this headline">¶</a></h2>
+<p>Exposes a method allowing the deleting of a key from the KvServer. The contract and unit test for this functionality is below.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair/blood-pressure&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">204</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>import org.seekay.kv.client.util.ClientBaseSpec
+
+class DeletePairSpec extends ClientBaseSpec {
+
+    def &#39;a pair should be delete-able from the server&#39;() {
+        expect:
+            kvClient.delete(&#39;blood-pressure&#39;) == true
+    }
+}
 </pre></div>
 </div>
 </div>

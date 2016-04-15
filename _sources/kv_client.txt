@@ -157,3 +157,31 @@ Exposes a method allowing updating of a key on the KvServer. The contract and un
         }
     }
 
+
+Delete
+------
+Exposes a method allowing the deleting of a key from the KvServer. The contract and unit test for this functionality is below.
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "DELETE",
+        "path" : "/kv/pair/blood-pressure"
+      },
+      "response" : {
+        "status" : 204
+      }
+    }
+
+.. code-block:: python
+
+    import org.seekay.kv.client.util.ClientBaseSpec
+
+    class DeletePairSpec extends ClientBaseSpec {
+
+        def 'a pair should be delete-able from the server'() {
+            expect:
+                kvClient.delete('blood-pressure') == true
+        }
+    }

@@ -277,6 +277,29 @@ to share them with kvClient project.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+<ul>
+<li><dl class="first docutils">
+<dt>DELETE</dt>
+<dd><ul class="first last simple">
+<li>URL : <em>http://{host}:{port}/kv/pair/{key}</em></li>
+<li>Description : Deletes an existing a key/value pair</li>
+<li>Will respond with a 404 if they key to be updated doesnt exist.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair/blood-pressure&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">204</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="running-the-contractclient">
 <h2>Running the ContractClient<a class="headerlink" href="#running-the-contractclient" title="Permalink to this headline">¶</a></h2>
