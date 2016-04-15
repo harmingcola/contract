@@ -81,7 +81,6 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
@@ -134,7 +133,69 @@
             
   <div class="section" id="contract-files">
 <h1>Contract Files<a class="headerlink" href="#contract-files" title="Permalink to this headline">¶</a></h1>
-<p>...</p>
+<p>Contract files model a HTTP request/response. The define the responsibilities of a client or server in any interaction.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Fields</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>request</dt>
+<dd><ul class="first last simple">
+<li>The json text representing a HTTP request</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>method</dt>
+<dd><ul class="first last simple">
+<li>HTTP method to be used for and responded to for requests</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>path</dt>
+<dd><ul class="first last simple">
+<li>The path, from the root of the server, to send requests to and respond to requests on.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>headers</dt>
+<dd><ul class="first last simple">
+<li>Headers to be included in requests. These headers must be in included in requests for the test server to respond correctly.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>body</dt>
+<dd><ul class="first last simple">
+<li>The body to be sent with a request and sent with responses. Any JSON in the body must have double quotes escaped.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
 </div>
 
 
