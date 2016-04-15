@@ -82,7 +82,7 @@ public class ContractClient {
     }
 
     private void assertStatusCodesMatch(ContractResponse expectedResponse, ContractResponse actualResponse) {
-        assertThat("Response and Contract status codes are expected to match", expectedResponse.getStatus(), is(actualResponse.getStatus()));
+        assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(expectedResponse.getStatus()));
     }
 
 
