@@ -27,3 +27,5 @@ Our Design Considerations / Conventions / Quirks
 ------------------------------------------------
 1. The main project and two testing projects are written in Java
 2. Unit tests are written in `Spock <http://spockframework.github.io/spock/docs/1.0/index.html>`_
+3. Documentation written in `Sphinx <http://www.sphinx-doc.org/en/stable/>`_
+4. We lean towards an expressive and clean code style, if you've ever read Clean Code by Bob Martin, that is what we aspire to.

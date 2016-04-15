@@ -4,7 +4,7 @@ Client facing example : Key Value Client
 The Key value client (kvClient) is a project we're using to validate the client facing aspects of the Contract project.
 Its treated like a project that is a user of our code that wants to use every possible feature.
 
-Its contracts are held separately in the [kvContracts repository](https://github.com/harmingcola/kvContracts) in order
+Its contracts are held separately in the `kvContracts repository <https://github.com/harmingcola/kvContracts>`_ in order
 to share them with kvClient project.
 
 Features
@@ -12,14 +12,34 @@ Features
 
 The code to setup a server from a git source is identical for each test case.
 
-.. code-block:: java
+.. code-block::
 
-    def setupSpec() {
-        server = ContractServer.newServer()
-                .onRandomPort()
-                .withGitConfig('https://github.com/harmingcola/kvContracts')
-                .startServer()
-        client = new KvClient(server.path() + '/kv')
+    import org.seekay.contract.server.ContractServer
+    import org.seekay.kv.client.KvClient
+    import spock.lang.Shared
+    import spock.lang.Specification
+
+    class ClientBaseSpec extends Specification {
+
+        @Shared ContractServer server;
+        @Shared KvClient client;
+        @Shared Session session
+
+        def setupSpec() {
+
+            session = new Session()
+            server = session.getContractServer()
+
+            if(server == null) {
+                server = ContractServer.newServer()
+                        .onRandomPort()
+                        .withGitConfig('https://github.com/harmingcola/kvContracts')
+                        .startServer()
+
+                session.setContractServer(server)
+            }
+            client = new KvClient(server.path() + '/kv')
+        }
     }
 
 
@@ -44,19 +64,12 @@ Exposes a method allowing creation of a key on the KvServer. The contract and un
       }
     }
 
-.. code-block:: java
+.. code-block::
 
-    import org.seekay.contract.server.ContractServer
-    import spock.lang.Shared
-    import spock.lang.Specification
+    import org.seekay.kv.client.model.Pair
+    import org.seekay.kv.client.util.ClientBaseSpec
 
-    class CreatePairSpec extends Specification {
-
-        @Shared
-        ContractServer server;
-
-        @Shared
-        KvClient client;
+    class CreatePairSpec extends ClientBaseSpec {
 
         def 'a pair should be created and returned on the server'() {
             given:
@@ -64,8 +77,8 @@ Exposes a method allowing creation of a key on the KvServer. The contract and un
             when:
                 Pair createdPair = client.create(pair)
             then:
-                createdPair.key == 'age'
-                createdPair.value == '27'
+                createdPair.key == 'name'
+                createdPair.value == 'create key value pair, test 0001'
         }
     }
 
@@ -87,19 +100,12 @@ Exposes a method allowing the reading of a key from the KvServer. The contract a
       }
     }
 
-.. code-block:: java
+.. code-block::
 
-    import org.seekay.contract.server.ContractServer
-    import spock.lang.Shared
-    import spock.lang.Specification
+    import org.seekay.kv.client.model.Pair
+    import org.seekay.kv.client.util.ClientBaseSpec
 
-    class ReadPairSpec extends Specification {
-
-        @Shared
-        ContractServer server
-
-        @Shared
-        KvClient client
+    class ReadPairSpec extends ClientBaseSpec {
 
         def 'a pair should be created and returned on the server'() {
             when:
@@ -110,4 +116,44 @@ Exposes a method allowing the reading of a key from the KvServer. The contract a
         }
     }
 
+
+
+Update
+------
+Exposes a method allowing updating of a key on the KvServer. The contract and unit test for this functionality is below.
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "PUT",
+        "path" : "/kv/pair",
+        "headers": {
+          "Content-Type" : "application/json"
+        },
+        "body": "{\"key\": \"age\",\"value\": 27}"
+      },
+      "response" : {
+        "status" : 201,
+        "body" : "{\"key\": \"age\",\"value\": 27}"
+      }
+    }
+
+.. code-block::
+
+    import org.seekay.kv.client.model.Pair
+    import org.seekay.kv.client.util.ClientBaseSpec
+
+    class UpdatePairSpec extends ClientBaseSpec {
+
+        def 'a pair should be updatable on the server'() {
+            given:
+                Pair pair = new Pair( key:'height', value:'180')
+            when:
+                Pair updatedPair = client.update(pair)
+            then:
+                updatedPair.key == 'height'
+                updatedPair.value == '180'
+        }
+    }
 

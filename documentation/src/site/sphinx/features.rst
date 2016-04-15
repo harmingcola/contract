@@ -3,13 +3,13 @@ Features
 
 Server Features
 ---------------
-* Hard coded server responses for POST requests
-* Hard coded server responses for GET requests
+* A test server to run client tests against.
+* Hard coded server responses for POST, GET & PUT requests.
 
 Client Features
 ---------------
-* Verification of responses to POST requests
-* Verification of responses to GET requests
+* A test client to verify server responses.
+* Verification of responses to POST, GET & PUT requests.
 
 
 

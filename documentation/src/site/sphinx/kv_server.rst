@@ -23,29 +23,14 @@ Endpoints
 The following urls are accessible on the server.
 
 
-* GET
-    * URL : http://{host}:{port}/kv/pair/{key}
-    * Response : {"key": "name","value": "ann"}
-    * Description : Returns the key value pair for that key
-
-.. code-block:: javascript
-
-    {
-      "request" : {
-        "method" : "GET",
-        "path" : "/kv/pair/weight"
-      },
-      "response" : {
-        "status" : 200,
-        "body" : "{\"key\": \"weight\",\"value\": \"220\"}"
-      }
-    }
-
-
 * POST
-    * URL : http://{host}:{port}/kv/pair
-    * Response : {"key": "age","value": 27}
+    * URL : *http://{host}:{port}/kv/pair*
     * Description : Accepts and stores a key/value pair
+    * Request : A json body representing a key-value pair
+        * {"key": "age","value": 27}
+    * Response : A json body matching the request body
+        * {"key": "age","value": 27}
+
 
 .. code-block:: javascript
 
@@ -65,13 +50,62 @@ The following urls are accessible on the server.
     }
 
 
+* GET
+    * URL : *http://{host}:{port}/kv/pair/{key}*
+    * Description : Returns the key value pair for that key
+    * Response : A json body representing a key-value pair
+        * {"key": "weight","value": "220"}
+
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "GET",
+        "path" : "/kv/pair/weight"
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "{\"key\": \"weight\",\"value\": \"220\"}"
+      }
+    }
+
+
+* PUT
+    * URL : *http://{host}:{port}/kv/pair*
+    * Description : Updates an existing a key/value pair
+    * Request : A json body representing a key-value pair
+        * {"key": "age","value": 27}
+    * Response : A json body matching the request body
+        * {"key": "age","value": 27}
+    * Will respond with a 404 if they key to be updated doesnt exist.
+
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "PUT",
+        "path" : "/kv/pair",
+        "headers": {
+          "Content-Type" : "application/json"
+        },
+        "body": "{\"key\": \"age\",\"value\": 27}"
+      },
+      "response" : {
+        "status" : 201,
+        "body" : "{\"key\": \"age\",\"value\": 27}"
+      }
+    }
+
+
 
 Running the ContractClient
 --------------------------
 
 The server facing tests are wrapped in a standard junit test. The contracts are stored in our `kvContracts repository <https://github.com/harmingcola/kvContracts>`_
 
-.. code-block:: java
+.. code-block::
 
     import org.junit.Test;
     import org.seekay.contract.client.client.ContractClient;
