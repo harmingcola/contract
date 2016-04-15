@@ -154,35 +154,28 @@ to share them with kvClient project.</p>
 <p>The following urls are accessible on the server.</p>
 <ul>
 <li><dl class="first docutils">
-<dt>GET</dt>
-<dd><ul class="first last simple">
-<li>URL : <a class="reference external" href="http:/">http:/</a>/{host}:{port}/kv/pair/{key}</li>
-<li>Response : {&#8220;key&#8221;: &#8220;name&#8221;,&#8221;value&#8221;: &#8220;ann&#8221;}</li>
-<li>Description : Returns the key value pair for that key</li>
+<dt>POST</dt>
+<dd><ul class="first last">
+<li><p class="first">URL : <em>http://{host}:{port}/kv/pair</em></p>
+</li>
+<li><p class="first">Description : Accepts and stores a key/value pair</p>
+</li>
+<li><dl class="first docutils">
+<dt>Request</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">A json body representing a key-value pair</span><dd><ul class="first last simple">
+<li>{&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
 </ul>
 </dd>
 </dl>
 </li>
-</ul>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair/weight&quot;</span>
-  <span class="p">},</span>
-  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;weight\&quot;,\&quot;value\&quot;: \&quot;220\&quot;}&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<ul>
 <li><dl class="first docutils">
-<dt>POST</dt>
-<dd><ul class="first last simple">
-<li>URL : <a class="reference external" href="http:/">http:/</a>/{host}:{port}/kv/pair</li>
-<li>Response : {&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
-<li>Description : Accepts and stores a key/value pair</li>
+<dt>Response</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">A json body matching the request body</span><dd><ul class="first last simple">
+<li>{&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>
@@ -204,26 +197,90 @@ to share them with kvClient project.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+<ul>
+<li><dl class="first docutils">
+<dt>GET</dt>
+<dd><ul class="first last">
+<li><p class="first">URL : <em>http://{host}:{port}/kv/pair/{key}</em></p>
+</li>
+<li><p class="first">Description : Returns the key value pair for that key</p>
+</li>
+<li><dl class="first docutils">
+<dt>Response</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">A json body representing a key-value pair</span><dd><ul class="first last simple">
+<li>{&#8220;key&#8221;: &#8220;weight&#8221;,&#8221;value&#8221;: &#8220;220&#8221;}</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair/weight&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;weight\&quot;,\&quot;value\&quot;: \&quot;220\&quot;}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>PUT</dt>
+<dd><ul class="first last">
+<li><p class="first">URL : <em>http://{host}:{port}/kv/pair</em></p>
+</li>
+<li><p class="first">Description : Updates an existing a key/value pair</p>
+</li>
+<li><dl class="first docutils">
+<dt>Request</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">A json body representing a key-value pair</span><dd><ul class="first last simple">
+<li>{&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Response</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">A json body matching the request body</span><dd><ul class="first last simple">
+<li>{&#8220;key&#8221;: &#8220;age&#8221;,&#8221;value&#8221;: 27}</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Will respond with a 404 if they key to be updated doesnt exist.</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="running-the-contractclient">
 <h2>Running the ContractClient<a class="headerlink" href="#running-the-contractclient" title="Permalink to this headline">¶</a></h2>
 <p>The server facing tests are wrapped in a standard junit test. The contracts are stored in our <a class="reference external" href="https://github.com/harmingcola/kvContracts">kvContracts repository</a></p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.seekay.contract.client.client.ContractClient</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">KvServerContractTests</span> <span class="o">{</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runContractTestsAgainstServer</span><span class="o">()</span> <span class="o">{</span>
-
-        <span class="n">ContractClient</span><span class="o">.</span><span class="na">newClient</span><span class="o">().</span><span class="na">againstPath</span><span class="o">(</span><span class="s">&quot;http://localhost:8080&quot;</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">withGitConfig</span><span class="o">(</span><span class="s">&quot;https://github.com/harmingcola/kvContracts.git&quot;</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">runTests</span><span class="o">();</span>
-
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 </div>
 

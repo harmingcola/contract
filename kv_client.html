@@ -88,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create">Create</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#read">Read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update">Update</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
@@ -140,20 +141,11 @@
 <h1>Client facing example : Key Value Client<a class="headerlink" href="#client-facing-example-key-value-client" title="Permalink to this headline">¶</a></h1>
 <p>The Key value client (kvClient) is a project we&#8217;re using to validate the client facing aspects of the Contract project.
 Its treated like a project that is a user of our code that wants to use every possible feature.</p>
-<p>Its contracts are held separately in the [kvContracts repository](<a class="reference external" href="https://github.com/harmingcola/kvContracts">https://github.com/harmingcola/kvContracts</a>) in order
+<p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvContracts">kvContracts repository</a> in order
 to share them with kvClient project.</p>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>The code to setup a server from a git source is identical for each test case.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span>def setupSpec() {
-    server = ContractServer.newServer()
-            .onRandomPort()
-            .withGitConfig(&#39;https://github.com/harmingcola/kvContracts&#39;)
-            .startServer()
-    client = new KvClient(server.path() + &#39;/kv&#39;)
-}
-</pre></div>
-</div>
 </div>
 <div class="section" id="create">
 <h2>Create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h2>
@@ -174,30 +166,6 @@ to share them with kvClient project.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-java"><div class="highlight"><pre><span></span>import org.seekay.contract.server.ContractServer
-import spock.lang.Shared
-import spock.lang.Specification
-
-class CreatePairSpec extends Specification {
-
-    @Shared
-    ContractServer server;
-
-    @Shared
-    KvClient client;
-
-    def &#39;a pair should be created and returned on the server&#39;() {
-        given:
-            Pair pair = new Pair( key:&#39;name&#39;, value:&#39;create key value pair, test 0001&#39;)
-        when:
-            Pair createdPair = client.create(pair)
-        then:
-            createdPair.key == &#39;age&#39;
-            createdPair.value == &#39;27&#39;
-    }
-}
-</pre></div>
-</div>
 </div>
 <div class="section" id="read">
 <h2>Read<a class="headerlink" href="#read" title="Permalink to this headline">¶</a></h2>
@@ -214,26 +182,24 @@ class CreatePairSpec extends Specification {
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-java"><div class="highlight"><pre><span></span>import org.seekay.contract.server.ContractServer
-import spock.lang.Shared
-import spock.lang.Specification
-
-class ReadPairSpec extends Specification {
-
-    @Shared
-    ContractServer server
-
-    @Shared
-    KvClient client
-
-    def &#39;a pair should be created and returned on the server&#39;() {
-        when:
-            Pair createdPair = client.read(&#39;weight&#39;)
-        then:
-            createdPair.key == &#39;weight&#39;
-            createdPair.value == &#39;220&#39;
-    }
-}
+</div>
+<div class="section" id="update">
+<h2>Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<p>Exposes a method allowing updating of a key on the KvServer. The contract and unit test for this functionality is below.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>

@@ -25,13 +25,17 @@ Contract files model a HTTP request/response. The define the responsibilities of
 
 Fields
     * request
-        * The json text representing a HTTP request
-    * method
-        * HTTP method to be used for and responded to for requests
-    * path
-        * The path, from the root of the server, to send requests to and respond to requests on.
-    * headers
-        * Headers to be included in requests. These headers must be in included in requests for the test server to respond correctly.
-    * body
-        * The body to be sent with a request and sent with responses. Any JSON in the body must have double quotes escaped.
+        * method
+            * HTTP method to be used for and responded to for requests
+        * path
+            * The path, from the root of the server, to send requests to and respond to requests on.
+        * headers
+            * Headers to be included in requests. These headers must be in included in requests for the test server to respond correctly. Any additional headers in the request will be ignored.
+        * body
+            * The text body expected for a request and sent by the ContractClient. Any JSON in the body must have double quotes escaped.
+    * response
+        * status
+            * The http status to be returned with the response
+        * body
+            * The text body returned for a request and expected by the ContractClient
 
