@@ -17,7 +17,7 @@ job('contract_release') {
 	scm {
 		git {
 			branch('master')
-			localbranch('master')
+			localBranch('master')
 			remote {
 				credentials('github-harmingcola-auth')
 				github('harmingcola/contract')
