@@ -4,6 +4,7 @@ USER root
 
 RUN apt-get update
 RUN apt-get install -y maven
+RUN apt-get install -y apt-utils
 RUN apt-get install -y xmlstarlet
 
 COPY plugins.txt /usr/share/jenkins/ref/
