@@ -3,7 +3,13 @@
 
 job('contract_build') {
 	scm {
-		github('harmingcola/contract', 'master')
+		git {
+			branch('master')
+			remote {
+				credentials('git-hub-harmingcola-auth')
+				github('harmingcola/contract')
+			}
+		}
 	}
 	steps {
 		maven('clean install')
