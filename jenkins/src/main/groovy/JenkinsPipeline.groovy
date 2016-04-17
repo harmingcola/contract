@@ -11,6 +11,9 @@ job('contract_build') {
 	steps {
 		maven('clean install')
 	}
+	wrappers {
+		preBuildCleanup()
+	}
 }
 
 job('contract_release') {
@@ -27,6 +30,9 @@ job('contract_release') {
 	steps {
 		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/execute_release.sh'))
 	}
+	wrappers {
+		preBuildCleanup()
+	}
 }
 
 job('contract_documentation') {
@@ -41,5 +47,8 @@ job('contract_documentation') {
 	}
 	steps {
 		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/documentation_update.sh'))
+	}
+	wrappers {
+		preBuildCleanup()
 	}
 }
