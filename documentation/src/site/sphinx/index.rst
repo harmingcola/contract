@@ -2,10 +2,10 @@
 Contract
 ========
 
-A jvm contract based testing tool for http clients and servers.
+A jvm contract based testing tool for HTTP clients and servers.
 
-The aim of this library is to simplify the testing and development of any service that either produces or consumes
-something produced via http.
+The aim of this library is to simplify the development and testing of any service that produces via HTTP or a client
+that consumes via HTTP.
 
 Our approach favors neither side of the client server relationship, removing the *consumer driven* from *consumer
 driven contracts* and you're left with just contracts. By favouring neither side, we're focusing on the interaction.
