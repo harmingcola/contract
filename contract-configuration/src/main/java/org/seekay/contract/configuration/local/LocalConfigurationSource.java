@@ -30,6 +30,9 @@ public class LocalConfigurationSource implements ConfigurationSource {
     }
 
     protected void loadFromDirectory(File directory, List<Contract> contracts) {
+		if(directory.getName().equals(".git")) {
+			return;
+		}
         for(File file : directory.listFiles()) {
             if(file.isDirectory()) {
                 loadFromDirectory(file, contracts);
