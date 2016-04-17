@@ -1,2 +1,7 @@
+token-macro:1.11
+git:2.4.0
+plain-credentials:1.1
+github-api:1.69
+credentials:1.22
 github:1.18.2
 job-dsl:1.45
