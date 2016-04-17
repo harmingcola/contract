@@ -206,4 +206,12 @@
 
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>myRepoId</id>
+			<name>Local nexus repo</name>
+			<url>http://localhost:9000/nexus/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
 </project>
