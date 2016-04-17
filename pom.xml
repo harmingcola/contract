@@ -209,7 +209,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>myRepoId</id>
+			<id>nexus</id>
 			<name>Local nexus repo</name>
 			<url>http://localhost:9000/nexus/content/repositories/releases</url>
 		</repository>
