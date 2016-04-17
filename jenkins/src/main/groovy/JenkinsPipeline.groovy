@@ -6,7 +6,7 @@ job('contract_build') {
 		git {
 			branch('master')
 			remote {
-				credentials('git-hub-harmingcola-auth')
+				credentials('github-harmingcola-auth')
 				github('harmingcola/contract')
 			}
 		}
