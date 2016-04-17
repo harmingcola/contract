@@ -15,5 +15,5 @@ echo "Current : $MASTER_VERSION"
 echo "Release : $RELEASE_VERSION"
 echo "Next    : $NEXT_VERSION"
 
-/opt/maven/latest/bin/mvn release:prepare -Darguments="-DskipTests=true" -DreleaseVersion="$RELEASE_VERSION" -DdevelopmentVersion="$NEXT_VERSION" -Dtag="$RELEASE_VERSION"
-/opt/maven/latest/bin/mvn release:perform -Darguments="-DskipTests=true"
+mvn release:prepare -Darguments="-DskipTests=true" -DreleaseVersion="$RELEASE_VERSION" -DdevelopmentVersion="$NEXT_VERSION" -Dtag="$RELEASE_VERSION"
+mvn release:perform -Darguments="-DskipTests=true"
