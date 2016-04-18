@@ -1,4 +1,4 @@
-Client facing example : Key Value Client
+Server facing example : Key Value Client
 ========================================
 
 The Key value client (kvClient) is a project we're using to validate the client facing aspects of the Contract project.
