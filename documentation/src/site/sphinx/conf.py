@@ -18,3 +18,5 @@ html_context = {
         '_static/custom.css',  # overrides for wide tables in RTD theme
     ],
 }
+
+templates_path = ['_templates']
