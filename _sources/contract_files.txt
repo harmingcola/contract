@@ -35,7 +35,7 @@ Fields
             * The text body expected for a request and sent by the ContractClient. Any JSON in the body must have double quotes escaped.
     * response
         * status
-            * The http status to be returned with the response
+            * The HTTP status to be returned with the response
         * body
             * The text body returned for a request and expected by the ContractClient
 

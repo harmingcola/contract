@@ -132,11 +132,35 @@
             
   <div class="section" id="contract">
 <h1>Contract<a class="headerlink" href="#contract" title="Permalink to this headline">¶</a></h1>
-<p>A jvm contract based testing tool for http clients and servers.</p>
-<p>The aim of this library is to simplify the testing and development of any service that either produces or consumes
-something produced via http.</p>
+<p>A jvm contract based testing tool for HTTP clients and servers.</p>
+<p>The aim of this library is to simplify the development and testing of any service that produces via HTTP or a client
+that consumes via HTTP.</p>
 <p>Our approach favors neither side of the client server relationship, removing the <em>consumer driven</em> from <em>consumer
 driven contracts</em> and you&#8217;re left with just contracts. By favouring neither side, we&#8217;re focusing on the interaction.</p>
+<div class="section" id="the-problem-of-testing-a-client-server-relationship">
+<h2>The problem of testing a client server relationship<a class="headerlink" href="#the-problem-of-testing-a-client-server-relationship" title="Permalink to this headline">¶</a></h2>
+<p>Late stage integration testing of a HTTP client/server system can be a painful endeavour.
+Minor miscommunication of specification between client &amp; server can cause systems to be incompatible.
+However, most testing approaches will indicate that both systems are operating correctly.
+Its only when the two systems are actually communicating can problems arise.</p>
+<p>Earlier stage testing generally relies on replacing the other side of the HTTP relationship with what we &#8220;think&#8221; will be in place when both systems are in place.
+This is a disconnected endeavour and relies on what we &#8220;think&#8221; to be updated periodically with what our companion system requires.</p>
+<p>Contract is an open source testing tool aimed at replacing a companion system in a HTTP client or server relationship so that shared specifications can be used to unit, integration or acceptance level test to ensure that both systems are on the same page.
+Server facing tests can be driven using a contract that specifies how the server is to react given a HTTP request.
+Client facing tests can be driven by an identical contract specifying that when a client makes a specific request, they should receive a specific response.
+With both sides of a client server relationship available for testing at a significantly earlier stage, we can improve the feedback of our testing cycles, and hopefully deliver value that little bit quicker.</p>
+</div>
+<div class="section" id="the-rise-of-micro-services">
+<h2>The rise of Micro-services<a class="headerlink" href="#the-rise-of-micro-services" title="Permalink to this headline">¶</a></h2>
+<p>Micro-services make our existing problem significantly worse. We now have more than 2 systems communicating.
+It becomes exceedingly more difficult to track down the perpetrator.
+By using contracts to specify the behaviour of client/server pairs in a micro-services environment, it becomes immediately apparent which system is misbehaving.</p>
+</div>
+<div class="section" id="providing-easy-access-to-test-servers-for-client-development">
+<h2>Providing easy access to test servers for client development<a class="headerlink" href="#providing-easy-access-to-test-servers-for-client-development" title="Permalink to this headline">¶</a></h2>
+<p>In order for clients to be developed, having an available server is of immense benefit.
+Often a service provider will provide a test server and documentation to allow clients to be developed.
+However, all a service provider need do is publish their contracts, and any client can run a ContractServer based on the service providers specifications.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
@@ -148,12 +172,13 @@ driven contracts</em> and you&#8217;re left with just contracts. By favouring ne
 </ul>
 </div>
 <div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
+</div>
 </div>
 </div>
 
