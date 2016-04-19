@@ -3,7 +3,6 @@ job('contract_build') {
 		git {
 			branch('master')
 			remote {
-				credentials('github-harmingcola-auth')
 				github('harmingcola/contract')
 			}
 		}
@@ -25,7 +24,6 @@ job('contract_release') {
 			branch('master')
 			localBranch('master')
 			remote {
-				credentials('github-harmingcola-auth')
 				github('harmingcola/contract')
 			}
 		}
@@ -46,7 +44,6 @@ job('contract_documentation') {
 		git {
 			branch('master')
 			remote {
-				credentials('github-harmingcola-auth')
 				github('harmingcola/contract')
 			}
 		}
