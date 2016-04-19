@@ -245,14 +245,10 @@
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>verify</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
-						<configuration>
-							<keyname>${gpg.keyname}</keyname>
-							<passphrase>${gpg.keyname}</passphrase>
-						</configuration>
                     </execution>
                 </executions>
             </plugin>
