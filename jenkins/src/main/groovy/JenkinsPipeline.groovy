@@ -59,7 +59,7 @@ job('contract_documentation') {
 	}
 }
 
-buildPipelineView('pipeline') {
+buildPipelineView('contract_pipeline') {
 	selectedJob('contract_build')
 	filterBuildQueue()
 	displayedBuilds(4)
