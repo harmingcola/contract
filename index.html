@@ -84,6 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Server facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
@@ -132,9 +133,8 @@
             
   <div class="section" id="contract">
 <h1>Contract<a class="headerlink" href="#contract" title="Permalink to this headline">¶</a></h1>
-<p>A jvm contract based testing tool for HTTP clients and servers.</p>
-<p>The aim of this library is to simplify the development and testing of any service that produces via HTTP or a client
-that consumes via HTTP.</p>
+<p>A jvm contract based testing tool for HTTP clients and servers.
+The aim of this library is to simplify the development and testing of systems that communicate via HTTP.</p>
 <p>Our approach favors neither side of the client server relationship, removing the <em>consumer driven</em> from <em>consumer
 driven contracts</em> and you&#8217;re left with just contracts. By favouring neither side, we&#8217;re focusing on the interaction.</p>
 <div class="section" id="the-problem-of-testing-a-client-server-relationship">
@@ -146,12 +146,12 @@ Minor miscommunication of specification between client &amp; server can cause sy
 <p class="caption"><span class="caption-text">A client server system in late stage integration testing, communicating via http</span></p>
 </div>
 <p>However, most testing approaches will indicate that both systems are operating correctly.
-Its only when the two systems are actually communicating can problems arise.</p>
-<p>Earlier stage testing generally relies on replacing the other side of the HTTP relationship with what we &#8220;think&#8221; will be in place when both systems are in place.
-This is a disconnected endeavour and relies on what we &#8220;think&#8221; to be updated periodically with what our companion system requires.</p>
+Its only when the two systems are actually communicating can problems arise. We need to fail earlier ......</p>
+<p>Testing during development relies on replacing the other side of the HTTP relationship with what we &#8220;think&#8221; will be in place when both systems are in place.
+This is a disconnected endeavour and relies on what we &#8220;think&#8221; to be updated manually with what our companion system requires.</p>
 <div class="figure" id="id2">
 <img alt="Standard testing scenario, mocks in place" src="_images/intro-002.png" />
-<p class="caption"><span class="caption-text">A client server system in development, systems are disconnected. Mocks have taken the place of concrete servers.</span></p>
+<p class="caption"><span class="caption-text">A client server system in development, systems are disconnected. A mock server and test client take the place of actual services.</span></p>
 </div>
 <p>Contract is an open source testing tool aimed at replacing a companion system in a HTTP client or server relationship so that shared specifications can be used to unit, integration or acceptance level test to ensure that both systems are on the same page.
 Server facing tests can be driven using a contract that specifies how the server is to react given a HTTP request.
@@ -180,6 +180,7 @@ However, all a service provider need do is publish their contracts, and any clie
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Server facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
