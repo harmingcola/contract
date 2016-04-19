@@ -15,7 +15,8 @@ However to get the most out of Contract, we recommend following this folder stru
     * one directory per client
         * one directory per supported version
             * directories divided by feature (*can have more than one*)
+                * individual contract files
 
-*kvClient/v0.0.1/hard-coded/post/create-key-value-pair.contract.json*
+**Example :** *{repository}kvClient/v0.0.1/hard-coded/post/create-key-value-pair.contract.json*
 
-See our kvServerContracts repository as an example.
+See our `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ as an example.

@@ -4,7 +4,7 @@ Server facing example : Key Value Client
 The Key value client (kvClient) is a project we're using to validate the client facing aspects of the Contract project.
 Its treated like a project that is a user of our code that wants to use every possible feature.
 
-Its contracts are held separately in the `kvContracts repository <https://github.com/harmingcola/kvContracts>`_ in order
+Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
 
 Features
@@ -33,7 +33,7 @@ The code to setup a server from a git source is identical for each test case.
             if(server == null) {
                 server = ContractServer.newServer()
                         .onRandomPort()
-                        .withGitConfig('https://github.com/harmingcola/kvContracts')
+                        .withGitConfig('https://github.com/harmingcola/kvServerContracts')
                         .startServer()
 
                 session.setContractServer(server)
