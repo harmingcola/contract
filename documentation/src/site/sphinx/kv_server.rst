@@ -4,7 +4,7 @@ Client facing example : Key Value Server
 The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
 It is treated as a project that is a user of our code and wants to use every possible feature.
 
-Its contracts are held separately in the `kvContracts repository <https://github.com/harmingcola/kvContracts>`_ in order
+Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
 
 Running the server
@@ -121,7 +121,7 @@ The following urls are accessible on the server.
 Running the ContractClient
 --------------------------
 
-The server facing tests are wrapped in a standard junit test. The contracts are stored in our `kvContracts repository <https://github.com/harmingcola/kvContracts>`_
+The server facing tests are wrapped in a standard junit test. The contracts are stored in our `kvContracts repository <https://github.com/harmingcola/kvServerContracts>`_
 
 .. code-block::
 
@@ -134,7 +134,7 @@ The server facing tests are wrapped in a standard junit test. The contracts are 
         public void runContractTestsAgainstServer() {
 
             ContractClient.newClient().againstPath("http://localhost:8080")
-                    .withGitConfig("https://github.com/harmingcola/kvContracts.git")
+                    .withGitConfig("https://github.com/harmingcola/kvServerContracts.git")
                     .runTests();
 
         }
