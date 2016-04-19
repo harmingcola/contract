@@ -39,7 +39,6 @@
         <module>contract-configuration</module>
         <module>contract-client</module>
         <module>contract-common</module>
-        <module>jenkins</module>
     </modules>
 
     <dependencies>
