@@ -3,7 +3,7 @@ job('contract_build') {
 		git {
 			branch('master')
 			remote {
-				github('harmingcola/contract')
+				url('git@github.com:harmingcola/contract.git')
 			}
 		}
 	}
@@ -24,7 +24,7 @@ job('contract_release') {
 			branch('master')
 			localBranch('master')
 			remote {
-				github('harmingcola/contract')
+				url('git@github.com:harmingcola/contract.git')
 			}
 		}
 	}
@@ -44,7 +44,7 @@ job('contract_documentation') {
 		git {
 			branch('master')
 			remote {
-				github('harmingcola/contract')
+				url('git@github.com:harmingcola/contract.git')
 			}
 		}
 	}
