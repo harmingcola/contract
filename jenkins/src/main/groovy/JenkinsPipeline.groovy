@@ -5,6 +5,7 @@ job('contract_build') {
 			branch('master')
 			remote {
 				url('git@github.com:harmingcola/contract.git')
+				credentials('dd430eaa-b9fb-41d1-b5e2-c930249bb049')
 			}
 
 		}
@@ -28,6 +29,7 @@ job('contract_release') {
 			localBranch('master')
 			remote {
 				url('git@github.com:harmingcola/contract.git')
+				credentials('dd430eaa-b9fb-41d1-b5e2-c930249bb049')
 			}
 		}
 	}
@@ -49,6 +51,7 @@ job('contract_documentation') {
 			branch('master')
 			remote {
 				url('git@github.com:harmingcola/contract.git')
+				credentials('dd430eaa-b9fb-41d1-b5e2-c930249bb049')
 			}
 		}
 	}
