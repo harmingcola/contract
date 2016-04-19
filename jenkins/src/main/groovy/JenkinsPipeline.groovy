@@ -6,6 +6,7 @@ job('contract_build') {
 			remote {
 				url('git@github.com:harmingcola/contract.git')
 			}
+			credentials('7d996866-e66a-4d5e-96e5-b881045e96b8')
 		}
 	}
 	steps {
@@ -28,6 +29,7 @@ job('contract_release') {
 			remote {
 				url('git@github.com:harmingcola/contract.git')
 			}
+			credentials('7d996866-e66a-4d5e-96e5-b881045e96b8')
 		}
 	}
 	steps {
@@ -49,6 +51,7 @@ job('contract_documentation') {
 			remote {
 				url('git@github.com:harmingcola/contract.git')
 			}
+			credentials('7d996866-e66a-4d5e-96e5-b881045e96b8')
 		}
 	}
 	steps {
