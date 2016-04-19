@@ -11,8 +11,8 @@
     <name>Contract</name>
 
     <scm>
-        <connection>scm:git:https://github.com/harmingcola/contract.git</connection>
-        <developerConnection>scm:git:https://github.com/harmingcola/contract.git</developerConnection>
+        <connection>scm:git:git@github.com:harmingcola/contract.git</connection>
+        <developerConnection>scm:git:git@github.com:harmingcola/contract.git</developerConnection>
     </scm>
 
     <properties>
