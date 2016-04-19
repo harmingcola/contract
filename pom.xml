@@ -269,7 +269,7 @@
         <repository>
             <id>nexus</id>
             <name>Local nexus repo</name>
-            <url>http://172.16.42.1:9000/nexus/content/repositories/releases</url>
+            <url>http://localhost:9000/nexus/content/repositories/releases</url>
         </repository>
     </distributionManagement>
 </project>
