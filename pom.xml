@@ -24,7 +24,7 @@
         <http.client.version>4.4.1</http.client.version>
         <jackson.version>2.4.4</jackson.version>
         <jgit.version>4.0.1.201506240215-r</jgit.version>
-        <jobdsl.plugin.version>1.45</jobdsl.plugin.version>
+        <jobdsl.plugin.version>1.42</jobdsl.plugin.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.16.4</lombok.version>
         <slf4j.version>1.7.12</slf4j.version>
