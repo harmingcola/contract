@@ -1,4 +1,5 @@
 job('contract_build') {
+	quietPeriod(0)
 	scm {
 		git {
 			branch('master')
@@ -19,6 +20,7 @@ job('contract_build') {
 }
 
 job('contract_release') {
+	quietPeriod(0)
 	scm {
 		git {
 			branch('master')
@@ -40,6 +42,7 @@ job('contract_release') {
 }
 
 job('contract_documentation') {
+	quietPeriod(0)
 	scm {
 		git {
 			branch('master')
