@@ -255,8 +255,6 @@
         </plugins>
     </build>
 
-
-
     <distributionManagement>
         <repository>
             <id>nexus</id>
@@ -264,4 +262,12 @@
             <url>http://localhost:8081/nexus/content/repositories/releases</url>
         </repository>
     </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>GNU AFFERO GENERAL PUBLIC LICENSE, Version 3</name>
+            <url>http://www.gnu.org/licenses/agpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 </project>

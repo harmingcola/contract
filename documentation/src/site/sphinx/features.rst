@@ -1,6 +1,9 @@
 Features
 ========
 
+* Json DSL for specifying client / server interaction.
+* Share contracts via GIT or local storage.
+
 Server Features
 ---------------
 * A test server to run client tests against.

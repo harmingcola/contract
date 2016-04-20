@@ -1,4 +1,4 @@
-Server facing example : Key Value Client
+Client facing example : Key Value Client
 ========================================
 
 The Key value client (kvClient) is a project we're using to validate the client facing aspects of the Contract project.
@@ -6,6 +6,21 @@ Its treated like a project that is a user of our code that wants to use every po
 
 Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
+
+Maven dependency
+----------------
+
+To test the client, we require our contract server.
+
+.. code-block:: xml
+
+    <dependency>
+        <groupId>org.seekay</groupId>
+        <artifactId>contract-server</artifactId>
+        <version>${contract.version}</version>
+        <scope>test</scope>
+    </dependency>
+
 
 Features
 --------
@@ -26,19 +41,11 @@ The code to setup a server from a git source is identical for each test case.
         @Shared Session session
 
         def setupSpec() {
-
-            session = new Session()
-            server = session.getContractServer()
-
-            if(server == null) {
-                server = ContractServer.newServer()
-                        .onRandomPort()
-                        .withGitConfig('https://github.com/harmingcola/kvServerContracts')
-                        .startServer()
-
-                session.setContractServer(server)
-            }
-            client = new KvClient(server.path() + '/kv')
+            server = ContractServer.newServer()
+                    .onRandomPort()
+                    .withGitConfig('https://github.com/harmingcola/kvServerContracts')
+                    .startServer()
+            session.setContractServer(server)
         }
     }
 
