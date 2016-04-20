@@ -1,4 +1,4 @@
-Client facing example : Key Value Server
+Server facing example : Key Value Server
 ========================================
 
 The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
@@ -6,6 +6,21 @@ It is treated as a project that is a user of our code and wants to use every pos
 
 Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
+
+Maven dependency
+----------------
+
+To test the server, we require our contract client.
+
+.. code-block:: xml
+
+    <dependency>
+        <groupId>org.seekay</groupId>
+        <artifactId>contract-client</artifactId>
+        <version>${contract.version}</version>
+        <scope>test</scope>
+    </dependency>
+
 
 Running the server
 ------------------

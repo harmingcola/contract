@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Client facing example : Key Value Server &mdash; Python  documentation</title>
+  <title>Server facing example : Key Value Server &mdash; Python  documentation</title>
   
 
   
@@ -33,7 +33,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="next" title="Server facing example : Key Value Client" href="kv_client.html"/>
+        <link rel="next" title="Client facing example : Key Value Client" href="kv_client.html"/>
         <link rel="prev" title="Contract Files" href="contract_files.html"/> 
 
   
@@ -81,15 +81,17 @@
             
             
                 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Client facing example : Key Value Server</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Server facing example : Key Value Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#maven-dependency">Maven dependency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-server">Running the server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#endpoints">Endpoints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-contractclient">Running the ContractClient</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="kv_client.html">Server facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
@@ -123,7 +125,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Client facing example : Key Value Server</li>
+    <li>Server facing example : Key Value Server</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -137,12 +139,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="client-facing-example-key-value-server">
-<h1>Client facing example : Key Value Server<a class="headerlink" href="#client-facing-example-key-value-server" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="server-facing-example-key-value-server">
+<h1>Server facing example : Key Value Server<a class="headerlink" href="#server-facing-example-key-value-server" title="Permalink to this headline">¶</a></h1>
 <p>The Key Value server (kvServer) is a testing project we use to validate the server facing aspects of the Contract project.
 It is treated as a project that is a user of our code and wants to use every possible feature.</p>
 <p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvServerContracts">kvServerContracts repository</a> in order
 to share them with kvClient project.</p>
+<div class="section" id="maven-dependency">
+<h2>Maven dependency<a class="headerlink" href="#maven-dependency" title="Permalink to this headline">¶</a></h2>
+<p>To test the server, we require our contract client.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>contract-client<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="running-the-server">
 <h2>Running the server<a class="headerlink" href="#running-the-server" title="Permalink to this headline">¶</a></h2>
 <p>The server can be started with the following command from the root directory</p>
@@ -315,7 +329,7 @@ to share them with kvClient project.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="kv_client.html" class="btn btn-neutral float-right" title="Server facing example : Key Value Client" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="kv_client.html" class="btn btn-neutral float-right" title="Client facing example : Key Value Client" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="contract_files.html" class="btn btn-neutral" title="Contract Files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

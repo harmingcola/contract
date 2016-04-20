@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Server facing example : Key Value Client &mdash; Python  documentation</title>
+  <title>Client facing example : Key Value Client &mdash; Python  documentation</title>
   
 
   
@@ -34,7 +34,7 @@
   
     <link rel="top" title="Python  documentation" href="index.html"/>
         <link rel="next" title="Contract Repository" href="contract_repository.html"/>
-        <link rel="prev" title="Client facing example : Key Value Server" href="kv_server.html"/> 
+        <link rel="prev" title="Server facing example : Key Value Server" href="kv_server.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,10 +81,12 @@
             
             
                 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Server facing example : Key Value Client</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Client facing example : Key Value Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#maven-dependency">Maven dependency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create">Create</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#read">Read</a></li>
@@ -125,7 +127,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Server facing example : Key Value Client</li>
+    <li>Client facing example : Key Value Client</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -139,12 +141,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="server-facing-example-key-value-client">
-<h1>Server facing example : Key Value Client<a class="headerlink" href="#server-facing-example-key-value-client" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="client-facing-example-key-value-client">
+<h1>Client facing example : Key Value Client<a class="headerlink" href="#client-facing-example-key-value-client" title="Permalink to this headline">¶</a></h1>
 <p>The Key value client (kvClient) is a project we&#8217;re using to validate the client facing aspects of the Contract project.
 Its treated like a project that is a user of our code that wants to use every possible feature.</p>
 <p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvServerContracts">kvServerContracts repository</a> in order
 to share them with kvClient project.</p>
+<div class="section" id="maven-dependency">
+<h2>Maven dependency<a class="headerlink" href="#maven-dependency" title="Permalink to this headline">¶</a></h2>
+<p>To test the client, we require our contract server.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>contract-server<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <p>The code to setup a server from a git source is identical for each test case.</p>
@@ -243,7 +257,7 @@ class DeletePairSpec extends ClientBaseSpec {
         <a href="contract_repository.html" class="btn btn-neutral float-right" title="Contract Repository" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="kv_server.html" class="btn btn-neutral" title="Client facing example : Key Value Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="kv_server.html" class="btn btn-neutral" title="Server facing example : Key Value Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

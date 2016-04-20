@@ -57,6 +57,7 @@ However, all a service provider need do is publish their contracts, and any clie
 .. toctree::
     :maxdepth: 1
 
+    quick_start
     features
     contract_files
     kv_server

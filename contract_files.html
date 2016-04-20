@@ -33,7 +33,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="next" title="Client facing example : Key Value Server" href="kv_server.html"/>
+        <link rel="next" title="Server facing example : Key Value Server" href="kv_server.html"/>
         <link rel="prev" title="Features" href="features.html"/> 
 
   
@@ -81,10 +81,12 @@
             
             
                 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contract Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Client facing example : Key Value Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kv_client.html">Server facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
@@ -134,6 +136,9 @@
   <div class="section" id="contract-files">
 <h1>Contract Files<a class="headerlink" href="#contract-files" title="Permalink to this headline">¶</a></h1>
 <p>Contract files model a HTTP request/response. The define the responsibilities of a client or server in any interaction.</p>
+<ul class="simple">
+<li>Contract files written in JSON must end in <strong>.contract.json</strong></li>
+</ul>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
@@ -227,7 +232,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="kv_server.html" class="btn btn-neutral float-right" title="Client facing example : Key Value Server" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="kv_server.html" class="btn btn-neutral float-right" title="Server facing example : Key Value Server" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="features.html" class="btn btn-neutral" title="Features" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -4,6 +4,7 @@ Contract Files
 
 Contract files model a HTTP request/response. The define the responsibilities of a client or server in any interaction.
 
+* Contract files written in JSON must end in **.contract.json**
 
 .. code-block:: javascript
 
