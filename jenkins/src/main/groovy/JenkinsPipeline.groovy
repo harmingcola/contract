@@ -34,7 +34,8 @@ job('contract_release') {
 		}
 	}
 	steps {
-		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/execute_release.sh'))
+		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/update_version_for_release.sh'))
+		maven("clean deploy")
 	}
 	publishers {
 		buildPipelineTrigger('contract_documentation')
