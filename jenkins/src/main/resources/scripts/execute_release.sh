@@ -15,18 +15,16 @@ echo "Current : $MASTER_VERSION"
 echo "Release : $RELEASE_VERSION"
 echo "Next    : $NEXT_VERSION"
 
-git push --set-upstream origin master
-
 echo "Updating versions for release"
 mvn versions:set -DnewVersion="$RELEASE_VERSION"
 find . | grep versionsBackup | xargs rm
-git add -A && git commit "Updating version to $RELEASE_VERSION for release"
-git push
+git add -A && git commit -m "Updating version to $RELEASE_VERSION for release"
+git push --set-upstream origin master
 
 mvn deploy
 
 echo "Updating to $NEXT_VERSION for development"
 mvn versions:set -DnewVersion="$DEVELOPMENT_VERSION"
 find . | grep versionsBackup | xargs rm
-git add -A && git commit "Updating version to $DEVELOPMENT_VERSION"
+git add -A && git commit -m "Updating version to $DEVELOPMENT_VERSION"
 git push
