@@ -8,7 +8,7 @@
     <artifactId>contract-parent</artifactId>
     <packaging>pom</packaging>
 
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>Contract</name>
 	<description>Contract, a JVM http contract testing tool</description>
 	<url>http://harmingcola.github.io/contract/</url>
