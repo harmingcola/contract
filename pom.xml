@@ -10,8 +10,12 @@
 
     <version>0.0.1-SNAPSHOT</version>
     <name>Contract</name>
+	<description>Contract, a JVM http contract testing tool</description>
+	<url>http://harmingcola.github.io/contract/</url>
+
 
     <scm>
+		<url>https://github.com/harmingcola/contract.git</url>
         <connection>scm:git:git@github.com:harmingcola/contract.git</connection>
         <developerConnection>scm:git:git@github.com:harmingcola/contract.git</developerConnection>
     </scm>
@@ -282,4 +286,12 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+	<developers>
+		<developer>
+			<id>harmigncola</id>
+			<name>Colin Graham</name>
+			<email>grahamcolins@gmail.com</email>
+		</developer>
+	</developers>
 </project>
