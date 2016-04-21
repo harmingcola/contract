@@ -1,4 +1,4 @@
-package org.seekay.contract.server.builder
+package org.seekay.contract.common.builder
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.model.domain.Method
@@ -28,7 +28,8 @@ class ContractBuilderSpec extends Specification {
 
     def "a json contract should be converted correctly" () {
         given:
-            ContractBuilder builder = new ContractBuilder(new ObjectMapper())
+            ContractBuilder builder = new ContractBuilder()
+            builder.setObjectMapper(new ObjectMapper())
         when:
             Contract contract = builder.fromJson(contractJson)
         then:
@@ -46,7 +47,8 @@ class ContractBuilderSpec extends Specification {
         given:
             ObjectMapper objectMapper = Mock(ObjectMapper)
             objectMapper.readValue(_ as String, Contract.class) >> {throw new IOException()}
-            ContractBuilder builder = new ContractBuilder(objectMapper)
+            ContractBuilder builder = new ContractBuilder()
+            builder.setObjectMapper(objectMapper)
         when:
             builder.fromJson(contractJson)
         then:

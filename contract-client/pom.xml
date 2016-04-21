@@ -9,6 +9,7 @@
 
     <artifactId>contract-client</artifactId>
     <name>Contract - Client</name>
+    <description>Server facing test library for contract testing</description>
 
     <dependencies>
 

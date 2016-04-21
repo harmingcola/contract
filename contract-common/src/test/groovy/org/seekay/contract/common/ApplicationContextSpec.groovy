@@ -1,15 +1,13 @@
-package org.seekay.contract.server
-
+package org.seekay.contract.common
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.matchers.WhiteSpaceIgnoringBodyMatcher
-import org.seekay.contract.server.builder.ContractBuilder
-import org.seekay.contract.server.match.ExactPathMatcher
-import org.seekay.contract.server.match.MethodMatcher
-import org.seekay.contract.server.service.MatchingService
-import org.seekay.contract.server.service.ContractService
-import org.seekay.contract.server.match.HeaderMatcher
+import org.seekay.contract.common.builder.ContractBuilder
+import org.seekay.contract.common.match.MatchingService
+import org.seekay.contract.common.match.body.BodyMatcher
+import org.seekay.contract.common.matchers.ExactPathMatcher
+import org.seekay.contract.common.matchers.HeaderMatcher
+import org.seekay.contract.common.matchers.MethodMatcher
+import org.seekay.contract.common.service.ContractService
 import spock.lang.Specification
-
 
 class ApplicationContextSpec extends Specification {
 
@@ -47,7 +45,7 @@ class ApplicationContextSpec extends Specification {
             matchingService.methodMatcher != null
             matchingService.exactPathMatcher != null
             matchingService.headerMatcher != null
-            matchingService.whiteSpaceIgnoringBodyMatcher != null
+            matchingService.bodyMatcher != null
             matchingService.objectMapper != null
             matchingService == ApplicationContext.matchingService()
     }
@@ -76,12 +74,12 @@ class ApplicationContextSpec extends Specification {
             headerMatcher == ApplicationContext.headerMatcher()
     }
 
-    def "a single white space ignoring body matcher should be created" () {
+    def "a body matcher should be created" () {
         when:
-            WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher = ApplicationContext.whiteSpaceIgnoringBodyMatcher()
+            BodyMatcher bodyMatcher = ApplicationContext.bodyMatcher()
         then:
-            whiteSpaceIgnoringBodyMatcher != null
-            whiteSpaceIgnoringBodyMatcher == ApplicationContext.whiteSpaceIgnoringBodyMatcher()
+            bodyMatcher != null
+            bodyMatcher == ApplicationContext.bodyMatcher()
     }
 
     def "a context can be cleared and all singletons will be nulled" () {
@@ -93,7 +91,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.exactPathMatcher()
             ApplicationContext.methodMatcher()
             ApplicationContext.headerMatcher()
-            ApplicationContext.whiteSpaceIgnoringBodyMatcher()
+            ApplicationContext.bodyMatcher()
         when:
             ApplicationContext.clear()
         then:
@@ -104,6 +102,6 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.exactPathMatcher == null
             ApplicationContext.methodMatcher == null
             ApplicationContext.headerMatcher == null
-            ApplicationContext.whiteSpaceIgnoringBodyMatcher == null
+            ApplicationContext.bodyMatcher == null
     }
 }

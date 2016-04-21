@@ -3,8 +3,8 @@ package org.seekay.contract.server.servet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
-import org.seekay.contract.server.ApplicationContext;
-import org.seekay.contract.server.service.MatchingService;
+import org.seekay.contract.common.ApplicationContext;
+import org.seekay.contract.common.match.MatchingService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

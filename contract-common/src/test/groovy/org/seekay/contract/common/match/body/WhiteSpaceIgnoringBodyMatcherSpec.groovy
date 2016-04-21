@@ -1,9 +1,8 @@
-package org.seekay.contract.common.matchers
+package org.seekay.contract.common.match.body
 
 import org.seekay.contract.model.ContractTestBuilder
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
-
 
 class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 
@@ -13,7 +12,7 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 		given:
 			Contract simpleContract = ContractTestBuilder.post().requestBody("hello world").build()
 		when:
-			Set results = matcher.matchRequestBody([simpleContract] as Set, "hello world")
+			Set results = matcher.findMatches([simpleContract] as Set, "hello world")
 		then:
 			results.collect { Contract result ->
 				result.request.body == simpleContract.request.body
@@ -25,7 +24,7 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 			Contract simpleContract1 = ContractTestBuilder.post().requestBody("hello world").build()
 			Contract simpleContract2 = ContractTestBuilder.post().requestBody("hello world").build()
 		when:
-			Set results = matcher.matchRequestBody([simpleContract1, simpleContract2] as Set, "hello world")
+			Set results = matcher.findMatches([simpleContract1, simpleContract2] as Set, "hello world")
 		then:
 		results.collect { Contract result ->
 			result.request.body == simpleContract1.request.body
@@ -38,7 +37,7 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 			Contract simpleContract1 = ContractTestBuilder.post().requestBody("hello world").build()
 			Contract simpleContract2 = ContractTestBuilder.post().requestBody("hello world").build()
 		when:
-			Set results = matcher.matchRequestBody([simpleContract1, simpleContract2] as Set, "goodbye world")
+			Set results = matcher.findMatches([simpleContract1, simpleContract2] as Set, "goodbye world")
 		then:
 			results.size() == 0
 	}
@@ -47,7 +46,7 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 		given:
 			Contract contractWithNoBody = ContractTestBuilder.get().build()
 		when:
-			Set results = matcher.matchRequestBody([contractWithNoBody] as Set, "goodbye world")
+			Set results = matcher.findMatches([contractWithNoBody] as Set, "goodbye world")
 		then:
 			results.size() == 0
 	}
@@ -56,7 +55,7 @@ class WhiteSpaceIgnoringBodyMatcherSpec extends Specification {
 		given:
 			Contract contractWithNoBody = ContractTestBuilder.get().build()
 		when:
-			Set results = matcher.matchRequestBody([contractWithNoBody] as Set, null)
+			Set results = matcher.findMatches([contractWithNoBody] as Set, null)
 		then:
 			results.size() == 1
 	}

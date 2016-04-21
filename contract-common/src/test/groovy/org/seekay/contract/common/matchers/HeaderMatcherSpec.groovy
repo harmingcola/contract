@@ -1,4 +1,6 @@
-package org.seekay.contract.server.match
+package org.seekay.contract.common.matchers
+
+import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Shared
 import spock.lang.Specification
@@ -16,7 +18,7 @@ class HeaderMatcherSpec extends Specification {
         given:
             Set<Contract> contracts = [defaultGetContract().build()]
         when:
-            Set result = matcher.match(contracts, ["captain":"america"])
+            Set result = matcher.isMatch(contracts, ["captain":"america"])
         then:
             result.size() == 1
             head(result).request.headers["captain"] == "america"
@@ -26,7 +28,7 @@ class HeaderMatcherSpec extends Specification {
         given:
             Set contracts = oneDefaultContractOfEachMethodWithoutHeaders()
         when:
-            Set result = matcher.match(contracts, ["captain":"america"])
+            Set result = matcher.isMatch(contracts, ["captain":"america"])
         then:
             result.size() == contracts.size()
     }
@@ -39,7 +41,7 @@ class HeaderMatcherSpec extends Specification {
                     defaultGetContract().path("/entity/3").requestHeaders(["steve":"rogers"]).responseBody("filtered").build()
             ]
         when:
-            Set result = matcher.match(contracts, ["iron":"man"])
+            Set result = matcher.isMatch(contracts, ["iron":"man"])
         then:
             result.size() == 2
             result.collect { contract ->

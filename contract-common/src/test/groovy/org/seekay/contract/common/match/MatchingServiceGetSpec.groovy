@@ -1,11 +1,13 @@
-package org.seekay.contract.server.service
+package org.seekay.contract.common.match
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.matchers.WhiteSpaceIgnoringBodyMatcher
+import org.seekay.contract.common.match.MatchingService
+import org.seekay.contract.common.match.body.BodyMatcher
+import org.seekay.contract.common.matchers.ExactPathMatcher
+import org.seekay.contract.common.matchers.HeaderMatcher
+import org.seekay.contract.common.matchers.MethodMatcher
+import org.seekay.contract.common.service.ContractService
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract
-import org.seekay.contract.server.match.ExactPathMatcher
-import org.seekay.contract.server.match.HeaderMatcher
-import org.seekay.contract.server.match.MethodMatcher
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -21,7 +23,7 @@ class MatchingServiceGetSpec extends Specification{
     MethodMatcher methodMatcher = Mock(MethodMatcher)
     ExactPathMatcher exactPathMatcher = Mock(ExactPathMatcher)
     HeaderMatcher headerMatcher = Mock(HeaderMatcher)
-    WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher = Mock(WhiteSpaceIgnoringBodyMatcher)
+    BodyMatcher bodyMatcher = Mock(BodyMatcher)
 
     static def EMPTY_SET = []
 
@@ -30,7 +32,7 @@ class MatchingServiceGetSpec extends Specification{
         service.methodMatcher = methodMatcher
         service.exactPathMatcher = exactPathMatcher
         service.headerMatcher = headerMatcher
-        service.whiteSpaceIgnoringBodyMatcher = whiteSpaceIgnoringBodyMatcher
+        service.bodyMatcher = bodyMatcher
         service.objectMapper = new ObjectMapper()
 
         contractService.read() >> {[ContractTestFixtures.defaultGetContract()] as Set}
@@ -39,9 +41,9 @@ class MatchingServiceGetSpec extends Specification{
     def "a GET contract matching all parameters should return correctly"() {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.match(_ as Set<Contract>, GET) >> {[contract]}
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
-            headerMatcher.match(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
+            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
         then:
@@ -53,9 +55,9 @@ class MatchingServiceGetSpec extends Specification{
     def "a GET contract not matching method should return null"() {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.match(_ as Set<Contract>, GET) >> {EMPTY_SET}
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {EMPTY_SET}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
-            headerMatcher.match(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
+            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
         then:
@@ -65,9 +67,9 @@ class MatchingServiceGetSpec extends Specification{
     def "a GET contract not matching the path should return null"() {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.match(_ as Set<Contract>, GET) >> {[contract]}
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
-            headerMatcher.match(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
+            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
         then:
@@ -77,9 +79,9 @@ class MatchingServiceGetSpec extends Specification{
     def "a GET contract not matching headers should return null"() {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.match(_ as Set<Contract>, GET) >> {[contract]}
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
-            headerMatcher.match(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
+            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
         then:
@@ -90,9 +92,9 @@ class MatchingServiceGetSpec extends Specification{
         given:
             Contract contract1 = ContractTestFixtures.defaultPostContract().build()
             Contract contract2 = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.match(_ as Set<Contract>, POST) >> {[contract1, contract2]}
+            methodMatcher.findMatches(_ as Set<Contract>, POST) >> {[contract1, contract2]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
-            headerMatcher.match(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
+            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
         when:
             service.matchGetRequest(contract1.request)
         then:

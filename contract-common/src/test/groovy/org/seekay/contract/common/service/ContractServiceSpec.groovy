@@ -1,4 +1,4 @@
-package org.seekay.contract.server.service
+package org.seekay.contract.common.service
 
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract

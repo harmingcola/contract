@@ -1,6 +1,7 @@
-package org.seekay.contract.server.match
-import org.seekay.contract.model.domain.Contract
+package org.seekay.contract.common.matchers
+
 import org.seekay.contract.model.ContractTestFixtures
+import org.seekay.contract.model.domain.Contract
 import spock.lang.Shared
 import spock.lang.Specification
 

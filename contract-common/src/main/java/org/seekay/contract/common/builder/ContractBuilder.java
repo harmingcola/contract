@@ -1,17 +1,15 @@
-package org.seekay.contract.server.builder;
+package org.seekay.contract.common.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Setter;
 import org.seekay.contract.model.domain.Contract;
 
 import java.io.IOException;
 
+@Setter
 public class ContractBuilder {
 
     private ObjectMapper objectMapper;
-
-    public ContractBuilder(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     public Contract fromJson(String contractDefinition) {
         Contract result;

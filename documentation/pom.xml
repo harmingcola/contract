@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>contract-parent</artifactId>
         <groupId>org.seekay</groupId>
         <version>0.0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>Contract - Documentation</name>
     <artifactId>documentation</artifactId>
+    <name>Contract - Documentation</name>
+    <description>Sphinx documentation for Contract</description>
 
     <reporting>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -23,12 +24,15 @@
                     </reportSet>
                 </reportSets>
             </plugin>
+
             <plugin>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>sphinx-maven-plugin</artifactId>
                 <version>1.3.0.Final</version>
             </plugin>
+
         </plugins>
+
     </reporting>
 
 </project>

@@ -1,9 +1,9 @@
 package org.seekay.contract.server.servlet
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.model.domain.Contract
-import org.seekay.contract.server.builder.ContractBuilder
+import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.server.servet.ConfigurationServlet
-import org.seekay.contract.server.service.ContractService
+import org.seekay.contract.common.service.ContractService
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Shared

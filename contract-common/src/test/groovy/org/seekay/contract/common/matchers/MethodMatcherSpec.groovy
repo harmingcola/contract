@@ -1,5 +1,6 @@
-package org.seekay.contract.server.match
+package org.seekay.contract.common.matchers
 
+import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.model.ContractTestFixtures
 import spock.lang.Shared
 import spock.lang.Specification
@@ -18,7 +19,7 @@ class MethodMatcherSpec extends Specification {
         given:
             Set contracts = [defaultGetContract().build()]
         when:
-            Set result = matcher.match(contracts, GET)
+            Set result = matcher.findMatches(contracts, GET)
         then:
             result.size() == 1
             head(result).request.method.equals(GET)
@@ -28,7 +29,7 @@ class MethodMatcherSpec extends Specification {
         given:
             Set contracts = ContractTestFixtures.multiplePostContractsDifferentPaths()
         when:
-            Set result = matcher.match(contracts, GET)
+            Set result = matcher.findMatches(contracts, GET)
         then:
             result != null
             result.size() == 0
@@ -39,7 +40,7 @@ class MethodMatcherSpec extends Specification {
         given:
             Set contracts = ContractTestFixtures.multiplePostContractsDifferentPaths()
         when:
-            Set result = matcher.match(contracts, POST)
+            Set result = matcher.findMatches(contracts, POST)
         then:
             result.size() == 2
             result.collect { contract ->

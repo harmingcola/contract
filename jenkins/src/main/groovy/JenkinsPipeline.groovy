@@ -14,7 +14,64 @@ job('contract_build') {
 		maven('clean install')
 	}
 	publishers {
-		buildPipelineTrigger('contract_release')
+		buildPipelineTrigger('kvClient_acceptance'){
+			parameters {
+				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+			}
+		}
+	}
+	wrappers {
+		preBuildCleanup()
+	}
+}
+
+job('kvClient_acceptance') {
+	quietPeriod(0)
+	scm {
+		git {
+			branch('master')
+			remote {
+				url('git@github.com:harmingcola/kvClient.git')
+				credentials('seekay-jenkins-auth')
+			}
+		}
+	}
+	steps {
+		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
+	}
+	publishers {
+		buildPipelineTrigger('kvServer_acceptance'){
+			parameters {
+				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+			}
+		}
+	}
+	wrappers {
+		preBuildCleanup()
+	}
+}
+
+job('kvServer_acceptance') {
+	quietPeriod(0)
+	scm {
+		git {
+			branch('master')
+			remote {
+				url('git@github.com:harmingcola/kvServer.git')
+				credentials('seekay-jenkins-auth')
+			}
+		}
+	}
+	steps {
+		shell('mvn spring-boot:run &')
+		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
+	}
+	publishers {
+		buildPipelineTrigger('contract_release'){
+			parameters {
+				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+			}
+		}
 	}
 	wrappers {
 		preBuildCleanup()
@@ -37,7 +94,11 @@ job('contract_release') {
 		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/execute_release.sh'))
 	}
 	publishers {
-		buildPipelineTrigger('contract_documentation')
+		buildPipelineTrigger('contract_documentation'){
+			parameters {
+				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+			}
+		}
 	}
 	wrappers {
 		preBuildCleanup()

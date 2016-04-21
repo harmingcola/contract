@@ -2,7 +2,7 @@ package org.seekay.contract.server.servlet
 
 import org.seekay.contract.model.domain.ContractRequest
 import org.seekay.contract.server.servet.RequestHandlerServlet
-import org.seekay.contract.server.service.MatchingService
+import org.seekay.contract.common.match.MatchingService
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Shared

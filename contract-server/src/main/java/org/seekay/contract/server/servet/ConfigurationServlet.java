@@ -3,8 +3,8 @@ package org.seekay.contract.server.servet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.model.domain.Contract;
-import org.seekay.contract.server.builder.ContractBuilder;
-import org.seekay.contract.server.service.ContractService;
+import org.seekay.contract.common.builder.ContractBuilder;
+import org.seekay.contract.common.service.ContractService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.seekay.contract.server.ApplicationContext.*;
+import static org.seekay.contract.common.ApplicationContext.*;
 import static org.seekay.contract.server.util.RequestReader.from;
 import static org.seekay.contract.server.util.ResponseWriter.to;
 
