@@ -8,6 +8,8 @@ The aim of this library is to simplify the development and testing of systems th
 Our approach favors neither side of the client server relationship, removing the *consumer driven* from *consumer
 driven contracts* and you're left with just contracts. By favouring neither side, we're focusing on the interaction.
 
+The project is available from maven central, see the `quick start <http://harmingcola.github.io/contract/quick_start.html>`_ page for more details
+
 The problem of testing a client server relationship
 ---------------------------------------------------
 
