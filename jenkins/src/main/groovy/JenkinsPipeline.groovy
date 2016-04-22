@@ -60,7 +60,7 @@ job('kvServer_acceptance') {
 		}
 	}
 	steps {
-		shell('mvn spring-boot:run &')
+		shell('mvn spring-boot:run -Dserver.port=8090 >> target/kvServer.log &')
 		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
 	}
 	publishers {
