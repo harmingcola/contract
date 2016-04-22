@@ -52,10 +52,10 @@ public class MatchingService {
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
     Contract result = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
-//    if(result == null) {
-//      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
-//              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
-//    }
+    if(result == null) {
+      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
+              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    }
     return result;
   }
 
@@ -68,8 +68,8 @@ public class MatchingService {
   }
 
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
-    //log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
-    //log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
+    log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
+    log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
   }
   
   private Set<Contract> matchByMethod(Method method) {

@@ -21,7 +21,7 @@ public class EnricherService implements Enricher {
     public String enrichResponseBody(String body) {
 		String enrichedBody = body;
         for(Enricher enricher : enrichers) {
-			enrichedBody = enricher.enrichResponseBody(body);
+			enrichedBody = enricher.enrichResponseBody(enrichedBody);
         }
         return enrichedBody;
     }

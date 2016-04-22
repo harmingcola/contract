@@ -1,3 +1,45 @@
+job('contract_merge_request') {
+	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+	}
+	scm {
+		git {
+			branch('master')
+			remote {
+				url('git@github.com:harmingcola/contract.git')
+			}
+		}
+	}
+	steps {
+		maven('clean install')
+		maven('sonar:sonar')
+	}
+	publishers {
+		downstreamParameterized {
+			trigger('kvClient_acceptance') {
+				parameters {
+					predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+				}
+			}
+		}
+	}
+	job.triggers {
+		pullRequest {
+			useGitHubHooks()
+			triggerPhrase("rebuild")
+			permitAll()
+			extensions {
+				commitStatus {
+					context('merge request builder')
+					completedStatus('SUCCESS', new String(new String("✓").getBytes("UTF-8"), "UTF-8"))
+					completedStatus('FAILURE', new String(new String("✗").getBytes("UTF-8"), "UTF-8"))
+				}
+			}
+		}
+	}
+}
+
 job('contract_build') {
 	quietPeriod(0)
 	wrappers {
@@ -16,7 +58,6 @@ job('contract_build') {
 			remote {
 				url('git@github.com:harmingcola/contract.git')
 			}
-
 		}
 	}
 	steps {
