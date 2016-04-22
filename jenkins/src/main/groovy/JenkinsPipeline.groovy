@@ -75,7 +75,9 @@ job('kvServer_acceptance') {
 		}
 	}
 	steps {
-		shell('mvn spring-boot:run -Dserver.port=8090 >> target/kvServer.log &')
+		shell('mvn spring-boot:run -Dserver.port=8090  &')
+		shell('echo Waiting 20 seconds for kvServer to start')
+		shell('sleep 20')
 		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
 	}
 	publishers {
