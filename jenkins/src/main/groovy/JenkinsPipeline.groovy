@@ -2,8 +2,8 @@ job('contract_build') {
 	quietPeriod(0)
 	wrappers {
 		preBuildCleanup()
-		configure { jobXml ->
-			jobXml / publishers << 'com.lookout.jenkins.EnvironmentScript' (plugin: 'environment-script@1.2.2') {
+		configure { wrappers ->
+			wrappers << 'com.lookout.jenkins.EnvironmentScript' (plugin: 'environment-script@1.2.2') {
 				script : 'echo CONTRACT_VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v \'/x:project/x:version\' pom.xml)'
 			}
 		}
