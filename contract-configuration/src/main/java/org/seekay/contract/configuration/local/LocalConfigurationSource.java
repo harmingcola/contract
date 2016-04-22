@@ -33,7 +33,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
 		if(directory.getName().equals(".git")) {
 			return;
 		}
-        for(File file : directory.listFiles()) { // NOSONAR
+        for(File file : directory.listFiles()) { //NOSONAR
             if(file.isDirectory()) {
                 loadFromDirectory(file, contracts);
             } else {

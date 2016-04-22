@@ -1,3 +1,4 @@
+//NOSONAR
 package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,8 +21,8 @@ public class RequestHandlerServlet extends HttpServlet {
 
     public static final String NO_MATCHING_PACTS_FOUND = "No Matching Contracts Found";
 
-    private MatchingService matchingService; // NOSONAR
-    private EnricherService enricherService; // NOSONAR
+    private MatchingService matchingService;
+    private EnricherService enricherService;
 
 
     @Override

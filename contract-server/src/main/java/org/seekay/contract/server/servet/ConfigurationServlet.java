@@ -1,3 +1,4 @@
+//NOSONAR
 package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,9 +24,9 @@ public class ConfigurationServlet extends HttpServlet {
 
 	public static final String NO_PACTS_HAVE_BEEN_DEFINED = "No contracts have been defined";
 
-	private ContractService contractService; // NOSONAR
-	private ContractBuilder contractBuilder; // NOSONAR
-	private ObjectMapper objectMapper; // NOSONAR
+	private ContractService contractService;
+	private ContractBuilder contractBuilder;
+	private ObjectMapper objectMapper;
 
 	@Override
 	public void init() throws ServletException {

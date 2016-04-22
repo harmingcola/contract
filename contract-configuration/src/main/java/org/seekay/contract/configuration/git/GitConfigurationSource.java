@@ -71,7 +71,7 @@ public class GitConfigurationSource implements ConfigurationSource {
     private File setupDownloadLocation() {
         File downloadLocation = new File(DOWNLOAD_LOCATION);
         deleteExistingCheckout(downloadLocation);
-        downloadLocation.mkdir(); // NOSONAR 
+        downloadLocation.mkdir(); //NOSONAR
         return downloadLocation;
     }
 
