@@ -15,6 +15,9 @@ public class TimestampAsserter implements Asserter {
 
 
     public void assertOnWildCards(ContractResponse contractResponse, ContractResponse actualResponse) {
+		if(contractResponse.getBody() == null) {
+			return;
+		}
         if(fullBodyPattern.matcher(contractResponse.getBody()).matches()) {
             Pattern pattern = buildPatternForRoughlyNow();
             String responseTimestamp = extractTimestamp(actualResponse.getBody(), pattern);
