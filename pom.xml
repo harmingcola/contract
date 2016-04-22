@@ -10,6 +10,7 @@
 	<url>http://harmingcola.github.io/contract/</url>
     <packaging>pom</packaging>
 
+
     <scm>
 		<url>https://github.com/harmingcola/contract.git</url>
         <connection>scm:git:git@github.com:harmingcola/contract.git</connection>
