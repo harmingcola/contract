@@ -10,7 +10,7 @@ class GitConfigurationSourceSpec extends Specification {
 
     def setup() {
 		File tempContractFileDirectory = new File(GitConfigurationSource.DOWNLOAD_LOCATION)
-		if(tempContractFileDirectory.exists()) {
+		if(tempContratFileDirectory.exists()) {
 			tempContractFileDirectory.deleteDir()
 		}
 	}

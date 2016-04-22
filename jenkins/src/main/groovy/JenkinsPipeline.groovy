@@ -103,7 +103,11 @@ job('contract_release') {
 	}
 	publishers {
 		downstreamParameterized {
-			trigger('contract_documentation')
+			trigger('contract_documentation') {
+				parameters {
+					predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+				}
+			}
 		}
 	}
 }

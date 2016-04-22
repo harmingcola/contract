@@ -21,37 +21,37 @@ import static org.seekay.contract.server.util.ResponseWriter.to;
 @Slf4j
 public class ConfigurationServlet extends HttpServlet {
 
-  public static final String NO_PACTS_HAVE_BEEN_DEFINED = "No contracts have been defined";
+	public static final String NO_PACTS_HAVE_BEEN_DEFINED = "No contracts have been defined";
 
-  private ContractService contractService;
-    private ContractBuilder contractBuilder;
-    private ObjectMapper objectMapper;
+	private static ContractService contractService;
+	private static ContractBuilder contractBuilder;
+	private static ObjectMapper objectMapper;
 
-    @Override
-    public void init() throws ServletException {
-        contractService = contractService();
-        contractBuilder = contractBuilder();
-        objectMapper = objectMapper();
-    }
+	@Override
+	public void init() throws ServletException {
+		contractService = contractService();
+		contractBuilder = contractBuilder();
+		objectMapper = objectMapper();
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-        log.info("Configuration request received");
-        Set<Contract> contracts = contractService.read();
-        if(!contracts.isEmpty()) {
-            String responseBody = objectMapper.writeValueAsString(contracts);
-            to(httpResponse).ok().write(responseBody);
-        } else {
-            to(httpResponse).ok().write(NO_PACTS_HAVE_BEEN_DEFINED);
-        }
-    }
+	@Override
+	protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+		log.info("Configuration request received");
+		Set<Contract> contracts = contractService.read();
+		if (!contracts.isEmpty()) {
+			String responseBody = objectMapper.writeValueAsString(contracts);
+			to(httpResponse).ok().write(responseBody);
+		} else {
+			to(httpResponse).ok().write(NO_PACTS_HAVE_BEEN_DEFINED);
+		}
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-        String contractDefinition = from(httpRequest).readBody();
-        Contract contract = contractBuilder.fromJson(contractDefinition);
-        contractService.create(contract);
-        to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
-        log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
-    }
+	@Override
+	protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+		String contractDefinition = from(httpRequest).readBody();
+		Contract contract = contractBuilder.fromJson(contractDefinition);
+		contractService.create(contract);
+		to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
+		log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
+	}
 }
