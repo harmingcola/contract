@@ -25,6 +25,7 @@ Contract files model a HTTP request/response. The define the responsibilities of
 
 
 Fields
+------
     * request
         * method
             * HTTP method to be used for and responded to for requests
@@ -40,3 +41,24 @@ Fields
         * body
             * The text body returned for a request and expected by the ContractClient
 
+
+Wildcards
+---------
+Wildcards are expressions that the server will fill with the appropriate data, and the client will recognise when given in a response.
+
+    * ${contract.timestamp}
+        * Will be replaced / recognised as the current time in nano seconds. The contract-client will give allow for 1 millisecond on either side of the timestamp.
+        * Currently only supported in response.body
+
+.. code-block:: javascript
+
+    {
+      "request" : {
+        "method" : "GET",
+        "path" : "/kv/service/times"
+      },
+      "response" : {
+        "status" : 200,
+        "body" : "${contract.timestamp}"
+      }
+    }

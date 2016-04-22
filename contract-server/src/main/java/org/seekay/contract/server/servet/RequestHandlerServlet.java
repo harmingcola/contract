@@ -19,8 +19,9 @@ import static org.seekay.contract.server.util.ResponseWriter.to;
 public class RequestHandlerServlet extends HttpServlet {
 
     public static final String NO_MATCHING_PACTS_FOUND = "No Matching Contracts Found";
-    private MatchingService matchingService;
-    private EnricherService enricherService;
+
+    private MatchingService matchingService; // NOSONAR
+    private EnricherService enricherService; // NOSONAR
 
 
     @Override

@@ -23,9 +23,9 @@ public class ConfigurationServlet extends HttpServlet {
 
 	public static final String NO_PACTS_HAVE_BEEN_DEFINED = "No contracts have been defined";
 
-	private static ContractService contractService;
-	private static ContractBuilder contractBuilder;
-	private static ObjectMapper objectMapper;
+	private ContractService contractService; // NOSONAR
+	private ContractBuilder contractBuilder; // NOSONAR
+	private ObjectMapper objectMapper; // NOSONAR
 
 	@Override
 	public void init() throws ServletException {
