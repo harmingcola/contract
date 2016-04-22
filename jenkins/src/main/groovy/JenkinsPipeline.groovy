@@ -1,5 +1,13 @@
 job('contract_build') {
 	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+		job.configure { jobXml ->
+			jobXml / publishers << 'com.lookout.jenkins.EnvironmentScript' (plugin: 'environment-script@1.2.2') {
+				script : 'echo CONTRACT_VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v \'/x:project/x:version\' pom.xml)'
+			}
+		}
+	}
 	scm {
 		git {
 			branch('master')
@@ -11,21 +19,24 @@ job('contract_build') {
 	}
 	steps {
 		maven('clean install')
+		maven('sonar:sonar')
 	}
 	publishers {
-		buildPipelineTrigger('kvClient_acceptance'){
-			parameters {
-				predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+		downstreamParameterized {
+			trigger('kvClient_acceptance') {
+				parameters {
+					predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+				}
 			}
 		}
-	}
-	wrappers {
-		preBuildCleanup()
 	}
 }
 
 job('kvClient_acceptance') {
 	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+	}
 	scm {
 		git {
 			branch('master')
@@ -38,19 +49,21 @@ job('kvClient_acceptance') {
 		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
 	}
 	publishers {
-		buildPipelineTrigger('kvServer_acceptance'){
-			parameters {
-				predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+		downstreamParameterized {
+			trigger('kvServer_acceptance') {
+				parameters {
+					predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
+				}
 			}
 		}
-	}
-	wrappers {
-		preBuildCleanup()
 	}
 }
 
 job('kvServer_acceptance') {
 	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+	}
 	scm {
 		git {
 			branch('master')
@@ -66,13 +79,13 @@ job('kvServer_acceptance') {
 	publishers {
 		buildPipelineTrigger('contract_release')
 	}
-	wrappers {
-		preBuildCleanup()
-	}
 }
 
 job('contract_release') {
 	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+	}
 	scm {
 		git {
 			branch('master')
@@ -86,19 +99,17 @@ job('contract_release') {
 		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/execute_release.sh'))
 	}
 	publishers {
-		buildPipelineTrigger('contract_documentation'){
-			parameters {
-				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
-			}
+		downstreamParameterized {
+			trigger('contract_documentation')
 		}
-	}
-	wrappers {
-		preBuildCleanup()
 	}
 }
 
 job('contract_documentation') {
 	quietPeriod(0)
+	wrappers {
+		preBuildCleanup()
+	}
 	scm {
 		git {
 			branch('master')
@@ -109,9 +120,6 @@ job('contract_documentation') {
 	}
 	steps {
 		shell(readFileFromWorkspace('jenkins/src/main/resources/scripts/documentation_update.sh'))
-	}
-	wrappers {
-		preBuildCleanup()
 	}
 }
 
