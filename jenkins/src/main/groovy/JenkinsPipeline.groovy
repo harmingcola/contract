@@ -5,6 +5,8 @@ job('contract_build') {
 		configure { wrappers ->
 			wrappers << 'com.lookout.jenkins.EnvironmentScript' (plugin: 'environment-script@1.2.2') {
 				script 'echo CONTRACT_VERSION=$(xmlstarlet sel -N x="http://maven.apache.org/POM/4.0.0" -t -v \'/x:project/x:version\' pom.xml)'
+				scriptType 'unixScript'
+				onlyRunOnParent 'false'
 			}
 		}
 	}
