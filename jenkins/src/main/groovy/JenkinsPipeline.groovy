@@ -24,7 +24,7 @@ job('contract_merge_request') {
 			}
 		}
 	}
-	job.triggers {
+	triggers {
 		pullRequest {
 			useGitHubHooks()
 			triggerPhrase("rebuild")
