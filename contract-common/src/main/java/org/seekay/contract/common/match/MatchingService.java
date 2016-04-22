@@ -3,7 +3,7 @@ package org.seekay.contract.common.match;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.common.match.body.BodyMatcher;
+import org.seekay.contract.common.match.body.BodyMatchService;
 import org.seekay.contract.common.matchers.ExactPathMatcher;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.common.matchers.MethodMatcher;
@@ -22,15 +22,10 @@ import static org.seekay.contract.model.util.SetTools.intersectingElements;
 public class MatchingService {
   
   private ContractService contractService;
-  
   private MethodMatcher methodMatcher;
-  
   private ExactPathMatcher exactPathMatcher;
-  
   private HeaderMatcher headerMatcher;
-  
-  private BodyMatcher bodyMatcher;
-  
+  private BodyMatchService bodyMatchService;
   private ObjectMapper objectMapper;
   
   public Contract matchGetRequest(ContractRequest contractRequest) {
@@ -57,10 +52,10 @@ public class MatchingService {
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
     Contract result = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
-    if(result == null) {
-      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
-              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
-    }
+//    if(result == null) {
+//      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
+//              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+//    }
     return result;
   }
 
@@ -73,8 +68,8 @@ public class MatchingService {
   }
 
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
-    log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
-    log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
+    //log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
+    //log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
   }
   
   private Set<Contract> matchByMethod(Method method) {
@@ -90,7 +85,7 @@ public class MatchingService {
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
-    return bodyMatcher.findMatches(contractService.read(), contractRequest.getBody());
+    return bodyMatchService.findMatches(contractService.read(), contractRequest.getBody());
   }
   
   private Contract getResult(Set<Contract>... contracts) {

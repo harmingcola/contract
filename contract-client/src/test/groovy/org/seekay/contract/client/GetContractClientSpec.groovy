@@ -30,7 +30,7 @@ class GetContractClientSpec extends Specification {
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
             def e = thrown(AssertionError)
-            e.message.contains("Response and Contract status codes are expected to isMatch")
+            e.message.contains("Response and Contract status codes are expected to match")
         cleanup:
             server.stopServer()
     }
@@ -38,14 +38,14 @@ class GetContractClientSpec extends Specification {
     def "The client will throw an exception when the returned body doesn't match the expected" () {
         given:
             Contract clientContract = defaultGetContract().path("/ClientGetRequestStatusSpec/3").responseBody("I'm a text body").build()
-            Contract serverContract = defaultGetContract().path("/ClientGetRequestStatusSpec/3").responseBody("This wont isMatch").build()
+            Contract serverContract = defaultGetContract().path("/ClientGetRequestStatusSpec/3").responseBody("This wont match").build()
             ContractServer server = ContractServer.newServer().onRandomPort().startServer()
             server.addContract(serverContract)
         when:
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
             def e = thrown(AssertionError)
-            e.message.contains("Response and Contract bodies are expected to isMatch")
+            e.message.contains("Response and Contract bodies are expected to match")
         cleanup:
             server.stopServer()
     }

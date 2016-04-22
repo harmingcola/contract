@@ -1,7 +1,6 @@
 package org.seekay.contract.common.match
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.match.MatchingService
-import org.seekay.contract.common.match.body.BodyMatcher
+import org.seekay.contract.common.match.body.BodyMatchService
 import org.seekay.contract.common.matchers.ExactPathMatcher
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
@@ -22,7 +21,8 @@ class MatchingServicePutSpec extends Specification{
     MethodMatcher methodMatcher = Mock(MethodMatcher)
     ExactPathMatcher exactPathMatcher = Mock(ExactPathMatcher)
     HeaderMatcher headerMatcher = Mock(HeaderMatcher)
-    BodyMatcher bodyMatcher = Mock(BodyMatcher)
+    BodyMatchService bodyMatchService = Mock(BodyMatchService)
+
 
     static def EMPTY_SET = []
 
@@ -31,7 +31,7 @@ class MatchingServicePutSpec extends Specification{
         service.methodMatcher = methodMatcher
         service.exactPathMatcher = exactPathMatcher
         service.headerMatcher = headerMatcher
-        service.bodyMatcher = bodyMatcher
+        service.bodyMatchService = bodyMatchService
         service.objectMapper = new ObjectMapper()
 
         contractService.read() >> {[ContractTestFixtures.defaultGetContract()] as Set}
@@ -43,7 +43,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -58,7 +58,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {EMPTY_SET}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -71,7 +71,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -84,7 +84,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -97,7 +97,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -111,7 +111,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract1, contract2]}
             exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
-            bodyMatcher.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
         when:
             service.matchPutRequest(contract1.request)
         then:

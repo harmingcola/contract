@@ -1,8 +1,10 @@
 package org.seekay.contract.common
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.seekay.contract.common.assertion.AssertionService
 import org.seekay.contract.common.builder.ContractBuilder
+import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
-import org.seekay.contract.common.match.body.BodyMatcher
+import org.seekay.contract.common.match.body.BodyMatchService
 import org.seekay.contract.common.matchers.ExactPathMatcher
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
@@ -45,7 +47,7 @@ class ApplicationContextSpec extends Specification {
             matchingService.methodMatcher != null
             matchingService.exactPathMatcher != null
             matchingService.headerMatcher != null
-            matchingService.bodyMatcher != null
+            matchingService.bodyMatchService != null
             matchingService.objectMapper != null
             matchingService == ApplicationContext.matchingService()
     }
@@ -74,12 +76,31 @@ class ApplicationContextSpec extends Specification {
             headerMatcher == ApplicationContext.headerMatcher()
     }
 
-    def "a body matcher should be created" () {
+    def "a body matching service should be created" () {
         when:
-            BodyMatcher bodyMatcher = ApplicationContext.bodyMatcher()
+            BodyMatchService bodyMatchService = ApplicationContext.bodyMatchService()
         then:
-            bodyMatcher != null
-            bodyMatcher == ApplicationContext.bodyMatcher()
+            bodyMatchService != null
+            bodyMatchService == ApplicationContext.bodyMatchService()
+            !bodyMatchService.bodyMatchers.isEmpty()
+    }
+
+    def "an enricher service should be created" () {
+        when:
+            EnricherService enricherService = ApplicationContext.enricherService()
+        then:
+            enricherService != null
+            enricherService == ApplicationContext.enricherService()
+            !enricherService.enrichers.isEmpty()
+    }
+
+    def "an assertion service should be created" () {
+        when:
+            AssertionService assertionService = ApplicationContext.assertionService()
+        then:
+            assertionService != null
+            assertionService == ApplicationContext.assertionService()
+            !assertionService.asserters.isEmpty()
     }
 
     def "a context can be cleared and all singletons will be nulled" () {
@@ -91,7 +112,8 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.exactPathMatcher()
             ApplicationContext.methodMatcher()
             ApplicationContext.headerMatcher()
-            ApplicationContext.bodyMatcher()
+            ApplicationContext.bodyMatchService()
+            ApplicationContext.enricherService()
         when:
             ApplicationContext.clear()
         then:
@@ -102,6 +124,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.exactPathMatcher == null
             ApplicationContext.methodMatcher == null
             ApplicationContext.headerMatcher == null
-            ApplicationContext.bodyMatcher == null
+            ApplicationContext.bodyMatchService == null
+            ApplicationContext.enricherService == null
     }
 }

@@ -7,15 +7,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Setter
-public class BodyMatchService implements BodyMatcher {
-
-    private Set<Contract> results = new HashSet<Contract>();
+public class BodyMatchService {
 
     private Set<BodyMatcher> bodyMatchers;
 
     public Set<Contract> findMatches(Set<Contract> contracts, String actualBody) {
-        for(BodyMatcher matcher : bodyMatchers) {
-            results.addAll(matcher.findMatches(contracts, actualBody));
+        Set<Contract> results = new HashSet<Contract>();
+        for(Contract contract : contracts) {
+            if(isMatch(contract.getResponse().getBody(), actualBody)) {
+                results.add(contract);
+            }
         }
         return results;
     }
