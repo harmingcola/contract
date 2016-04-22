@@ -1,11 +1,13 @@
+def gitUrl = 'git@github.com:harmingcola/contract.git'
+def branch = 'master'
+
 job('contract_build') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch('master')
+			branch(branch)
 			remote {
-				url('https://github.com/harmingcola/contract.git')
-				credentials('seekay-jenkins-auth')
+				url(gitUrl)
 			}
 
 		}
@@ -16,7 +18,7 @@ job('contract_build') {
 	publishers {
 		buildPipelineTrigger('kvClient_acceptance'){
 			parameters {
-				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+				predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
 			}
 		}
 	}
@@ -29,10 +31,9 @@ job('kvClient_acceptance') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch('master')
+			branch(branch)
 			remote {
 				url('git@github.com:harmingcola/kvClient.git')
-				credentials('seekay-jenkins-auth')
 			}
 		}
 	}
@@ -42,7 +43,7 @@ job('kvClient_acceptance') {
 	publishers {
 		buildPipelineTrigger('kvServer_acceptance'){
 			parameters {
-				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
+				predefinedProp('CONTRACT_VERSION', '$CONTRACT_VERSION')
 			}
 		}
 	}
@@ -55,10 +56,9 @@ job('kvServer_acceptance') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch('master')
+			branch(branch)
 			remote {
 				url('git@github.com:harmingcola/kvServer.git')
-				credentials('seekay-jenkins-auth')
 			}
 		}
 	}
@@ -67,11 +67,7 @@ job('kvServer_acceptance') {
 		maven('clean install -Dcontract.version=$CONTRACT_VERSION')
 	}
 	publishers {
-		buildPipelineTrigger('contract_release'){
-			parameters {
-				predefinedProp('CONTRACT_VERSION', '$DEVELOPMENT_VERSION')
-			}
-		}
+		buildPipelineTrigger('contract_release')
 	}
 	wrappers {
 		preBuildCleanup()
@@ -82,11 +78,10 @@ job('contract_release') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch('master')
-			localBranch('master')
+			branch(branch)
+			localBranch(branch)
 			remote {
 				url('https://github.com/harmingcola/contract.git')
-				credentials('seekay-jenkins-auth')
 			}
 		}
 	}
