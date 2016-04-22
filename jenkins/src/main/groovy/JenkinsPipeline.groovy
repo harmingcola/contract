@@ -1,13 +1,10 @@
-def gitUrl = 'git@github.com:harmingcola/contract.git'
-def branch = 'master'
-
 job('contract_build') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch(branch)
+			branch('master')
 			remote {
-				url(gitUrl)
+				url('git@github.com:harmingcola/contract.git')
 			}
 
 		}
@@ -31,7 +28,7 @@ job('kvClient_acceptance') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch(branch)
+			branch('master')
 			remote {
 				url('git@github.com:harmingcola/kvClient.git')
 			}
@@ -56,7 +53,7 @@ job('kvServer_acceptance') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch(branch)
+			branch('master')
 			remote {
 				url('git@github.com:harmingcola/kvServer.git')
 			}
@@ -78,10 +75,10 @@ job('contract_release') {
 	quietPeriod(0)
 	scm {
 		git {
-			branch(branch)
-			localBranch(branch)
+			branch('master')
+			localBranch('master')
 			remote {
-				url('https://github.com/harmingcola/contract.git')
+				url('git@github.com:harmingcola/contract.git')
 			}
 		}
 	}
@@ -106,8 +103,7 @@ job('contract_documentation') {
 		git {
 			branch('master')
 			remote {
-				url('https://github.com/harmingcola/contract.git')
-				credentials('seekay-jenkins-auth')
+				url('git@github.com:harmingcola/contract.git')
 			}
 		}
 	}
