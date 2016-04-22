@@ -11,4 +11,4 @@ git checkout gh-pages
 cp "$$DOC_TEMP_DIR/*" .
 git add -A
 git commit -m "Documentation update"
-git push --set-upstream origin master
+git push 
