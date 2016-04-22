@@ -71,7 +71,9 @@ public class GitConfigurationSource implements ConfigurationSource {
     private File setupDownloadLocation() {
         File downloadLocation = new File(DOWNLOAD_LOCATION);
         deleteExistingCheckout(downloadLocation);
-        downloadLocation.mkdir();
+        if(!downloadLocation.mkdir()) {
+			throw new IllegalStateException("Problem occurred creating directory for git checkout : " + downloadLocation.getAbsolutePath());
+		}
         return downloadLocation;
     }
 

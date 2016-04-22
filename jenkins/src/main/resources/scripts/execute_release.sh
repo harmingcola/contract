@@ -16,16 +16,13 @@ echo "Release : $RELEASE_VERSION"
 echo "Next    : $NEXT_VERSION"
 
 echo "Updating versions for release"
-mvn versions:set -DnewVersion="$RELEASE_VERSION"
-find . | grep versionsBackup | xargs rm
-git add -A && git commit -m "Updating version to $RELEASE_VERSION for release"
-git push --set-upstream origin master
+mvn versions:set -DnewVersion="$RELEASE_VERSION" -DgenerateBackupPoms=false || exit 1
+git add -A && git commit -m "Updating version to $RELEASE_VERSION for release" || exit 1
+git push --set-upstream origin master || exit 1
 
-mvn deploy
-mvn nexus-staging:release
+mvn deploy || exit 1
 
 echo "Updating to $NEXT_VERSION for development"
-mvn versions:set -DnewVersion="$NEXT_VERSION"
-find . | grep versionsBackup | xargs rm
-git add -A && git commit -m "Updating version to $NEXT_VERSION"
-git push --set-upstream origin master
+mvn versions:set -DnewVersion="$NEXT_VERSION" -DgenerateBackupPoms=false || exit 1
+git add -A && git commit -m "Updating version to $NEXT_VERSION" || exit 1
+git push --set-upstream origin master || exit 1
