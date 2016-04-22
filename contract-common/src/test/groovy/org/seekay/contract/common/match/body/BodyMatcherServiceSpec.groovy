@@ -10,17 +10,25 @@ class BodyMatcherServiceSpec extends Specification {
     BodyMatcher prettyBodyMatcher = Mock(BodyMatcher)
 
     BodyMatchService service = new BodyMatchService(
-            bodyMatchers: [
-                    uglyBodyMatcher, prettyBodyMatcher
-            ] as Set
+        bodyMatchers: [
+                uglyBodyMatcher, prettyBodyMatcher
+        ] as LinkedHashSet
     )
 
-    def 'a findMatches call will be forwarded to every body matcher implementation' () {
+    def 'a findMatches call will be forwarded to every body matcher implementation, no match' () {
         when:
             service.findMatches(oneDefaultContractOfEachMethod(), "Hello World")
         then:
-            1 * uglyBodyMatcher.findMatches(_,_) >> {return []}
-            1 * prettyBodyMatcher.findMatches(_,_) >> {return []}
+            4 * uglyBodyMatcher.isMatch(_,_) >> {return false}
+            4 * prettyBodyMatcher.isMatch(_,_) >> {return false}
+    }
+
+    def 'a findMatches call will be forwarded to every body matcher implementation, match found' () {
+        when:
+            def results = service.findMatches(oneDefaultContractOfEachMethod(), "Hello World")
+        then:
+            4 * uglyBodyMatcher.isMatch(_,_) >> {return true}
+            results.size() == oneDefaultContractOfEachMethod().size()
     }
 
     def 'an isMatch call will be forwarded to every body matcher implementation and if found, return true' () {

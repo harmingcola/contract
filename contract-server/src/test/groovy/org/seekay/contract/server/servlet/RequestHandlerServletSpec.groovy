@@ -1,5 +1,6 @@
 package org.seekay.contract.server.servlet
 
+import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.model.domain.ContractRequest
 import org.seekay.contract.server.servet.RequestHandlerServlet
 import org.seekay.contract.common.match.MatchingService
@@ -22,9 +23,11 @@ class RequestHandlerServletSpec extends Specification {
     RequestHandlerServlet servlet = new RequestHandlerServlet()
 
     MatchingService matchingService = Mock(MatchingService)
+    EnricherService enricherService = Mock(EnricherService)
 
     def setup() {
         servlet.matchingService = matchingService
+        servlet.enricherService = enricherService
     }
 
     def "the init method should setup the application correctly" () {

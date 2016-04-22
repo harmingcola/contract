@@ -1,9 +1,12 @@
 package org.seekay.contract.common
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.seekay.contract.common.assertion.AssertionService
+import org.seekay.contract.common.assertion.TimestampAsserter
 import org.seekay.contract.common.builder.ContractBuilder
+import org.seekay.contract.common.enrich.EnricherService
+import org.seekay.contract.common.enrich.enrichers.TimestampEnricher
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchService
-import org.seekay.contract.common.match.body.BodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
 import org.seekay.contract.common.matchers.ExactPathMatcher
 import org.seekay.contract.common.matchers.HeaderMatcher
@@ -18,8 +21,10 @@ class ApplicationContext {
     static MatchingService matchingService
     static ExactPathMatcher exactPathMatcher
     static MethodMatcher methodMatcher
-    static BodyMatcher bodyMatcher
+    static BodyMatchService bodyMatchService
     static HeaderMatcher headerMatcher
+    static EnricherService enricherService
+    static AssertionService assertionService
 
     public static void clear() {
         contractService = null
@@ -29,7 +34,9 @@ class ApplicationContext {
         exactPathMatcher = null
         methodMatcher = null
         headerMatcher = null
-        bodyMatcher = null
+        bodyMatchService = null
+        enricherService = null
+        assertionService = null
     }
 
     public static ContractService contractService() {
@@ -58,12 +65,12 @@ class ApplicationContext {
     public static MatchingService matchingService() {
         if(matchingService == null) {
             matchingService = new MatchingService(
-                    contractService: contractService(),
-                    methodMatcher: methodMatcher(),
-                    exactPathMatcher: exactPathMatcher(),
-                    headerMatcher: headerMatcher(),
-                    bodyMatcher: bodyMatcher(),
-                    objectMapper: objectMapper()
+                contractService: contractService(),
+                methodMatcher: methodMatcher(),
+                exactPathMatcher: exactPathMatcher(),
+                headerMatcher: headerMatcher(),
+                bodyMatchService: bodyMatchService(),
+                objectMapper: objectMapper()
             )
         }
         return matchingService
@@ -90,14 +97,36 @@ class ApplicationContext {
         return headerMatcher
     }
 
-    public static BodyMatcher bodyMatcher() {
-        if(bodyMatcher == null) {
-            bodyMatcher = new BodyMatchService(
+    public static BodyMatchService bodyMatchService() {
+        if(bodyMatchService == null) {
+            bodyMatchService = new BodyMatchService(
                 bodyMatchers : [
                     new WhiteSpaceIgnoringBodyMatcher()
-                ]
+                ] as LinkedHashSet
             )
         }
-        return bodyMatcher
+        return bodyMatchService
+    }
+
+    public static EnricherService enricherService() {
+        if(enricherService == null) {
+            enricherService = new EnricherService(
+                enrichers: [
+                        new TimestampEnricher()
+                ] as LinkedHashSet
+            )
+        }
+        return enricherService
+    }
+
+    public static AssertionService assertionService() {
+        if(assertionService == null) {
+            assertionService = new AssertionService(
+                    asserters: [
+                            new TimestampAsserter()
+                    ] as LinkedHashSet
+            )
+        }
+        return assertionService
     }
 }

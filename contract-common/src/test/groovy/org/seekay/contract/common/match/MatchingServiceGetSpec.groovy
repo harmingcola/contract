@@ -1,7 +1,6 @@
 package org.seekay.contract.common.match
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.match.MatchingService
-import org.seekay.contract.common.match.body.BodyMatcher
+import org.seekay.contract.common.match.body.BodyMatchService
 import org.seekay.contract.common.matchers.ExactPathMatcher
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
@@ -23,7 +22,7 @@ class MatchingServiceGetSpec extends Specification{
     MethodMatcher methodMatcher = Mock(MethodMatcher)
     ExactPathMatcher exactPathMatcher = Mock(ExactPathMatcher)
     HeaderMatcher headerMatcher = Mock(HeaderMatcher)
-    BodyMatcher bodyMatcher = Mock(BodyMatcher)
+    BodyMatchService bodyMatchService = Mock(BodyMatchService)
 
     static def EMPTY_SET = []
 
@@ -32,7 +31,7 @@ class MatchingServiceGetSpec extends Specification{
         service.methodMatcher = methodMatcher
         service.exactPathMatcher = exactPathMatcher
         service.headerMatcher = headerMatcher
-        service.bodyMatcher = bodyMatcher
+        service.bodyMatchService = bodyMatchService
         service.objectMapper = new ObjectMapper()
 
         contractService.read() >> {[ContractTestFixtures.defaultGetContract()] as Set}

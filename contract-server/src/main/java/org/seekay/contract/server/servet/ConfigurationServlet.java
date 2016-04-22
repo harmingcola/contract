@@ -2,9 +2,9 @@ package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.common.builder.ContractBuilder;
 import org.seekay.contract.common.service.ContractService;
+import org.seekay.contract.model.domain.Contract;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import static org.seekay.contract.common.ApplicationContext.*;
+import static org.seekay.contract.model.util.PrintTools.prettyPrint;
 import static org.seekay.contract.server.util.RequestReader.from;
 import static org.seekay.contract.server.util.ResponseWriter.to;
 
@@ -51,6 +52,6 @@ public class ConfigurationServlet extends HttpServlet {
         Contract contract = contractBuilder.fromJson(contractDefinition);
         contractService.create(contract);
         to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
-        //log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
+        log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
     }
 }

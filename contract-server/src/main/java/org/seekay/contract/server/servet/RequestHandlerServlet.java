@@ -1,6 +1,7 @@
 package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.seekay.contract.common.enrich.EnricherService;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.common.ApplicationContext;
@@ -17,34 +18,38 @@ import static org.seekay.contract.server.util.ResponseWriter.to;
 
 public class RequestHandlerServlet extends HttpServlet {
 
-  public static final String NO_MATCHING_PACTS_FOUND = "No Matching Contracts Found";
-
-  private MatchingService matchingService;
+    public static final String NO_MATCHING_PACTS_FOUND = "No Matching Contracts Found";
+    private MatchingService matchingService;
+    private EnricherService enricherService;
 
 
     @Override
     public void init() throws ServletException {
         matchingService = ApplicationContext.matchingService();
+        enricherService = ApplicationContext.enricherService();
     }
 
     @Override
     protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchGetRequest(contractRequest);
+        enricherService.enrichResponseBody(contract);
         writeResponse(httpsResponse, contract);
     }
 
     @Override
     protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-      ContractRequest contractRequest = from(httpRequest).toContractRequest();
-      Contract contract = matchingService.matchPostRequest(contractRequest);
-      writeResponse(httpResponse, contract);
+        ContractRequest contractRequest = from(httpRequest).toContractRequest();
+        Contract contract = matchingService.matchPostRequest(contractRequest);
+        enricherService.enrichResponseBody(contract);
+        writeResponse(httpResponse, contract);
     }
 
     @Override
     protected void doPut(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchPutRequest(contractRequest);
+        enricherService.enrichResponseBody(contract);
         writeResponse(httpResponse, contract);
     }
 
@@ -52,11 +57,12 @@ public class RequestHandlerServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchDeleteRequest(contractRequest);
+        enricherService.enrichResponseBody(contract);
         writeResponse(httpsResponse, contract);
     }
 
     private void writeResponse(HttpServletResponse httpResponse, Contract contract) throws JsonProcessingException {
-        if(contract != null && contract.getResponse() != null) {
+        if (contract != null && contract.getResponse() != null) {
             to(httpResponse)
                     .status(contract.getResponse().getStatus())
                     .headers(contract.getResponse().getHeaders())

@@ -2,7 +2,8 @@ package org.seekay.contract.client.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.ApplicationContext;
-import org.seekay.contract.common.match.body.BodyMatcher;
+import org.seekay.contract.common.assertion.AssertionService;
+import org.seekay.contract.common.match.body.BodyMatchService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.configuration.git.GitConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
@@ -23,7 +24,8 @@ public class ContractClient {
     private String path;
 
     private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
-    private BodyMatcher bodyMatcher = ApplicationContext.bodyMatcher();
+    private BodyMatchService bodyMatchService = ApplicationContext.bodyMatchService();
+    private AssertionService assertionService = ApplicationContext.assertionService();
 
     private ContractClient() {
         contracts = new ArrayList<Contract>();
@@ -80,12 +82,13 @@ public class ContractClient {
     }
 
     private void assertBodiesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-        boolean bodiesMatch = bodyMatcher.isMatch(contractResponse.getBody(), actualResponse.getBody());
-        assertThat("Response and Contract bodies are expected to isMatch", bodiesMatch, is(true));
+        assertionService.assertOnWildCards(contractResponse, actualResponse);
+        boolean bodiesMatch = bodyMatchService.isMatch(contractResponse.getBody(), actualResponse.getBody());
+        assertThat("Response and Contract bodies are expected to match", bodiesMatch, is(true));
     }
 
     private void assertStatusCodesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-        assertThat("Response and Contract status codes are expected to isMatch", actualResponse.getStatus(), is(contractResponse.getStatus()));
+        assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(contractResponse.getStatus()));
     }
 
 }
