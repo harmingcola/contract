@@ -18,6 +18,12 @@
             <version>${project.version}</version>
         </dependency>
 
+		<dependency>
+			<groupId>org.seekay</groupId>
+			<artifactId>contract-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
     </dependencies>
 
 </project>

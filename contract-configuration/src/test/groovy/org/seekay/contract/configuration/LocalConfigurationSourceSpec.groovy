@@ -1,7 +1,5 @@
-package org.seekay.contract.configuration.local
-
+package org.seekay.contract.configuration
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.configuration.ConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
@@ -67,6 +65,7 @@ class LocalConfigurationSourceSpec extends Specification {
         when:
             source.load()
         then:
-            objectMapper.readValue(_, Contract.class) >> {throw new IOException()}
+            objectMapper.readValue(_, HashMap.class) >> {throw new IOException()}
+			thrown(IllegalStateException)
     }
 }

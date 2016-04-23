@@ -5,7 +5,7 @@ import org.seekay.contract.common.ApplicationContext;
 import org.seekay.contract.common.assertion.AssertionService;
 import org.seekay.contract.common.match.body.BodyMatchService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
-import org.seekay.contract.configuration.git.GitConfigurationSource;
+import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;

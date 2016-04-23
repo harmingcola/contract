@@ -1,6 +1,5 @@
-package org.seekay.contract.configuration.git
+package org.seekay.contract.configuration
 import org.eclipse.jgit.api.errors.CheckoutConflictException
-import org.seekay.contract.configuration.ConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
@@ -73,5 +72,14 @@ class GitConfigurationSourceSpec extends Specification {
             source.load()
         then:
             thrown(IllegalStateException)
+    }
+
+	def "contract files can be downloaded from our acceptance github repo and unmarshalled into contract objects" () {
+		given:
+			ConfigurationSource source = new GitConfigurationSource("https://github.com/harmingcola/kvServerContracts.git")
+		when:
+			source.load()
+		then:
+			noExceptionThrown()
     }
 }

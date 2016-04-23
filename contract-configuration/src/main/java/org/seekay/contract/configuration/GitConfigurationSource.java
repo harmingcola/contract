@@ -1,12 +1,10 @@
-package org.seekay.contract.configuration.git;
+package org.seekay.contract.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.seekay.contract.configuration.ConfigurationSource;
-import org.seekay.contract.configuration.local.LocalConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
 
 import java.io.File;
