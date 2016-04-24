@@ -34,4 +34,13 @@ class StringBodyJsonFileLoaderSpec extends Specification {
 			1 * objectMapper.readValue(_, Contract.class) >> {throw new IOException()}
 			thrown(IllegalStateException)
 	}
+
+	def 'the fileName should be loaded into the info block' () {
+		given:
+			StringBodyJsonFileLoader loader = new StringBodyJsonFileLoader(file)
+		when:
+			def contract = loader.load()
+		then:
+			contract.info['fileName'] == 'get-entity-1.contract.json'
+	}
 }

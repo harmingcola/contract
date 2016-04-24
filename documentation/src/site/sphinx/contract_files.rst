@@ -78,3 +78,10 @@ Wildcards are expressions that the server will fill with the appropriate data, a
         "body" : "${contract.timestamp}"
       }
     }
+
+
+Info
+----
+The info will be auto-populated by certain data when your contracts are loaded.
+    * The name of the file the contract came from
+    * A tag for every directory in the directory structure the contract was loaded from. Tags can also be added manually, they will be added to the auto-populated tags.

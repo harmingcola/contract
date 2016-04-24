@@ -42,16 +42,30 @@ public class LocalConfigurationSource implements ConfigurationSource {
             if(file.isDirectory()) {
                 loadFromDirectory(file, contracts);
             } else {
-                loadFromFile(file, contracts);
+				Contract contract = loadFromFile(file);
+				if(contract != null) {
+					buildTagsFromDirectoryStructure(contract, this.baseDirectory, file);
+					contracts.add(contract);
+				}
             }
         }
     }
 
-    protected void loadFromFile(File file, List<Contract> contracts) {
+	private void buildTagsFromDirectoryStructure(Contract contract, File directory, File file) {
+		String fileAbsolutePath = file.getAbsolutePath();
+		String fileName = file.getName();
+		String relativeLocation = fileAbsolutePath.replace(directory.getAbsolutePath(), "");
+		String directoriesOnly = relativeLocation.replace(fileName, "");
+		String[] tags = directoriesOnly.split("/");
+		contract.addTags(tags);
+	}
+
+	protected Contract loadFromFile(File file) {
         if(file.getName().endsWith(".contract.json")) {
 			log.info("Loading config file : " + file.getAbsolutePath());
-			contracts.add(contractFileLoaderFactory(file).load());
+			return contractFileLoaderFactory(file).load();
 		}
+		return null;
     }
 
 	private ContractFileLoader contractFileLoaderFactory(File file) {
@@ -72,7 +86,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
 		} else if(request.get("body") instanceof String || response.get("body") instanceof String) {
 			return new StringBodyJsonFileLoader(file);
 		} else if(request.get("body") instanceof Map || response.get("body") instanceof Map) {
-			return new JsonBodyFileLoader(contents);
+			return new JsonBodyFileLoader(contents, file);
 		}
 		else {
 			throw new IllegalStateException("Not sure how to create contract from " + contents);

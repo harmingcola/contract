@@ -20,9 +20,13 @@ public class StringBodyJsonFileLoader implements ContractFileLoader {
 
 	public Contract load() {
 		try{
-			return objectMapper.readValue(file, Contract.class);
+			Contract contract = objectMapper.readValue(file, Contract.class);
+			contract.addInfo("fileName", file.getName());
+			return contract;
 		} catch (IOException e) {
 			throw new IllegalStateException("Problem occurred unmarshalling JSON", e);
 		}
 	}
+
+
 }

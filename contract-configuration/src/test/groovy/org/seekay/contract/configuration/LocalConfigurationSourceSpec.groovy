@@ -68,4 +68,17 @@ class LocalConfigurationSourceSpec extends Specification {
             objectMapper.readValue(_, HashMap.class) >> {throw new IOException()}
 			thrown(IllegalStateException)
     }
+
+	def "tags should be generated correctly based on directory structure" () {
+		given:
+			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/")
+		when:
+			List<Contract> contracts = source.load()
+			Contract contract = first(contracts)
+			Set tags = contract.info['tags']
+		then:
+			tags.size() == 2
+			tags.contains('contracts')
+			tags.contains('crazyfolderlayout')
+	}
 }

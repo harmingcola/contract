@@ -27,12 +27,12 @@ public class TimestampAsserter implements Asserter {
 
     private Pattern buildPatternForRoughlyNow() {
         String timestamp = String.valueOf(new Date().getTime());
-        timestamp = timestamp.substring(0,10);
+        timestamp = timestamp.substring(0,9);
 
         StringBuilder builder = new StringBuilder();
         builder.append("(.*)(");
         builder.append(timestamp);
-        builder.append("([0-9]){3}");
+        builder.append("([0-9]){4}");
         builder.append(")(.*)");
 
         return Pattern.compile(builder.toString());
