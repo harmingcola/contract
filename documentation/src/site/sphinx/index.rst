@@ -16,7 +16,7 @@ The problem of testing a client server relationship
 ---------------------------------------------------
 
 Late stage integration testing of a HTTP client/server system can be a painful endeavour.
-Minor miscommunication of specification between client & server can cause systems to be incompatible.
+Minor mis-communication of specification between client & server can cause systems to be incompatible.
 
 .. figure :: images/intro-001.png
     :alt: A simple client server relationship

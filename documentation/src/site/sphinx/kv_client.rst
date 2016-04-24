@@ -67,7 +67,10 @@ Exposes a method allowing creation of a key on the KvServer. The contract and un
       },
       "response" : {
         "status" : 201,
-        "body" : "{\"key\": \"age\",\"value\": 27}"
+        "body" : {
+            "key": "age",
+            "value": 27
+        }
       }
     }
 
@@ -142,7 +145,10 @@ Exposes a method allowing updating of a key on the KvServer. The contract and un
       },
       "response" : {
         "status" : 201,
-        "body" : "{\"key\": \"age\",\"value\": 27}"
+        "body" : {
+            "key": "age",
+            "value": 27
+        }
       }
     }
 
@@ -181,7 +187,7 @@ Exposes a method allowing the deleting of a key from the KvServer. The contract 
       }
     }
 
-.. code-block:: python
+.. code-block::
 
     import org.seekay.kv.client.util.ClientBaseSpec
 
