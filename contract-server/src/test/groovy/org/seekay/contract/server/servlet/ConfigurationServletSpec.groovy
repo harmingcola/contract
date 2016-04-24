@@ -45,8 +45,9 @@ class ConfigurationServletSpec extends Specification {
         when:
             servlet.doGet(request, response)
         then:
-            response.getContentAsString().contains("""{"request":{"method":"GET","path":"/bu""")
-            response.getContentAsString().contains(""""headers":{"captain":"america"}""")
+            response.getContentAsString().contains("""method":"GET""")
+            response.getContentAsString().contains("""path":"/builder/2""")
+            response.getContentAsString().contains("""captain":"america"}""")
     }
 
     def "if no contracts have been defined and a request if received, an error message should be returned" () {
@@ -71,7 +72,7 @@ class ConfigurationServletSpec extends Specification {
             servlet.doPost(request, response)
         then:
             response.status == 201
-            response.contentAsString.startsWith("""{"request":{"method":"GET""")
+            response.contentAsString.contains("""method":"GET""")
             1 * contractBuilder.fromJson(_ as String) >> {defaultGetContract().build()}
     }
 }

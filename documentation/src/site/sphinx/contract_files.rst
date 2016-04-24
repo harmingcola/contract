@@ -9,6 +9,9 @@ Contract files model a HTTP request/response. The define the responsibilities of
 .. code-block:: javascript
 
     {
+      "info" : {
+        "details" : "The server should respond with a keyvalue pair when a valid create request is received"
+      }
       "request" : {
         "method" : "POST",
         "path" : "/kv/pair",
@@ -32,6 +35,11 @@ Contract files model a HTTP request/response. The define the responsibilities of
 
 Fields
 ------
+    * info
+        * details
+            * Used to give a description of the behaviour of the contract file
+        * *anything else*
+            * *Any other information can be put in the info block as long as it is valid JSON*
     * request
         * method
             * HTTP method to be used for and responded to for requests

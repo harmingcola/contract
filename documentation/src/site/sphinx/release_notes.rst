@@ -5,6 +5,7 @@ Release Notes
 0.0.2
 -----
 * Support for ${contract.timestamp} in response bodies
+* Added info block to contracts.
 
 0.0.1
 -----
