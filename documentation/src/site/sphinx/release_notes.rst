@@ -2,7 +2,7 @@
 Release Notes
 =============
 
-0.0.X
+0.0.2
 -----
 * Support for ${contract.timestamp} in response bodies
 

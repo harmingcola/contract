@@ -69,6 +69,7 @@ However, all a service provider need do is publish their contracts, and any clie
     contract_repository
     building
     contributing
+    release_notes
 
 
 Indices and tables
