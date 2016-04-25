@@ -10,7 +10,8 @@ Contract files model a HTTP request/response. The define the responsibilities of
 
     {
       "info" : {
-        "details" : "The server should respond with a keyvalue pair when a valid create request is received"
+        "details" : "The server should respond with a keyvalue pair when a valid create request is received",
+        "tags" : ["create", "example"]
       }
       "request" : {
         "method" : "POST",
@@ -38,6 +39,8 @@ Fields
     * info
         * details
             * Used to give a description of the behaviour of the contract file
+        * tags
+            * List of string tags referring to the contract.
         * *anything else*
             * *Any other information can be put in the info block as long as it is valid JSON*
     * request
@@ -54,6 +57,8 @@ Fields
     * response
         * status
             * The HTTP status to be returned with the response
+        * headers
+            * Headers to be included in responses. These headers must be in included in responses for the test client to accept the server response as valid.
         * body
             * The text body returned for a request and expected by the ContractClient
 
@@ -83,5 +88,5 @@ Wildcards are expressions that the server will fill with the appropriate data, a
 Info
 ----
 The info will be auto-populated by certain data when your contracts are loaded.
-    * The name of the file the contract came from
-    * A tag for every directory in the directory structure the contract was loaded from. Tags can also be added manually, they will be added to the auto-populated tags.
+    * filename : The name of the file the contract came from
+    * tags     : A tag for every directory in the directory structure the contract was loaded from. Tags can also be added manually, they will be added to the auto-populated tags.

@@ -12,7 +12,7 @@ Include our contract-server dependency in your project.
     <dependency>
         <groupId>org.seekay</groupId>
         <artifactId>contract-server</artifactId>
-        <version>0.0.1</version>
+        <version>${release.version}</version>
         <scope>test</scope>
     </dependency>
 
@@ -28,7 +28,7 @@ Include our contract-client dependency in your project.
     <dependency>
         <groupId>org.seekay</groupId>
         <artifactId>contract-client</artifactId>
-        <version>0.0.1</version>
+        <version>${release.version}</version>
         <scope>test</scope>
     </dependency>
 
