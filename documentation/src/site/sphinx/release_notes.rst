@@ -2,12 +2,14 @@
 Release Notes
 =============
 
-0.0.2
+${release.version}
 -----
 * Feature     : Support for ${contract.timestamp} in response bodies
-* Feature     : Added info block to contracts for documentation & reporting purposes.
+* Feature     : Contracts support an info block for documentation and reporting purposes
+* Feature     : Auto tagging of contracts based on directory structure.
 * Improvement : Request & response bodies can now be written in json and escaped text.
 * Bug fix     : When a contract doesn't load correctly, no error is thrown.
+
 
 0.0.1
 -----

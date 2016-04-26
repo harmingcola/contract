@@ -1,7 +1,7 @@
 Building the library from source
 ================================
 
-You'll need the follow
+You'll need the following
 
 1. Java 1.8
 2. Maven 3.3.3
