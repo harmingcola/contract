@@ -29,11 +29,8 @@ public class JsonBodyFileLoader implements ContractFileLoader {
 			Map<String, Object> request = (Map<String, Object>) contents.get("request");
 			Map<String, Object> response = (Map<String, Object>) contents.get("response");
 
-			Map<String, Object> requestBody = (Map<String, Object>) request.get("body");
-			Map<String, Object> responseBody = (Map<String, Object>) response.get("body");
-
-			String requestBodyString = objectMapper.writeValueAsString(requestBody);
-			String responseBodyString = objectMapper.writeValueAsString(responseBody);
+			String requestBodyString = objectMapper.writeValueAsString(request.get("body"));
+			String responseBodyString = objectMapper.writeValueAsString(response.get("body"));
 
 			request.put("body", requestBodyString);
 			response.put("body", responseBodyString);

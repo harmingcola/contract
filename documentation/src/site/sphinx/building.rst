@@ -5,6 +5,7 @@ You'll need the following
 
 1. Java 1.8
 2. Maven 3.3.3
+3. Groovy 2.4.5
 
 Steps
 
