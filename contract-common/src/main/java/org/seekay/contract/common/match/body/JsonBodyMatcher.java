@@ -1,7 +1,10 @@
 package org.seekay.contract.common.match.body;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+<<<<<<< HEAD
 import lombok.Setter;
+=======
+>>>>>>> Partial commit of json body matching stuff
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -10,11 +13,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+<<<<<<< HEAD
 @Setter
 @Slf4j
 public class JsonBodyMatcher implements BodyMatcher {
 
     private ObjectMapper objectMapper;
+=======
+import static org.seekay.contract.common.ApplicationContext.*;
+
+@Slf4j
+public class JsonBodyMatcher implements BodyMatcher {
+
+    private ObjectMapper objectMapper = objectMapper();
+>>>>>>> Partial commit of json body matching stuff
 
     public boolean isMatch(String contractBody, String actualBody) {
         try {
@@ -22,7 +34,12 @@ public class JsonBodyMatcher implements BodyMatcher {
             Object actualObject = objectMapper.readValue(actualBody, Object.class);
             return doObjectsMatch(contractObject, actualObject);
         } catch (IOException e) {
+<<<<<<< HEAD
             return false;
+=======
+            log.info("An error occurred reading json response");
+            return true;
+>>>>>>> Partial commit of json body matching stuff
         }
     }
 
@@ -55,6 +72,7 @@ public class JsonBodyMatcher implements BodyMatcher {
         for(Object contractObject : contractList) {
             for(Object actualObject : actualList) {
                 if(contractObject.hashCode() == actualObject.hashCode()) {
+<<<<<<< HEAD
                     matchedCount++;
                 }
             }
@@ -63,6 +81,20 @@ public class JsonBodyMatcher implements BodyMatcher {
             return true;
         }
         return false;
+=======
+                    if(!doObjectsMatch(contractObject, actualObject)) {
+                        return false;
+                    } else {
+                        matchedCount++;
+                    }
+                }
+            }
+        }
+        if(matchedCount != contractList.size()) {
+            return false;
+        }
+        return true;
+>>>>>>> Partial commit of json body matching stuff
     }
 
     private boolean doBooleansMatch(Boolean contactBoolean, Boolean actualBoolean) {
