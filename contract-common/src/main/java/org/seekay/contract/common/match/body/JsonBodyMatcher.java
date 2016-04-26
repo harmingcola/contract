@@ -1,6 +1,7 @@
 package org.seekay.contract.common.match.body;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -9,12 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.seekay.contract.common.ApplicationContext.*;
-
+@Setter
 @Slf4j
 public class JsonBodyMatcher implements BodyMatcher {
 
-    private ObjectMapper objectMapper = objectMapper();
+    private ObjectMapper objectMapper;
 
     public boolean isMatch(String contractBody, String actualBody) {
         try {
@@ -22,8 +22,7 @@ public class JsonBodyMatcher implements BodyMatcher {
             Object actualObject = objectMapper.readValue(actualBody, Object.class);
             return doObjectsMatch(contractObject, actualObject);
         } catch (IOException e) {
-            log.info("An error occurred reading json response");
-            return true;
+            return false;
         }
     }
 
@@ -56,18 +55,14 @@ public class JsonBodyMatcher implements BodyMatcher {
         for(Object contractObject : contractList) {
             for(Object actualObject : actualList) {
                 if(contractObject.hashCode() == actualObject.hashCode()) {
-                    if(!doObjectsMatch(contractObject, actualObject)) {
-                        return false;
-                    } else {
-                        matchedCount++;
-                    }
+                    matchedCount++;
                 }
             }
         }
-        if(matchedCount != contractList.size()) {
-            return false;
+        if(matchedCount == contractList.size()) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     private boolean doBooleansMatch(Boolean contactBoolean, Boolean actualBoolean) {

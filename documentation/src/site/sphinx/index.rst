@@ -17,7 +17,7 @@ The latest released version is ${release.version}
 The problem of testing a client server relationship
 ---------------------------------------------------
 
-Late stage integration testing of a HTTP client/server system can be a painful endeavour.
+Late stage integration testing of a HTTP client/server system can be a painful process.
 Minor mis-communication of specification between client & server can cause systems to be incompatible.
 
 .. figure :: images/intro-001.png
@@ -29,7 +29,7 @@ However, most testing approaches will indicate that both systems are operating c
 Its only when the two systems are actually communicating can problems arise. We need to fail earlier ......
 
 Testing during development relies on replacing the other side of the HTTP relationship with what we "think" will be in place when both systems are in place.
-This is a disconnected endeavour and relies on what we "think" to be updated manually with what our companion system requires.
+This is a disconnected endeavor and relies on what we "think" to be updated manually with what our companion system requires.
 
 .. figure :: images/intro-002.png
     :alt: Standard testing scenario, mocks in place

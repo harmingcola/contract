@@ -10,6 +10,10 @@ class JsonBodyMatcherSpec extends Specification {
     @Shared ObjectMapper objectMapper = new ObjectMapper()
     @Shared JsonBodyMatcher matcher = new JsonBodyMatcher()
 
+    def setupSpec() {
+        matcher.objectMapper = objectMapper
+    }
+
     def "a json body should match an identical json body" () {
         given:
             String contractBody = objectMapper.writeValueAsString(defaultGetContract().build())
@@ -40,6 +44,16 @@ class JsonBodyMatcherSpec extends Specification {
         given:
             def contract = ["one":"two"]
             def actual = ["one":"two", "three":"four"]
+            String contractBody = objectMapper.writeValueAsString(contract)
+            String actualBody = objectMapper.writeValueAsString(actual)
+        expect:
+            !matcher.isMatch(contractBody, actualBody);
+    }
+
+    def 'a json body where keys have the same name but different types should not match' () {
+        given:
+            def contract = ["one":"two"]
+            def actual = ["one":false]
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
@@ -94,5 +108,29 @@ class JsonBodyMatcherSpec extends Specification {
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
             matcher.isMatch(contractBody, actualBody);
+    }
+
+    def 'a json body with a list objects of different size shouldnt match' () {
+        given:
+            def contract = ["one":["two","three","four","five"]]
+            def actual = ["one":["five","four","three"]]
+            String contractBody = objectMapper.writeValueAsString(contract)
+            String actualBody = objectMapper.writeValueAsString(actual)
+        expect:
+            !matcher.isMatch(contractBody, actualBody);
+    }
+
+    def 'an error thrown parsing json should be treated as not a match' () {
+        given:
+            ObjectMapper objectMapper = Mock(ObjectMapper)
+            JsonBodyMatcher matcher = new JsonBodyMatcher(objectMapper: objectMapper)
+            def contract = ["one":["two","three","four","five"]]
+            def actual = ["one":["five","four","three"]]
+            String contractBody = objectMapper.writeValueAsString(contract)
+            String actualBody = objectMapper.writeValueAsString(actual)
+            1 * objectMapper.readValue(_, Object.class) >> {throw new IOException()}
+        expect:
+            !matcher.isMatch(contractBody, actualBody);
+
     }
 }
