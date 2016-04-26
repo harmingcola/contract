@@ -108,11 +108,7 @@ class ApplicationContext {
             bodyMatchService = new BodyMatchingService(
                 bodyMatchers : [
                     new WhiteSpaceIgnoringBodyMatcher(),
-<<<<<<< HEAD
                     new JsonBodyMatcher(objectMapper: objectMapper())
-=======
-                    new JsonBodyMatcher()
->>>>>>> Partial commit of json body matching stuff
                 ] as LinkedHashSet
             )
         }
