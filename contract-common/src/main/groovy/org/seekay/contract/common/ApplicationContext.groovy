@@ -7,6 +7,7 @@ import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.enrich.enrichers.TimestampEnricher
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchService
+import org.seekay.contract.common.match.body.JsonBodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
 import org.seekay.contract.common.matchers.ExactPathMatcher
 import org.seekay.contract.common.matchers.HeaderMatcher
@@ -101,7 +102,8 @@ class ApplicationContext {
         if(bodyMatchService == null) {
             bodyMatchService = new BodyMatchService(
                 bodyMatchers : [
-                    new WhiteSpaceIgnoringBodyMatcher()
+                    new WhiteSpaceIgnoringBodyMatcher(),
+                    new JsonBodyMatcher()
                 ] as LinkedHashSet
             )
         }

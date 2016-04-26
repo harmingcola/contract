@@ -79,6 +79,6 @@ class LocalConfigurationSourceSpec extends Specification {
 		then:
 			tags.size() == 2
 			tags.contains('contracts')
-			tags.contains('crazyfolderlayout')
+			tags.contains('simpleloadtest')
 	}
 }

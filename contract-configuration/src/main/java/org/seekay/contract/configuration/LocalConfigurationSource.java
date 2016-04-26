@@ -9,15 +9,15 @@ import org.seekay.contract.model.domain.Contract;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.seekay.contract.common.ApplicationContext.objectMapper;
 
 @Slf4j
 public class LocalConfigurationSource implements ConfigurationSource {
+
+    private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git");
+    public static final String CONTRACT_FILE_SUFFIX = ".contract.json";
 
     private File baseDirectory;
 
@@ -35,7 +35,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
     }
 
     protected void loadFromDirectory(File directory, List<Contract> contracts) {
-		if(directory.getName().equals(".git")) {
+		if(IGNORED_DIRECTORIES.contains(directory.getName())) {
 			return;
 		}
         for(File file : directory.listFiles()) { //NOSONAR
@@ -61,7 +61,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
 	}
 
 	protected Contract loadFromFile(File file) {
-        if(file.getName().endsWith(".contract.json")) {
+        if(file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
 			log.info("Loading config file : " + file.getAbsolutePath());
 			return contractFileLoaderFactory(file).load();
 		}
@@ -87,8 +87,9 @@ public class LocalConfigurationSource implements ConfigurationSource {
 			return new StringBodyJsonFileLoader(file);
 		} else if(request.get("body") instanceof Map || response.get("body") instanceof Map) {
 			return new JsonBodyFileLoader(contents, file);
-		}
-		else {
+		} else if(request.get("body") instanceof Map || response.get("body") instanceof List) {
+			return new JsonBodyFileLoader(contents, file);
+		} else {
 			throw new IllegalStateException("Not sure how to create contract from " + contents);
 		}
 	}

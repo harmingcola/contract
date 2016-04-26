@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.*;
 
 @Data
-public class Contract {
+public class Contract implements Comparable<Contract> {
 
 	private Map<String, Object> info;
 
@@ -13,7 +13,7 @@ public class Contract {
 
     private ContractResponse response;
 
-	public Set<String> getTags() {
+	public Set<String> readTags() {
 		if(info == null) {
 			info = new HashMap<String, Object>();
 		}
@@ -27,7 +27,7 @@ public class Contract {
 	}
 
 	public void addTags(String[] newTags) {
-		Set<String> tags = getTags();
+		Set<String> tags = readTags();
 		for(String newTag : newTags) {
 			if(!newTag.trim().isEmpty()) {
 				tags.add(newTag.toLowerCase());
@@ -41,5 +41,9 @@ public class Contract {
 			info = new HashMap<String, Object>();
 		}
 		info.put(key, value);
+	}
+
+	public int compareTo(Contract otherContract) {
+		return this.request.getPath().compareTo(otherContract.request.getPath());
 	}
 }

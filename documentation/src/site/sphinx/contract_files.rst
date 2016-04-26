@@ -10,7 +10,7 @@ Contract files model a HTTP request/response. The define the responsibilities of
 
     {
       "info" : {
-        "details" : "The server should respond with a keyvalue pair when a valid create request is received",
+        "details" : "The server should respond with a key value pair when a valid create request is received",
         "tags" : ["create", "example"]
       }
       "request" : {
