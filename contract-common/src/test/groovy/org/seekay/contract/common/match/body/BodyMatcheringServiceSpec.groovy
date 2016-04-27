@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.*
 
-class BodyMatcherServiceSpec extends Specification {
+class BodyMatcheringServiceSpec extends Specification {
 
     BodyMatcher uglyBodyMatcher = Mock(BodyMatcher)
     BodyMatcher prettyBodyMatcher = Mock(BodyMatcher)
