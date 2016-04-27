@@ -33,6 +33,9 @@ public class GitConfigurationSource implements ConfigurationSource {
     }
 
     public List<Contract> load() {
+        //check location exists
+        //clone if doesnt
+        //pull if does
         cloneFromGit();
         ConfigurationSource localSource = new LocalConfigurationSource(DOWNLOAD_LOCATION);
         return localSource.load();
@@ -40,17 +43,7 @@ public class GitConfigurationSource implements ConfigurationSource {
 
     private void cloneFromGit() {
         File localPath = setupDownloadLocation();
-        Git git = setupRepositoryConnection(localPath);
-        pullFromRepository(git);
-    }
-
-    private void pullFromRepository(Git git) {
-        try {
-            git.pull();
-        } finally {
-            git.getRepository().close();
-            git.close();
-        }
+        setupRepositoryConnection(localPath);
     }
 
     private Git setupRepositoryConnection(File localPath) {

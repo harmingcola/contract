@@ -55,4 +55,10 @@ public class ConfigurationServlet extends HttpServlet {
 		to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
 		log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
 	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		contractService.deleteContracts();
+		super.doDelete(req, resp);
+	}
 }
