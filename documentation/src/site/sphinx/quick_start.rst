@@ -34,4 +34,3 @@ Include our contract-client dependency in your project.
 
 See the `server facing example <http://harmingcola.github.io/contract/kv_server.html>`_ for contracts and code samples.
 
-
