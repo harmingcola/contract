@@ -74,6 +74,7 @@ class LocalConfigurationSourceSpec extends Specification {
 			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/")
 		when:
 			List<Contract> contracts = source.load()
+			contracts = contracts.sort()
 			Contract contract = first(contracts)
 			Set tags = contract.info['tags']
 		then:
