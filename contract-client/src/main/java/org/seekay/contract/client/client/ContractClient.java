@@ -7,21 +7,21 @@ import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
+import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
 import org.seekay.contract.model.tools.Http;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.seekay.contract.model.tools.SetTools.toArray;
 
 @Slf4j
-public class ContractClient {
+public class ContractClient implements ContractOperator<ContractClient> {
 
 	private List<Contract> contracts;
 	private String path;
@@ -53,42 +53,7 @@ public class ContractClient {
 	}
 
 	/**
-	 * URL of the git repo from which contracts will be loaded
-	 * @param repositoryUrl
-	 * @return
-	 */
-	public ContractClient withGitConfig(String repositoryUrl) {
-		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl);
-		contracts.addAll(source.load());
-		return this;
-	}
-
-	/**
-	 * URL of the secured git repo from which the contracts will be loaded
-	 * @param repositoryUrl
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public ContractClient withGitConfig(String repositoryUrl, String username, String password) {
-		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl, username, password);
-		contracts.addAll(source.load());
-		return this;
-	}
-
-	/**
-	 * Local directory from which contracts should be loaded
-	 * @param localSource
-	 * @return
-	 */
-	public ContractClient withLocalConfig(String localSource) {
-		LocalConfigurationSource source = new LocalConfigurationSource(localSource);
-		contracts.addAll(source.load());
-		return this;
-	}
-
-	/**
-	 * List of contracts from which tests can be run
+	 * Creates a new instance populated with supplied contracts
 	 * @param contracts
 	 * @return
 	 */
@@ -98,11 +63,65 @@ public class ContractClient {
 		return contractClient;
 	}
 
-	/**
-	 * Filters already loaded contracts. Only contracts containing at least one tag will be retained.
-	 * @param tagsToInclude
-	 * @return
-	 */
+  /**
+   * Executes all loaded contracts against the specified path.
+   */
+  public void runTests() {
+    for (Contract contract : contracts) {
+      log.info("Checking contract " + contract);
+      ContractRequest request = contract.getRequest();
+      ContractResponse response = Http.method(request.getMethod())
+          .toPath(path + request.getPath())
+          .withHeaders(request.getHeaders())
+          .withBody(request.getBody())
+          .execute()
+          .toResponse();
+      assertResponseIsValid(contract.getResponse(), response);
+    }
+  }
+
+  /**
+   * Setter for contracts
+   * @param contracts
+   */
+  public void setContracts(List<Contract> contracts) {
+    this.contracts = contracts;
+  }
+
+	public ContractClient withGitConfig(String repositoryUrl) {
+		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl);
+		contracts.addAll(source.load());
+		return this;
+	}
+
+	public ContractClient withGitConfig(String repositoryUrl, String username, String password) {
+		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl, username, password);
+		contracts.addAll(source.load());
+		return this;
+	}
+
+
+	public ContractClient withLocalConfig(String localSource) {
+		LocalConfigurationSource source = new LocalConfigurationSource(localSource);
+		contracts.addAll(source.load());
+		return this;
+	}
+
+	public void addContracts(Contract... contracts) {
+		this.contracts.addAll(asList(contracts));
+	}
+
+	public void addContract(Contract contract) {
+		this.contracts.add(contract);
+	}
+
+	public ContractClient withLocalConfig(String... configLocations) {
+		for (String localConfigLocation : configLocations) {
+			contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
+		}
+		return this;
+	}
+
 	public ContractClient onlyIncludeTags(String... tagsToInclude) {
 		Set<Contract> contractsToInclude = new HashSet<Contract>();
 		for(Contract contract : contracts) {
@@ -118,11 +137,6 @@ public class ContractClient {
 		return this;
 	}
 
-	/**
-	 * Filters already loaded contracts. Only contracts containing none of the tagsToExclude will be retained.
-	 * @param tagsToExclude
-	 * @return
-	 */
 	public ContractClient excludeTags(String... tagsToExclude) {
 		Set<Contract> contractsToExclude = new HashSet<Contract>();
 		for(Contract contract : contracts) {
@@ -138,25 +152,14 @@ public class ContractClient {
 		return this;
 	}
 
-	/**
-	 * Executes all loaded contracts against the specified path.
-	 */
-	public void runTests() {
-		for (Contract contract : contracts) {
-			log.info("Checking contract " + contract);
-			ContractRequest request = contract.getRequest();
-			ContractResponse response = Http.method(request.getMethod())
-					.toPath(path + request.getPath())
-					.withHeaders(request.getHeaders())
-					.withBody(request.getBody())
-					.execute()
-					.toResponse();
-			assertResponseIsValid(contract.getResponse(), response);
-		}
-	}
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
+	public ContractClient tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
+    if(tagsToInclude != null) {
+      onlyIncludeTags(toArray(tagsToInclude));
+    }
+    if(tagsToExclude != null) {
+      excludeTags(toArray(tagsToExclude));
+    }
+		return this;
 	}
 
 	private void assertResponseIsValid(ContractResponse contractResponse, ContractResponse actualResponse) {
@@ -179,4 +182,5 @@ public class ContractClient {
 	private void assertStatusCodesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
 		assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(contractResponse.getStatus()));
 	}
+
 }

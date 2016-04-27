@@ -6,37 +6,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import org.seekay.contract.configuration.ConfigurationSource;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
+import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.tools.Http;
 import org.seekay.contract.server.servet.ConfigurationServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.apache.catalina.startup.Tomcat.addServlet;
+import static org.seekay.contract.model.tools.SetTools.toArray;
 
 @Slf4j
-public class ContractServer {
+public class ContractServer implements ContractOperator<ContractServer> {
 
 	private Tomcat tomcat;
 
 	private Integer port;
 
-	private List<ConfigurationSource> sources;
+  private List<Contract> contracts;
 
 	private ObjectMapper objectMapper;
 
 	private ContractServer() {
-		sources = new ArrayList<ConfigurationSource>();
-		objectMapper = new ObjectMapper();
-		tomcat = new Tomcat();
+    this.contracts = new ArrayList<Contract>();
+		this.objectMapper = new ObjectMapper();
+		this.tomcat = new Tomcat();
 	}
+
+  private ContractServer(List<Contract> contracts) {
+    this.contracts = contracts;
+    this.objectMapper = new ObjectMapper();
+    this.tomcat = new Tomcat();
+  }
 
 	/**
 	 * Creates a new ContractServer
@@ -65,109 +70,132 @@ public class ContractServer {
 		return this;
 	}
 
-	/**
-	 * Loads contracts from a local directory
-	 * @param configLocations
-	 * @return
-	 */
+  /**
+   * Starts the server and populates it with loaded contracts.
+   * @return
+   */
+  public ContractServer startServer() {
+    tomcat.setPort(this.port);
+    tomcat.setBaseDir("target/tomcat/");
+    configureServer();
+    try {
+      tomcat.start();
+    } catch (LifecycleException e) {
+      throw new IllegalStateException("Problem occurred starting tomcat", e);
+    }
+    log.info("Tomcat server started on port " + this.port);
+    pushContractsToServer();
+    return this;
+  }
+
+  /**
+   * Returns the path of the current server. Useful when using the randomPort() method.
+   * @return
+   */
+  public String path() {
+    return "http://localhost:" + port;
+  }
+
+  /**
+   * Returns the config url of the server
+   * @return
+   */
+  public String configurePath() {
+    return "http://localhost:" + port + "/__configure";
+  }
+
+  /**
+   * Removes all contracts from the server.
+   */
+  public void reset() {
+    Http.delete().toPath(configurePath()).execute();
+    contracts = new ArrayList<Contract>();
+  }
+
+  /**
+   * Loads contracts from every config source. Useful when used in conjunction with reset() to blank slate the server.
+   */
+  public void pushContractsToServer() {
+    for (Contract contract : contracts) {
+      addContract(contract);
+    }
+  }
+
+  /**
+   * Creates a new instance populated with supplied contracts
+   * @param contracts
+   * @return
+   */
+  public static ContractServer fromContracts(List<Contract> contracts) {
+    return new ContractServer(contracts);
+  }
+
 	public ContractServer withLocalConfig(String... configLocations) {
 		for (String localConfigLocation : configLocations) {
-			sources.add(new LocalConfigurationSource(localConfigLocation));
+			contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
 		}
 		return this;
 	}
 
-	/**
-	 * Loads contracts from a secured git repository
-	 * @param repositoryUrl
-	 * @param username
-	 * @param password
-	 * @return
-	 */
 	public ContractServer withGitConfig(String repositoryUrl, String username, String password) {
-		sources.add(new GitConfigurationSource(repositoryUrl, username, password));
+		contracts.addAll(new GitConfigurationSource(repositoryUrl, username, password).load());
 		return this;
 	}
 
-	/**
-	 * Loads contracts from a git repository
-	 * @param repositoryUrl
-	 * @return
-	 */
 	public ContractServer withGitConfig(String repositoryUrl) {
-		sources.add(new GitConfigurationSource(repositoryUrl));
+    contracts.addAll(new GitConfigurationSource(repositoryUrl).load());
 		return this;
 	}
 
-	/**
-	 * Starts the server and populates it with loaded contracts.
-	 * @return
-	 */
-	public ContractServer startServer() {
-		tomcat.setPort(this.port);
-		tomcat.setBaseDir("target/tomcat/");
-		configureServer();
-		try {
-			tomcat.start();
-		} catch (LifecycleException e) {
-			throw new IllegalStateException("Problem occurred starting tomcat", e);
-		}
-		log.info("Tomcat server started on port " + this.port);
-		addContractsFromConfigSources();
-		return this;
-	}
 
-	/**
-	 * Returns the path of the current server. Useful when using the randomPort() method.
-	 * @return
-	 */
-	public String path() {
-		return "http://localhost:" + port;
-	}
+  public void addContract(Contract contract) {
+    Http.post().toPath(configurePath()).withBody(toJson(contract)).execute();
+  }
 
-	/**
-	 * Returns the config url of the server
-	 * @return
-	 */
-	public String configurePath() {
-		return "http://localhost:" + port + "/__configure";
-	}
+  public void addContracts(Contract... contracts) {
+    for (Contract contract : contracts) {
+      addContract(contract);
+    }
+  }
 
-	/**
-	 * Adds contracts to the server
-	 * @param contracts
-	 */
-	public void addContracts(Contract... contracts) {
-		for (Contract contract : contracts) {
-			addContract(contract);
-		}
-	}
-
-	/**
-	 * Adds a single contract to the server
-	 * @param contract
-	 */
-	public void addContract(Contract contract) {
-		Http.post().toPath(configurePath()).withBody(toJson(contract)).execute();
-	}
-
-	/**
-	 * Removes all contracts from the server.
-	 */
-	public void reset() {
-		Http.delete().toPath(configurePath()).execute();
-		sources = new ArrayList<ConfigurationSource>();
-	}
-
-	/**
-	 * Loads contracts from every config source. Useful when used in conjunction with reset() to blank slate the server.
-	 */
-	public void addContractsFromConfigSources() {
-		for (ConfigurationSource source : this.sources) {
-			for (Contract contract : source.load()) {
-				addContract(contract);
+	public ContractServer onlyIncludeTags(String... tagsToInclude) {
+		Set<Contract> contractsToInclude = new HashSet<Contract>();
+		for(Contract contract : contracts) {
+			Set<String> contractTags = contract.readTags();
+			for(String tagToInclude : tagsToInclude) {
+				if(contractTags.contains(tagToInclude)) {
+					contractsToInclude.add(contract);
+					continue;
+				}
 			}
 		}
+		contracts = new ArrayList<Contract>(contractsToInclude);
+		return this;
+	}
+
+	public ContractServer excludeTags(String... tagsToExclude) {
+		Set<Contract> contractsToExclude = new HashSet<Contract>();
+		for(Contract contract : contracts) {
+			Set<String> contractTags = contract.readTags();
+			for(String tagToInclude : tagsToExclude) {
+				if(contractTags.contains(tagToInclude)) {
+					contractsToExclude.add(contract);
+					continue;
+				}
+			}
+		}
+		contracts.removeAll(contractsToExclude);
+		return this;
+	}
+
+	public ContractServer tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
+		if(tagsToInclude != null) {
+			onlyIncludeTags(toArray(tagsToInclude));
+		}
+		if(tagsToExclude != null) {
+			excludeTags(toArray(tagsToExclude));
+		}
+		return this;
 	}
 
 	private String toJson(Contract contract) {

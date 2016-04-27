@@ -61,4 +61,66 @@ class SetToolsSpec extends Specification {
             result.size() == 1
             head(result) == 1
     }
+
+    def "a set converted to an array should have all elements"() {
+        given:
+            def set = ["zero", "one", "two", "three", "four"] as LinkedHashSet<String>
+        when:
+            def array = toArray(set)
+        then:
+            array[0] == "zero"
+            array[1] == "one"
+            array[2] == "two"
+            array[3] == "three"
+            array[4] == "four"
+    }
+
+    def "an empty set converted to an array should have no elements"() {
+        given:
+            def set = [] as LinkedHashSet<String>
+        when:
+            def array = toArray(set)
+        then:
+            array.length == 0
+    }
+
+    def "a null set converted to an array should have no elements"() {
+        given:
+            def set = null
+        when:
+            def array = toArray(set)
+        then:
+            array.length == 0
+    }
+
+    def "an array converted to a set should have all elements"() {
+        given:
+            String[] array = "zero one two three four".split()
+        when:
+            def set = SetTools.toSet(array)
+        then:
+            set.contains("zero")
+            set.contains("one")
+            set.contains("two")
+            set.contains("three")
+            set.contains("four")
+    }
+
+    def "an empty array converted to a set should have no elements"() {
+        given:
+            def array = new String[0]
+        when:
+            def set = toSet(array)
+        then:
+            set.size() == 0
+    }
+
+    def "a null array converted to a set should have no elements"() {
+        given:
+            def array = null
+        when:
+            def set = toSet(array)
+        then:
+            set.size() == 0
+    }
 }

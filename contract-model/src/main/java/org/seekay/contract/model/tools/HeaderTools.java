@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class HeaderTools {
 
+    /**
+     * Private constructor for utility class
+     */
     private HeaderTools() {
         throw new IllegalStateException("Utility classes should never be constructed");
     }

@@ -4,6 +4,10 @@ import org.apache.commons.cli.*;
 import org.seekay.contract.client.client.ContractClient;
 import org.seekay.contract.server.ContractServer;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
 
@@ -39,10 +43,10 @@ public class CommandLineInterface {
 		else if(cmd.hasOption("c")) {
 			if(cmd.hasOption("t") && cmd.hasOption("g")) {
 				if (!cmd.hasOption("u") && !cmd.hasOption("q")) {
-					startClientUnsecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"));
+					startClientUnsecuredSource(cmd);
 				}
 				else if (cmd.hasOption("t") && cmd.hasOption("g") && cmd.hasOption("u") && cmd.hasOption("q")) {
-					startClientSecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"), cmd.getOptionValue("u"), cmd.getOptionValue("q"));
+					startClientSecuredSource(cmd);
 				}
 				else {
 					footer.append("Looks like either a username or password was supplied, but not both\n");
@@ -65,12 +69,20 @@ public class CommandLineInterface {
 		}
 	}
 
-	private static void startClientSecuredSource(String target, String source, String username, String password) {
-		ContractClient.newClient().withGitConfig(source, username, password).againstPath(target).runTests();
+	private static void startClientSecuredSource(CommandLine cmd) {
+		ContractClient.newClient().withGitConfig(
+          cmd.getOptionValue('g'), cmd.getOptionValue('u'), cmd.getOptionValue('q'))
+        .againstPath(cmd.getOptionValue('t'))
+        .tags(toSet(cmd.getOptionValue('i')), toSet(cmd.getOptionValue('e')))
+        .runTests();
 	}
 
-	private static void startClientUnsecuredSource(String target, String source) {
-		ContractClient.newClient().withGitConfig(source).againstPath(target).runTests();
+  private static void startClientUnsecuredSource(CommandLine cmd) {
+    ContractClient.newClient().withGitConfig(
+          cmd.getOptionValue('g'))
+        .againstPath(cmd.getOptionValue('t'))
+        .tags(toSet(cmd.getOptionValue('i')), toSet(cmd.getOptionValue('e')))
+        .runTests();
 	}
 
 	private static void startServerSecuredSource(String port, String source, String username, String password) {
@@ -90,6 +102,11 @@ public class CommandLineInterface {
 		server.startServer();
 		waitUntilKilled();
 	}
+
+  private static Set<String> toSet(String csvTags) {
+    String[] tokens = csvTags.replaceAll(" ", "").split(",");
+    return new HashSet<String>(Arrays.asList(tokens));
+  }
 
 	private static void waitUntilKilled() {
 		while (true) try {
@@ -115,6 +132,8 @@ public class CommandLineInterface {
 		options.addOption("g", "source", true, "URL of the git repository or local location contracts should be loaded from");
 		options.addOption("u", "username", true, "Username of secured git repository, optional");
 		options.addOption("q", "password",true,"Password of secured git repository, optional");
+		options.addOption("e", "exclude-tags", true, "Comma separated list of tags to be excluded from test run");
+		options.addOption("i", "include-tags", true, "Comma separated list of tags to be included in test run");
 		options.addOption("h", "help",false,"Prints usage info");
 
 		return options;

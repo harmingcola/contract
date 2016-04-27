@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PrintTools {
 
+    /**
+     * Private constructor for utility class
+     */
     private PrintTools() {
         throw new IllegalStateException("Utility classes should never be constructed");
     }

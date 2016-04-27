@@ -247,6 +247,7 @@
                 <version>2.2.1</version>
                 <executions>
                     <execution>
+                        <phase>deploy</phase>
                         <id>attach-sources</id>
                         <goals>
                             <goal>jar-no-fork</goal>
@@ -262,6 +263,7 @@
                 <version>2.9.1</version>
                 <executions>
                     <execution>
+                        <phase>deploy</phase>
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
@@ -277,8 +279,8 @@
                 <version>1.5</version>
                 <executions>
                     <execution>
-                        <id>sign-artifacts</id>
                         <phase>deploy</phase>
+                        <id>sign-artifacts</id>
                         <goals>
                             <goal>sign</goal>
                         </goals>

@@ -4,6 +4,9 @@ import java.util.List;
 
 public class ListTools {
 
+    /**
+     * Private constructor for utility class
+     */
     private ListTools() {
         throw new IllegalStateException("Utility classes should never be constructed");
     }

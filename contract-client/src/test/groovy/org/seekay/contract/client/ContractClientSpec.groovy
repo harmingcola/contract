@@ -5,7 +5,7 @@ import org.seekay.contract.server.ClientFacingTest
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 
-class GetContractClientSpec extends ClientFacingTest {
+class ContractClientSpec extends ClientFacingTest {
 
     def "The client will assert the correct response on a get request" () {
         given:
@@ -42,7 +42,7 @@ class GetContractClientSpec extends ClientFacingTest {
     def "a server and client configured from identical sources should operate correctly" () {
         given:
             server.withGitConfig("https://bitbucket.org/harmingcola/contract-test-public")
-                .addContractsFromConfigSources()
+                .pushContractsToServer()
         when:
             ContractClient.newClient()
                 .withGitConfig("https://bitbucket.org/harmingcola/contract-test-public")
@@ -105,4 +105,52 @@ class GetContractClientSpec extends ClientFacingTest {
 		then:
 			contractClient.contracts.size() == 2
 	}
+
+    def "a client should be able to both include and exclude features with one call" () {
+        given:
+            def contracts = [
+                defaultGetContract().tags("one", "delete").build(),
+                defaultGetContract().tags("two", "delete").build(),
+                defaultGetContract().tags("three", "delete").build(),
+                defaultGetContract().tags("four", "get").build()
+            ]
+            def contractClient = ContractClient.fromContracts(contracts)
+        when:
+            contractClient.tags(["delete"] as Set, ["one", "three"] as Set)
+        then:
+            contractClient.contracts.size() == 1
+    }
+
+    def "Multiple contracts should be addable with a single call" () {
+        given:
+            ContractClient contractClient = ContractClient.newClient()
+        when:
+            contractClient.addContracts(
+                    defaultGetContract().build(),
+                    defaultGetContract().build()
+            )
+        then:
+            contractClient.contracts.size() == 2
+    }
+
+    def "Single contracts should be addable with a single call" () {
+        given:
+            ContractClient contractClient = ContractClient.newClient()
+        when:
+            contractClient.addContract(defaultGetContract().build())
+        then:
+            contractClient.contracts.size() == 1
+    }
+
+    def "a client can be configured with multiple local configurations" () {
+        given:
+            ContractClient contractClient = ContractClient.newClient()
+        when:
+            contractClient.withLocalConfig(
+                    "src/test/resources/contracts",
+                    "src/test/resources/contracts"
+            )
+        then:
+            contractClient.contracts.size() == 2
+    }
 }
