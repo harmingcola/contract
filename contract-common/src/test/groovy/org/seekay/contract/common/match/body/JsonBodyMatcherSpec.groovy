@@ -122,15 +122,14 @@ class JsonBodyMatcherSpec extends Specification {
 
     def 'an error thrown parsing json should be treated as not a match' () {
         given:
-            ObjectMapper objectMapper = Mock(ObjectMapper)
-            JsonBodyMatcher matcher = new JsonBodyMatcher(objectMapper: objectMapper)
+            ObjectMapper mockObjectMapper = Mock(ObjectMapper)
+            JsonBodyMatcher matcher = new JsonBodyMatcher(objectMapper: mockObjectMapper)
             def contract = ["one":["two","three","four","five"]]
             def actual = ["one":["five","four","three"]]
-            String contractBody = objectMapper.writeValueAsString(contract)
-            String actualBody = objectMapper.writeValueAsString(actual)
-            1 * objectMapper.readValue(_, Object.class) >> {throw new IOException()}
+            String contractBody = this.objectMapper.writeValueAsString(contract)
+            String actualBody = this.objectMapper.writeValueAsString(actual)
+            1 * mockObjectMapper.readValue(_, Object.class) >> {throw new IOException()}
         expect:
             !matcher.isMatch(contractBody, actualBody);
-
     }
 }

@@ -7,6 +7,8 @@ Its treated like a project that is a user of our code that wants to use every po
 Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
 
+Our test examples are written in Spock. Our methods are test framework agnostic.
+
 Maven dependency
 ----------------
 

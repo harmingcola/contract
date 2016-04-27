@@ -1,12 +1,13 @@
 package org.seekay.contract.server.util;
 
 import com.google.common.io.CharStreams;
-import org.seekay.contract.model.domain.Method;
 import org.seekay.contract.model.domain.ContractRequest;
-import org.seekay.contract.model.util.HeaderTools;
+import org.seekay.contract.model.domain.Method;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static org.seekay.contract.model.util.HeaderTools.extractHeaders;
 
 public class RequestReader {
 
@@ -33,9 +34,18 @@ public class RequestReader {
     public ContractRequest toContractRequest() {
         ContractRequest contractRequest = new ContractRequest();
         contractRequest.setMethod(Method.valueOf(request.getMethod()));
-        contractRequest.setPath(request.getPathInfo());
-        contractRequest.setHeaders(HeaderTools.extractHeaders(request));
+        contractRequest.setPath(buildPath(request));
+        contractRequest.setHeaders(extractHeaders(request));
 		    contractRequest.setBody(readBody());
         return contractRequest;
+    }
+
+    private String buildPath(HttpServletRequest request) {
+        StringBuilder builder = new StringBuilder(request.getPathInfo());
+        if(request.getQueryString() != null) {
+            builder.append("?");
+            builder.append(request.getQueryString());
+        }
+        return builder.toString();
     }
 }

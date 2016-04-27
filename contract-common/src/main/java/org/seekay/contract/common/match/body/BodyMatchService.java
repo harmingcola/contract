@@ -22,6 +22,14 @@ public class BodyMatchService {
     }
 
     public boolean isMatch(String contractBody, String actualBody) {
+        if(bothAreNull(contractBody, actualBody)) {
+            return true;
+        } else if(contractIsNullResponseIsEmpty(contractBody, actualBody)) {
+            return true;
+        }else if(eitherAreNull(contractBody, actualBody)) {
+            return false;
+        }
+
         for(BodyMatcher matcher : bodyMatchers) {
             boolean matchFound = matcher.isMatch(contractBody, actualBody);
             if(matchFound) {
@@ -29,5 +37,23 @@ public class BodyMatchService {
             }
         }
         return false;
+    }
+
+    private boolean contractIsNullResponseIsEmpty(String contractBody, String actualBody) {
+        return contractBody == null && actualBody.trim().isEmpty();
+    }
+
+    private boolean eitherAreNull(String contractBody, String actualBody) {
+        if(contractBody == null && actualBody != null) {
+            return true;
+        }
+        if(contractBody != null && actualBody == null) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean bothAreNull(String contractBody, String actualBody) {
+        return contractBody == null && actualBody == null;
     }
 }
