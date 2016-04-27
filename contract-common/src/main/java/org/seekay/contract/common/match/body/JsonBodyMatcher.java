@@ -15,7 +15,6 @@ import java.util.Set;
 public class JsonBodyMatcher implements BodyMatcher {
 
     private ObjectMapper objectMapper;
-
     public boolean isMatch(String contractBody, String actualBody) {
         try {
             Object contractObject = objectMapper.readValue(contractBody, Object.class);

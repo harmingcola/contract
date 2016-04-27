@@ -16,4 +16,8 @@ public class ContractService {
     public Set<Contract> read() {
         return contracts;
     }
+
+    public void deleteContracts() {
+        contracts = new HashSet<Contract>();
+    }
 }

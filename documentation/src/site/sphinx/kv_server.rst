@@ -7,6 +7,8 @@ It is treated as a project that is a user of our code and wants to use every pos
 Its contracts are held separately in the `kvServerContracts repository <https://github.com/harmingcola/kvServerContracts>`_ in order
 to share them with kvClient project.
 
+Our test examples are written in Spock. Our methods are test framework agnostic.
+
 Maven dependency
 ----------------
 
@@ -56,11 +58,17 @@ The following urls are accessible on the server.
         "headers": {
           "Content-Type" : "application/json"
         },
-        "body": "{\"key\": \"age\",\"value\": 27}"
+        "body": {
+          "key": "age",
+          "value": 27
+        }
       },
       "response" : {
         "status" : 201,
-        "body" : "{\"key\": \"age\",\"value\": 27}"
+        "body" : {
+          "key": "age",
+          "value": 27
+        }
       }
     }
 
@@ -81,7 +89,10 @@ The following urls are accessible on the server.
       },
       "response" : {
         "status" : 200,
-        "body" : "{\"key\": \"weight\",\"value\": \"220\"}"
+        "body" : {
+          "key": "weight",
+          "value": "220"
+        }
       }
     }
 
@@ -105,11 +116,17 @@ The following urls are accessible on the server.
         "headers": {
           "Content-Type" : "application/json"
         },
-        "body": "{\"key\": \"age\",\"value\": 27}"
+        "body": {
+          "key": "age",
+          "value": 27
+        }
       },
       "response" : {
         "status" : 201,
-        "body" : "{\"key\": \"age\",\"value\": 27}"
+        "body" : {
+          "key": "age",
+          "value": 27
+        }
       }
     }
 

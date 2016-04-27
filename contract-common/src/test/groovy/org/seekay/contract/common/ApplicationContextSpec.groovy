@@ -4,8 +4,8 @@ import org.seekay.contract.common.assertion.AssertionService
 import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
-import org.seekay.contract.common.match.body.BodyMatchService
-import org.seekay.contract.common.matchers.ExactPathMatcher
+import org.seekay.contract.common.match.body.BodyMatchingService
+import org.seekay.contract.common.match.path.PathMatchingService
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
@@ -45,19 +45,19 @@ class ApplicationContextSpec extends Specification {
             matchingService != null
             matchingService.contractService != null
             matchingService.methodMatcher != null
-            matchingService.exactPathMatcher != null
+            matchingService.pathMatchingService != null
             matchingService.headerMatcher != null
-            matchingService.bodyMatchService != null
+            matchingService.bodyMatchingService != null
             matchingService.objectMapper != null
             matchingService == ApplicationContext.matchingService()
     }
 
     def "a single exact path matcher should be created" () {
         when:
-            ExactPathMatcher exactPathMatcher = ApplicationContext.exactPathMatcher()
+            PathMatchingService pathMatchingService = ApplicationContext.pathMatchService()
         then:
-            exactPathMatcher != null
-            exactPathMatcher == ApplicationContext.exactPathMatcher()
+            pathMatchingService != null
+            pathMatchingService == ApplicationContext.pathMatchService()
     }
 
     def "a single method matcher should be created" () {
@@ -78,10 +78,10 @@ class ApplicationContextSpec extends Specification {
 
     def "a body matching service should be created" () {
         when:
-            BodyMatchService bodyMatchService = ApplicationContext.bodyMatchService()
+            BodyMatchingService bodyMatchService = ApplicationContext.bodyMatchingService()
         then:
             bodyMatchService != null
-            bodyMatchService == ApplicationContext.bodyMatchService()
+            bodyMatchService == ApplicationContext.bodyMatchingService()
             !bodyMatchService.bodyMatchers.isEmpty()
     }
 
@@ -109,10 +109,10 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.objectMapper()
             ApplicationContext.contractBuilder()
             ApplicationContext.matchingService()
-            ApplicationContext.exactPathMatcher()
+            ApplicationContext.pathMatchService()
             ApplicationContext.methodMatcher()
             ApplicationContext.headerMatcher()
-            ApplicationContext.bodyMatchService()
+            ApplicationContext.bodyMatchingService()
             ApplicationContext.enricherService()
         when:
             ApplicationContext.clear()
@@ -121,7 +121,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.objectMapper == null
             ApplicationContext.contractBuilder == null
             ApplicationContext.matchingService == null
-            ApplicationContext.exactPathMatcher == null
+            ApplicationContext.pathMatchingService == null
             ApplicationContext.methodMatcher == null
             ApplicationContext.headerMatcher == null
             ApplicationContext.bodyMatchService == null

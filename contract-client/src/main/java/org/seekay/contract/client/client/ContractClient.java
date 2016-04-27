@@ -3,7 +3,7 @@ package org.seekay.contract.client.client;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.ApplicationContext;
 import org.seekay.contract.common.assertion.AssertionService;
-import org.seekay.contract.common.match.body.BodyMatchService;
+import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
@@ -24,7 +24,7 @@ public class ContractClient {
     private String path;
 
     private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
-    private BodyMatchService bodyMatchService = ApplicationContext.bodyMatchService();
+    private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
     private AssertionService assertionService = ApplicationContext.assertionService();
 
     private ContractClient() {
@@ -83,7 +83,7 @@ public class ContractClient {
 
     private void assertBodiesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
         assertionService.assertOnWildCards(contractResponse, actualResponse);
-        boolean bodiesMatch = bodyMatchService.isMatch(contractResponse.getBody(), actualResponse.getBody());
+        boolean bodiesMatch = bodyMatchingService.isMatch(contractResponse.getBody(), actualResponse.getBody());
         assertThat("Response and Contract bodies are expected to match", bodiesMatch, is(true));
     }
 

@@ -6,10 +6,11 @@ import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.enrich.enrichers.TimestampEnricher
 import org.seekay.contract.common.match.MatchingService
-import org.seekay.contract.common.match.body.BodyMatchService
+import org.seekay.contract.common.match.body.BodyMatchingService
 import org.seekay.contract.common.match.body.JsonBodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
-import org.seekay.contract.common.matchers.ExactPathMatcher
+import org.seekay.contract.common.match.path.ExactPathMatcher
+import org.seekay.contract.common.match.path.PathMatchingService
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
@@ -20,9 +21,9 @@ class ApplicationContext {
     static ObjectMapper objectMapper
     static ContractBuilder contractBuilder
     static MatchingService matchingService
-    static ExactPathMatcher exactPathMatcher
+    static PathMatchingService pathMatchingService
     static MethodMatcher methodMatcher
-    static BodyMatchService bodyMatchService
+    static BodyMatchingService bodyMatchService
     static HeaderMatcher headerMatcher
     static EnricherService enricherService
     static AssertionService assertionService
@@ -32,7 +33,7 @@ class ApplicationContext {
         objectMapper = null
         contractBuilder = null
         matchingService = null
-        exactPathMatcher = null
+        pathMatchingService = null
         methodMatcher = null
         headerMatcher = null
         bodyMatchService = null
@@ -68,20 +69,24 @@ class ApplicationContext {
             matchingService = new MatchingService(
                 contractService: contractService(),
                 methodMatcher: methodMatcher(),
-                exactPathMatcher: exactPathMatcher(),
+                pathMatchingService: pathMatchService(),
                 headerMatcher: headerMatcher(),
-                bodyMatchService: bodyMatchService(),
+                bodyMatchingService: bodyMatchingService(),
                 objectMapper: objectMapper()
             )
         }
         return matchingService
     }
 
-    public static ExactPathMatcher exactPathMatcher() {
-        if(exactPathMatcher == null) {
-            exactPathMatcher = new ExactPathMatcher()
+    public static PathMatchingService pathMatchService() {
+        if(pathMatchingService == null) {
+            pathMatchingService = new PathMatchingService(
+                pathMatchers: [
+                    new ExactPathMatcher()
+                ] as LinkedHashSet
+            )
         }
-        return exactPathMatcher
+        return pathMatchingService
     }
 
     public static MethodMatcher methodMatcher() {
@@ -98,9 +103,9 @@ class ApplicationContext {
         return headerMatcher
     }
 
-    public static BodyMatchService bodyMatchService() {
+    public static BodyMatchingService bodyMatchingService() {
         if(bodyMatchService == null) {
-            bodyMatchService = new BodyMatchService(
+            bodyMatchService = new BodyMatchingService(
                 bodyMatchers : [
                     new WhiteSpaceIgnoringBodyMatcher(),
                     new JsonBodyMatcher(objectMapper: objectMapper())
