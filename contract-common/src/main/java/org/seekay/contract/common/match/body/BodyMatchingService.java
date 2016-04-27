@@ -30,8 +30,8 @@ public class BodyMatchingService {
             return false;
         }
 
-        for(BodyMatcher matcher : bodyMatchers) {
-            boolean matchFound = matcher.isMatch(contractBody, actualBody);
+        for(BodyMatcher bodyMatcher : bodyMatchers) {
+            boolean matchFound = bodyMatcher.isMatch(contractBody, actualBody);
             if(matchFound) {
                 return true;
             }

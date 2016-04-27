@@ -1,5 +1,5 @@
-package org.seekay.contract.common.matchers
-import org.seekay.contract.common.match.path.ExactPathMatcher
+package org.seekay.contract.common.match.path
+
 import spock.lang.Shared
 import spock.lang.Specification
 

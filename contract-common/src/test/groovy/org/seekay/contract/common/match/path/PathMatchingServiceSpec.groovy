@@ -15,7 +15,7 @@ class PathMatchingServiceSpec extends Specification {
         ] as LinkedHashSet
     )
 
-    def "for two paths, the matchers should be called"() {
+    def "for two paths, the matchers should be called, result found"() {
         given:
             def contracts = [defaultPostContract().path('/index').build()] as Set
         when:
@@ -24,5 +24,16 @@ class PathMatchingServiceSpec extends Specification {
             1 * uglyPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * prettyPathMatcher.isMatch(_ as String, _ as String) >> { return true }
             matches.size() == 1
+    }
+
+    def "for two paths, the matchers should be called, no result found"() {
+        given:
+            def contracts = [defaultPostContract().path('/index').build()] as Set
+        when:
+            def matches = service.findMatches(contracts, "/index")
+        then:
+            1 * uglyPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * prettyPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            matches.size() == 0
     }
 }

@@ -7,19 +7,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Setter
-public class PathMatchingService {
+public class PathMatchingService implements PathMatcher {
 
   private Set<PathMatcher> pathMatchers;
 
   public Set<Contract> findMatches(Set<Contract> contracts, final String path) {
     Set<Contract> results = new HashSet<Contract>();
-    for (Contract contract : contracts) {
-      for (PathMatcher pathMatcher : pathMatchers) {
-        if(pathMatcher.isMatch(contract.getRequest().getPath(), path)) {
-          results.add(contract);
-        }
+    for(Contract contract : contracts) {
+      if(isMatch(contract.getRequest().getPath(), path)) {
+        results.add(contract);
       }
     }
     return results;
+  }
+
+  public boolean isMatch(String contractPath, String actualPath) {
+    for(PathMatcher pathMatcher : pathMatchers) {
+      boolean matchFound = pathMatcher.isMatch(contractPath, actualPath);
+      if(matchFound) {
+        return true;
+      }
+    }
+    return false;
   }
 }
