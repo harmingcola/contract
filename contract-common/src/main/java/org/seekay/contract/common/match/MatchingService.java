@@ -3,8 +3,8 @@ package org.seekay.contract.common.match;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.common.match.body.BodyMatchService;
-import org.seekay.contract.common.matchers.ExactPathMatcher;
+import org.seekay.contract.common.match.body.BodyMatchingService;
+import org.seekay.contract.common.match.path.PathMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.common.matchers.MethodMatcher;
 import org.seekay.contract.common.service.ContractService;
@@ -23,9 +23,9 @@ public class MatchingService {
   
   private ContractService contractService;
   private MethodMatcher methodMatcher;
-  private ExactPathMatcher exactPathMatcher;
+  private PathMatchingService pathMatchingService;
   private HeaderMatcher headerMatcher;
-  private BodyMatchService bodyMatchService;
+  private BodyMatchingService bodyMatchingService;
   private ObjectMapper objectMapper;
   
   public Contract matchGetRequest(ContractRequest contractRequest) {
@@ -77,7 +77,7 @@ public class MatchingService {
   }
   
   private Set<Contract> matchByPath(ContractRequest contractRequest) {
-    return exactPathMatcher.match(contractService.read(), contractRequest.getPath());
+    return pathMatchingService.findMatches(contractService.read(), contractRequest.getPath());
   }
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
@@ -85,7 +85,7 @@ public class MatchingService {
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
-    return bodyMatchService.findMatches(contractService.read(), contractRequest.getBody());
+    return bodyMatchingService.findMatches(contractService.read(), contractRequest.getBody());
   }
   
   private Contract getResult(Set<Contract>... contracts) {

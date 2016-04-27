@@ -10,7 +10,7 @@ class BodyMatcherServiceSpec extends Specification {
     BodyMatcher uglyBodyMatcher = Mock(BodyMatcher)
     BodyMatcher prettyBodyMatcher = Mock(BodyMatcher)
 
-    BodyMatchService service = new BodyMatchService(
+    BodyMatchingService service = new BodyMatchingService(
             bodyMatchers: [
                     uglyBodyMatcher, prettyBodyMatcher
             ] as LinkedHashSet

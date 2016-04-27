@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Setter
-public class BodyMatchService {
+public class BodyMatchingService {
 
     private Set<BodyMatcher> bodyMatchers;
 

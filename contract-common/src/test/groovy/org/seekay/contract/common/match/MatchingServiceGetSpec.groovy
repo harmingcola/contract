@@ -1,7 +1,7 @@
 package org.seekay.contract.common.match
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.match.body.BodyMatchService
-import org.seekay.contract.common.matchers.ExactPathMatcher
+import org.seekay.contract.common.match.body.BodyMatchingService
+import org.seekay.contract.common.match.path.PathMatchingService
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
@@ -20,18 +20,18 @@ class MatchingServiceGetSpec extends Specification{
 
     ContractService contractService = Mock(ContractService)
     MethodMatcher methodMatcher = Mock(MethodMatcher)
-    ExactPathMatcher exactPathMatcher = Mock(ExactPathMatcher)
+    PathMatchingService pathMatchingService = Mock(PathMatchingService)
     HeaderMatcher headerMatcher = Mock(HeaderMatcher)
-    BodyMatchService bodyMatchService = Mock(BodyMatchService)
+    BodyMatchingService bodyMatchService = Mock(BodyMatchingService)
 
     static def EMPTY_SET = []
 
     def setup() {
         service.contractService = contractService
         service.methodMatcher = methodMatcher
-        service.exactPathMatcher = exactPathMatcher
+        service.pathMatchingService = pathMatchingService
         service.headerMatcher = headerMatcher
-        service.bodyMatchService = bodyMatchService
+        service.bodyMatchingService = bodyMatchService
         service.objectMapper = new ObjectMapper()
 
         contractService.read() >> {[ContractTestFixtures.defaultGetContract()] as Set}
@@ -41,7 +41,7 @@ class MatchingServiceGetSpec extends Specification{
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
             methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
-            exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
+            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
@@ -55,7 +55,7 @@ class MatchingServiceGetSpec extends Specification{
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
             methodMatcher.findMatches(_ as Set<Contract>, GET) >> {EMPTY_SET}
-            exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
+            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
@@ -67,7 +67,7 @@ class MatchingServiceGetSpec extends Specification{
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
             methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
-            exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
+            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
@@ -79,7 +79,7 @@ class MatchingServiceGetSpec extends Specification{
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()
             methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
-            exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract]}
+            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
         when:
             Contract matchedContract = service.matchGetRequest(contract.request)
@@ -92,7 +92,7 @@ class MatchingServiceGetSpec extends Specification{
             Contract contract1 = ContractTestFixtures.defaultPostContract().build()
             Contract contract2 = ContractTestFixtures.defaultGetContract().build()
             methodMatcher.findMatches(_ as Set<Contract>, POST) >> {[contract1, contract2]}
-            exactPathMatcher.match(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
+            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
         when:
             service.matchGetRequest(contract1.request)
