@@ -53,7 +53,7 @@ Fields
         * body
             * The text body expected for a request and sent by the ContractClient.
             * The body can either be specified as a json object representing the body or as a string containing json.
-            * Any JSON in the body must have double quotes escaped.
+            * Any JSON in a string body must have double quotes escaped.
     * response
         * status
             * The HTTP status to be returned with the response
@@ -80,7 +80,10 @@ Wildcards are expressions that the server will fill with the appropriate data, a
       },
       "response" : {
         "status" : 200,
-        "body" : "${contract.timestamp}"
+        "body" : {
+          "key": "time",
+          "value": "${contract.timestamp}"
+        }
       }
     }
 

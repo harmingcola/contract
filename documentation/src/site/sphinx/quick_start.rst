@@ -2,8 +2,8 @@
 Quick Start
 ===========
 
-I want to test a client
------------------------
+I want to test a client using Java and Maven
+--------------------------------------------
 
 Include our contract-server dependency in your project.
 
@@ -18,8 +18,8 @@ Include our contract-server dependency in your project.
 
 See the `client facing example <http://harmingcola.github.io/contract/kv_client.html>`_ for contracts and code samples.
 
-I want to test a server
------------------------
+I want to test a server using Java and Maven
+--------------------------------------------
 
 Include our contract-client dependency in your project.
 

@@ -65,13 +65,16 @@ Exposes a method allowing creation of a key on the KvServer. The contract and un
         "headers": {
           "Content-Type" : "application/json"
         },
-        "body": "{\"key\": \"age\",\"value\": 27}"
+        "body": "{
+          "key": "age",
+          "value": 27
+        }
       },
       "response" : {
         "status" : 201,
         "body" : {
-            "key": "age",
-            "value": 27
+          "key": "age",
+          "value": 27
         }
       }
     }
@@ -108,7 +111,10 @@ Exposes a method allowing the reading of a key from the KvServer. The contract a
       },
       "response" : {
         "status" : 200,
-        "body" : "{\"key\": \"weight\",\"value\": \"220\"}"
+        "body" : {
+          "key": "weight",
+          "value": "220"
+        }
       }
     }
 
@@ -143,7 +149,10 @@ Exposes a method allowing updating of a key on the KvServer. The contract and un
         "headers": {
           "Content-Type" : "application/json"
         },
-        "body": "{\"key\": \"age\",\"value\": 27}"
+        "body": "{
+            "key": "age",
+            "value": 27
+        }
       },
       "response" : {
         "status" : 201,
