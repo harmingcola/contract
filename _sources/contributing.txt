@@ -20,7 +20,7 @@ Merge Requests
 3. Push to a branch in your forked repo with a name that roughly explains what you're implementing
 4. Update docs where necessary.
 5. Create a pull request into the master branch on our repo
-6. If it looks good we'll accept.
+6. If it passes our build process and analysis we'll accept.
 
 
 Our Design Considerations / Conventions / Quirks
@@ -29,3 +29,4 @@ Our Design Considerations / Conventions / Quirks
 2. Unit tests are written in `Spock <http://spockframework.github.io/spock/docs/1.0/index.html>`_
 3. Documentation written in `Sphinx <http://www.sphinx-doc.org/en/stable/>`_
 4. We lean towards an expressive and clean code style, if you've ever read Clean Code by Bob Martin, that is what we aspire to.
+5. Any added features must be tested via the kvClient & kvServer applications.

@@ -95,6 +95,8 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -145,13 +147,14 @@
 It is treated as a project that is a user of our code and wants to use every possible feature.</p>
 <p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvServerContracts">kvServerContracts repository</a> in order
 to share them with kvClient project.</p>
+<p>Our test examples are written in Spock. Our methods are test framework agnostic.</p>
 <div class="section" id="maven-dependency">
 <h2>Maven dependency<a class="headerlink" href="#maven-dependency" title="Permalink to this headline">¶</a></h2>
 <p>To test the server, we require our contract client.</p>
 <div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>contract-client<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
@@ -203,11 +206,17 @@ to share them with kvClient project.</p>
     <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
       <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
     <span class="p">},</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -240,7 +249,10 @@ to share them with kvClient project.</p>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;weight\&quot;,\&quot;value\&quot;: \&quot;220\&quot;}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;220&quot;</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -283,11 +295,17 @@ to share them with kvClient project.</p>
     <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
       <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
     <span class="p">},</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

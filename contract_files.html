@@ -83,12 +83,19 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contract Files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contract Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wildcards">Wildcards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#info">Info</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -140,24 +147,66 @@
 <li>Contract files written in JSON must end in <strong>.contract.json</strong></li>
 </ul>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;info&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;details&quot;</span> <span class="o">:</span> <span class="s2">&quot;The server should respond with a key value pair when a valid create request is received&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tags&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">,</span> <span class="s2">&quot;example&quot;</span><span class="p">]</span>
+  <span class="p">}</span>
   <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
     <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
     <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
       <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
     <span class="p">},</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="mi">27</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>Fields</dt>
+<div class="section" id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>info</dt>
 <dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>details</dt>
+<dd><ul class="first last simple">
+<li>Used to give a description of the behaviour of the contract file</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>tags</dt>
+<dd><ul class="first last simple">
+<li>List of string tags referring to the contract.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>anything else</em></dt>
+<dd><ul class="first last simple">
+<li><em>Any other information can be put in the info block as long as it is valid JSON</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
 <li><dl class="first docutils">
 <dt>request</dt>
 <dd><ul class="first last">
@@ -188,7 +237,9 @@
 <li><dl class="first docutils">
 <dt>body</dt>
 <dd><ul class="first last simple">
-<li>The text body expected for a request and sent by the ContractClient. Any JSON in the body must have double quotes escaped.</li>
+<li>The text body expected for a request and sent by the ContractClient.</li>
+<li>The body can either be specified as a json object representing the body or as a string containing json.</li>
+<li>Any JSON in a string body must have double quotes escaped.</li>
 </ul>
 </dd>
 </dl>
@@ -209,6 +260,14 @@
 </dl>
 </li>
 <li><dl class="first docutils">
+<dt>headers</dt>
+<dd><ul class="first last simple">
+<li>Headers to be included in responses. These headers must be in included in responses for the test client to accept the server response as valid.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt>body</dt>
 <dd><ul class="first last simple">
 <li>The text body returned for a request and expected by the ContractClient</li>
@@ -221,8 +280,51 @@
 </dl>
 </li>
 </ul>
+</div></blockquote>
+</div>
+<div class="section" id="wildcards">
+<h2>Wildcards<a class="headerlink" href="#wildcards" title="Permalink to this headline">¶</a></h2>
+<p>Wildcards are expressions that the server will fill with the appropriate data, and the client will recognise when given in a response.</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>${contract.timestamp}</dt>
+<dd><ul class="first last simple">
+<li>Will be replaced / recognised as the current time in nano seconds. The contract-client will give allow for 1 millisecond on either side of the timestamp.</li>
+<li>Currently only supported in response.body</li>
+</ul>
 </dd>
 </dl>
+</li>
+</ul>
+</div></blockquote>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/service/times&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;${contract.timestamp}&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="info">
+<h2>Info<a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The info will be auto-populated by certain data when your contracts are loaded.</dt>
+<dd><ul class="first last simple">
+<li>filename : The name of the file the contract came from</li>
+<li>tags     : A tag for every directory in the directory structure the contract was loaded from. Tags can also be added manually, they will be added to the auto-populated tags.</li>
+</ul>
+</dd>
+</dl>
+</div>
 </div>
 
 

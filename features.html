@@ -93,6 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -141,13 +143,17 @@
 <h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li>Json DSL for specifying client / server interaction.</li>
+<li>DSL supports both json objects and text for specifying bodies.</li>
 <li>Share contracts via GIT or local storage.</li>
+<li>Auto and manual tagging of contracts.</li>
 </ul>
 <div class="section" id="server-features">
 <h2>Server Features<a class="headerlink" href="#server-features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>A test server to run client tests against.</li>
 <li>Hard coded server responses for POST, GET, PUT &amp; DELETE requests.</li>
+<li>Specified headers will be expected &amp; returned by the server.</li>
+<li>Support for current timestamp included in response bodies.</li>
 </ul>
 </div>
 <div class="section" id="client-features">
@@ -155,6 +161,8 @@
 <ul class="simple">
 <li>A test client to verify server responses.</li>
 <li>Verification of responses to POST, GET, PUT &amp; DELETE requests.</li>
+<li>Specified headers will be sent &amp; expected by the client.</li>
+<li>Support for current timestamp in request bodies.</li>
 </ul>
 </div>
 </div>

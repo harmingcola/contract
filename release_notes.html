@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quick Start &mdash; Python  documentation</title>
+  <title>Release Notes &mdash; Python  documentation</title>
   
 
   
@@ -33,8 +33,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="next" title="Features" href="features.html"/>
-        <link rel="prev" title="Contract" href="index.html"/> 
+        <link rel="prev" title="Support" href="support.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -81,11 +80,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#i-want-to-test-a-client-using-java-and-maven">I want to test a client using Java and Maven</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#i-want-to-test-a-server-using-java-and-maven">I want to test a server using Java and Maven</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
@@ -94,7 +89,11 @@
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.0.1</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -125,11 +124,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Quick Start</li>
+    <li>Release Notes</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="_sources/quick_start.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/release_notes.txt" rel="nofollow"> View page source</a>
         
       
     </li>
@@ -139,33 +138,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="i-want-to-test-a-client-using-java-and-maven">
-<h2>I want to test a client using Java and Maven<a class="headerlink" href="#i-want-to-test-a-client-using-java-and-maven" title="Permalink to this headline">¶</a></h2>
-<p>Include our contract-server dependency in your project.</p>
-<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>contract-server<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
-    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</pre></div>
+  <div class="section" id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>0.0.2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Feature     : Support for ${contract.timestamp} in response bodies</li>
+<li>Feature     : Contracts support an info block for documentation and reporting purposes</li>
+<li>Feature     : Auto tagging of contracts based on directory structure.</li>
+<li>Improvement : Request &amp; response bodies can now be written in json and escaped text.</li>
+<li>Bug fix     : When a contract doesn&#8217;t load correctly, no error is thrown.</li>
+<li>Feature     : Matching support for paths with query parameters.</li>
+</ul>
 </div>
-<p>See the <a class="reference external" href="http://harmingcola.github.io/contract/kv_client.html">client facing example</a> for contracts and code samples.</p>
-</div>
-<div class="section" id="i-want-to-test-a-server-using-java-and-maven">
-<h2>I want to test a server using Java and Maven<a class="headerlink" href="#i-want-to-test-a-server-using-java-and-maven" title="Permalink to this headline">¶</a></h2>
-<p>Include our contract-client dependency in your project.</p>
-<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>contract-client<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
-    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</pre></div>
-</div>
-<p>See the <a class="reference external" href="http://harmingcola.github.io/contract/kv_server.html">server facing example</a> for contracts and code samples.</p>
+<div class="section" id="id2">
+<h2>0.0.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Feature     : JSON DSL for contract specification</li>
+<li>Feature     : Support for loading contracts from local source</li>
+<li>Feature     : Support for loading contracts from git</li>
+<li>Feature     : Embedded tomcat for client facing tests</li>
+<li>Feature     : Client test runner for server facing tests</li>
+<li>Feature     : Hard coded body support for GET, PUT, POST &amp; DELETE Requests</li>
+</ul>
 </div>
 </div>
 
@@ -176,10 +171,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="features.html" class="btn btn-neutral float-right" title="Features" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="index.html" class="btn btn-neutral" title="Contract" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="support.html" class="btn btn-neutral" title="Support" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

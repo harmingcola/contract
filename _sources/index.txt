@@ -11,12 +11,14 @@ driven contracts* and you're left with just contracts. By favouring neither side
 The project is available from maven central, see the `quick start <http://harmingcola.github.io/contract/quick_start.html>`_ page for more details
 Check out the code on `github <https://github.com/harmingcola/contract>`_
 
+The latest released version is 0.0.2
+
 
 The problem of testing a client server relationship
 ---------------------------------------------------
 
-Late stage integration testing of a HTTP client/server system can be a painful endeavour.
-Minor miscommunication of specification between client & server can cause systems to be incompatible.
+Late stage integration testing of a HTTP client/server system can be a painful process.
+Minor mis-communication of specification between client & server can cause systems to be incompatible.
 
 .. figure :: images/intro-001.png
     :alt: A simple client server relationship
@@ -27,7 +29,7 @@ However, most testing approaches will indicate that both systems are operating c
 Its only when the two systems are actually communicating can problems arise. We need to fail earlier ......
 
 Testing during development relies on replacing the other side of the HTTP relationship with what we "think" will be in place when both systems are in place.
-This is a disconnected endeavour and relies on what we "think" to be updated manually with what our companion system requires.
+This is a disconnected endeavor and relies on what we "think" to be updated manually with what our companion system requires.
 
 .. figure :: images/intro-002.png
     :alt: Standard testing scenario, mocks in place
@@ -69,6 +71,8 @@ However, all a service provider need do is publish their contracts, and any clie
     contract_repository
     building
     contributing
+    support
+    release_notes
 
 
 Indices and tables

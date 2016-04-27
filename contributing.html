@@ -33,6 +33,7 @@
 
   
     <link rel="top" title="Python  documentation" href="index.html"/>
+        <link rel="next" title="Support" href="support.html"/>
         <link rel="prev" title="Building the library from source" href="building.html"/> 
 
   
@@ -95,6 +96,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#our-design-considerations-conventions-quirks">Our Design Considerations / Conventions / Quirks</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -161,7 +164,7 @@
 <li>Push to a branch in your forked repo with a name that roughly explains what you&#8217;re implementing</li>
 <li>Update docs where necessary.</li>
 <li>Create a pull request into the master branch on our repo</li>
-<li>If it looks good we&#8217;ll accept.</li>
+<li>If it passes our build process and analysis we&#8217;ll accept.</li>
 </ol>
 </div>
 <div class="section" id="our-design-considerations-conventions-quirks">
@@ -171,6 +174,7 @@
 <li>Unit tests are written in <a class="reference external" href="http://spockframework.github.io/spock/docs/1.0/index.html">Spock</a></li>
 <li>Documentation written in <a class="reference external" href="http://www.sphinx-doc.org/en/stable/">Sphinx</a></li>
 <li>We lean towards an expressive and clean code style, if you&#8217;ve ever read Clean Code by Bob Martin, that is what we aspire to.</li>
+<li>Any added features must be tested via the kvClient &amp; kvServer applications.</li>
 </ol>
 </div>
 </div>
@@ -181,6 +185,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="support.html" class="btn btn-neutral float-right" title="Support" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="building.html" class="btn btn-neutral" title="Building the library from source" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

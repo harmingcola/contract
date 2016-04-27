@@ -97,6 +97,8 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
             
@@ -147,13 +149,14 @@
 Its treated like a project that is a user of our code that wants to use every possible feature.</p>
 <p>Its contracts are held separately in the <a class="reference external" href="https://github.com/harmingcola/kvServerContracts">kvServerContracts repository</a> in order
 to share them with kvClient project.</p>
+<p>Our test examples are written in Spock. Our methods are test framework agnostic.</p>
 <div class="section" id="maven-dependency">
 <h2>Maven dependency<a class="headerlink" href="#maven-dependency" title="Permalink to this headline">¶</a></h2>
 <p>To test the client, we require our contract server.</p>
 <div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>contract-server<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
@@ -166,20 +169,26 @@ to share them with kvClient project.</p>
 <div class="section" id="create">
 <h2>Create<a class="headerlink" href="#create" title="Permalink to this headline">¶</a></h2>
 <p>Exposes a method allowing creation of a key on the KvServer. The contract and unit test for this functionality is below.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
-    <span class="p">},</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
-  <span class="p">},</span>
-  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span>{
+  &quot;request&quot; : {
+    &quot;method&quot; : &quot;POST&quot;,
+    &quot;path&quot; : &quot;/kv/pair&quot;,
+    &quot;headers&quot;: {
+      &quot;Content-Type&quot; : &quot;application/json&quot;
+    },
+    &quot;body&quot;: &quot;{
+      &quot;key&quot;: &quot;age&quot;,
+      &quot;value&quot;: 27
+    }
+  },
+  &quot;response&quot; : {
+    &quot;status&quot; : 201,
+    &quot;body&quot; : {
+      &quot;key&quot;: &quot;age&quot;,
+      &quot;value&quot;: 27
+    }
+  }
+}
 </pre></div>
 </div>
 </div>
@@ -193,7 +202,10 @@ to share them with kvClient project.</p>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;weight\&quot;,\&quot;value\&quot;: \&quot;220\&quot;}&quot;</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;220&quot;</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -202,20 +214,26 @@ to share them with kvClient project.</p>
 <div class="section" id="update">
 <h2>Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
 <p>Exposes a method allowing updating of a key on the KvServer. The contract and unit test for this functionality is below.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s2">&quot;Content-Type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
-    <span class="p">},</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
-  <span class="p">},</span>
-  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;{\&quot;key\&quot;: \&quot;age\&quot;,\&quot;value\&quot;: 27}&quot;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span>{
+  &quot;request&quot; : {
+    &quot;method&quot; : &quot;PUT&quot;,
+    &quot;path&quot; : &quot;/kv/pair&quot;,
+    &quot;headers&quot;: {
+      &quot;Content-Type&quot; : &quot;application/json&quot;
+    },
+    &quot;body&quot;: &quot;{
+        &quot;key&quot;: &quot;age&quot;,
+        &quot;value&quot;: 27
+    }
+  },
+  &quot;response&quot; : {
+    &quot;status&quot; : 201,
+    &quot;body&quot; : {
+        &quot;key&quot;: &quot;age&quot;,
+        &quot;value&quot;: 27
+    }
+  }
+}
 </pre></div>
 </div>
 </div>
@@ -231,17 +249,6 @@ to share them with kvClient project.</p>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">204</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span></span>import org.seekay.kv.client.util.ClientBaseSpec
-
-class DeletePairSpec extends ClientBaseSpec {
-
-    def &#39;a pair should be delete-able from the server&#39;() {
-        expect:
-            kvClient.delete(&#39;blood-pressure&#39;) == true
-    }
-}
 </pre></div>
 </div>
 </div>
