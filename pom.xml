@@ -6,19 +6,19 @@
     <version>0.0.4-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <name>Contract</name>
-	<description>Contract, a JVM http contract testing tool</description>
-	<url>http://harmingcola.github.io/contract/</url>
+    <description>Contract, a JVM http contract testing tool</description>
+    <url>http://harmingcola.github.io/contract/</url>
     <packaging>pom</packaging>
 
     <scm>
-		<url>https://github.com/harmingcola/contract.git</url>
+        <url>https://github.com/harmingcola/contract.git</url>
         <connection>scm:git:git@github.com:harmingcola/contract.git</connection>
         <developerConnection>scm:git:git@github.com:harmingcola/contract.git</developerConnection>
     </scm>
 
     <properties>
         <cglib.version>2.2</cglib.version>
-		<commons.cli.version>1.3.1</commons.cli.version>
+        <commons.cli.version>1.3.1</commons.cli.version>
         <commons.io.version>1.3.2</commons.io.version>
         <guava.version>18.0</guava.version>
         <groovy.version>2.0.0</groovy.version>
@@ -150,13 +150,13 @@
             <version>${cglib.version}</version>
         </dependency>
 
-		<dependency>
-			<groupId>commons-cli</groupId>
-			<artifactId>commons-cli</artifactId>
-			<version>${commons.cli.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>${commons.cli.version}</version>
+        </dependency>
 
-		<!-- Test dependencies -->
+        <!-- Test dependencies -->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -289,27 +289,27 @@
             </plugin>
 
             <!-- Upload to nexus staging -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.3</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>false</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
 
         </plugins>
     </build>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <licenses>
         <license>
@@ -319,12 +319,12 @@
         </license>
     </licenses>
 
-	<developers>
-		<developer>
-			<id>harmingcola</id>
-			<name>Colin Graham</name>
-			<email>grahamcolins@gmail.com</email>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>harmingcola</id>
+            <name>Colin Graham</name>
+            <email>grahamcolins@gmail.com</email>
+        </developer>
+    </developers>
 
 </project>

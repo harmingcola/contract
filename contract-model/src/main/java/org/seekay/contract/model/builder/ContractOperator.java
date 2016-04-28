@@ -42,6 +42,13 @@ public interface ContractOperator<T> {
   T withLocalConfig(String... configLocations);
 
   /**
+   * Loads contracts from a git repository
+   * @param repositoryUrl
+   * @return
+   */
+  T withGitConfig(String repositoryUrl);
+
+  /**
    * Loads contracts from a secured git repository
    * @param repositoryUrl
    * @param username
@@ -49,13 +56,6 @@ public interface ContractOperator<T> {
    * @return
    */
   T withGitConfig(String repositoryUrl, String username, String password);
-
-  /**
-   * Loads contracts from a git repository
-   * @param repositoryUrl
-   * @return
-   */
-  T withGitConfig(String repositoryUrl);
 
   // static T fromContracts(List<Contract> contracts)
 }

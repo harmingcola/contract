@@ -23,45 +23,45 @@ import static org.seekay.contract.model.tools.SetTools.toArray;
 @Slf4j
 public class ContractClient implements ContractOperator<ContractClient> {
 
-	private List<Contract> contracts;
-	private String path;
+  private List<Contract> contracts;
+  private String path;
 
-	private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
-	private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
-	private AssertionService assertionService = ApplicationContext.assertionService();
+  private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
+  private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
+  private AssertionService assertionService = ApplicationContext.assertionService();
 
-	private ContractClient() {
-		contracts = new ArrayList<Contract>();
-	}
+  private ContractClient() {
+    contracts = new ArrayList<Contract>();
+  }
 
-	/**
-	 * Builds a new ContractClient
-	 * @return
-	 */
-	public static ContractClient newClient() {
-		return new ContractClient();
-	}
+  /**
+   * Builds a new ContractClient
+   * @return
+   */
+  public static ContractClient newClient() {
+    return new ContractClient();
+  }
 
-	/**
-	 * Sets the address the ContractClient will aim tests at
-	 * @param path
-	 * @return
-	 */
-	public ContractClient againstPath(String path) {
-		this.path = path;
-		return this;
-	}
+  /**
+   * Sets the address the ContractClient will aim tests at
+   * @param path
+   * @return
+   */
+  public ContractClient againstPath(String path) {
+    this.path = path;
+    return this;
+  }
 
-	/**
-	 * Creates a new instance populated with supplied contracts
-	 * @param contracts
-	 * @return
-	 */
-	public static ContractClient fromContracts(List<Contract> contracts) {
-		ContractClient contractClient = new ContractClient();
-		contractClient.setContracts(contracts);
-		return contractClient;
-	}
+  /**
+   * Creates a new instance populated with supplied contracts
+   * @param contracts
+   * @return
+   */
+  public static ContractClient fromContracts(List<Contract> contracts) {
+    ContractClient contractClient = new ContractClient();
+    contractClient.setContracts(contracts);
+    return contractClient;
+  }
 
   /**
    * Executes all loaded contracts against the specified path.
@@ -88,99 +88,99 @@ public class ContractClient implements ContractOperator<ContractClient> {
     this.contracts = contracts;
   }
 
-	public ContractClient withGitConfig(String repositoryUrl) {
-		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl);
-		contracts.addAll(source.load());
-		return this;
-	}
+  public ContractClient withGitConfig(String repositoryUrl) {
+    GitConfigurationSource source = new GitConfigurationSource(repositoryUrl);
+    contracts.addAll(source.load());
+    return this;
+  }
 
-	public ContractClient withGitConfig(String repositoryUrl, String username, String password) {
-		GitConfigurationSource source = new GitConfigurationSource(repositoryUrl, username, password);
-		contracts.addAll(source.load());
-		return this;
-	}
+  public ContractClient withGitConfig(String repositoryUrl, String username, String password) {
+    GitConfigurationSource source = new GitConfigurationSource(repositoryUrl, username, password);
+    contracts.addAll(source.load());
+    return this;
+  }
 
 
-	public ContractClient withLocalConfig(String localSource) {
-		LocalConfigurationSource source = new LocalConfigurationSource(localSource);
-		contracts.addAll(source.load());
-		return this;
-	}
+  public ContractClient withLocalConfig(String localSource) {
+    LocalConfigurationSource source = new LocalConfigurationSource(localSource);
+    contracts.addAll(source.load());
+    return this;
+  }
 
-	public void addContracts(Contract... contracts) {
-		this.contracts.addAll(asList(contracts));
-	}
+  public void addContracts(Contract... contracts) {
+    this.contracts.addAll(asList(contracts));
+  }
 
-	public void addContract(Contract contract) {
-		this.contracts.add(contract);
-	}
+  public void addContract(Contract contract) {
+    this.contracts.add(contract);
+  }
 
-	public ContractClient withLocalConfig(String... configLocations) {
-		for (String localConfigLocation : configLocations) {
-			contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
-		}
-		return this;
-	}
+  public ContractClient withLocalConfig(String... configLocations) {
+    for (String localConfigLocation : configLocations) {
+      contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
+    }
+    return this;
+  }
 
-	public ContractClient onlyIncludeTags(String... tagsToInclude) {
-		Set<Contract> contractsToInclude = new HashSet<Contract>();
-		for(Contract contract : contracts) {
-			Set<String> contractTags = contract.readTags();
-			for(String tagToInclude : tagsToInclude) {
-				if(contractTags.contains(tagToInclude)) {
-					contractsToInclude.add(contract);
-					continue;
-				}
-			}
-		}
-		contracts = new ArrayList<Contract>(contractsToInclude);
-		return this;
-	}
+  public ContractClient onlyIncludeTags(String... tagsToInclude) {
+    Set<Contract> contractsToInclude = new HashSet<Contract>();
+    for(Contract contract : contracts) {
+      Set<String> contractTags = contract.readTags();
+      for(String tagToInclude : tagsToInclude) {
+        if(contractTags.contains(tagToInclude)) {
+          contractsToInclude.add(contract);
+          continue;
+        }
+      }
+    }
+    contracts = new ArrayList<Contract>(contractsToInclude);
+    return this;
+  }
 
-	public ContractClient excludeTags(String... tagsToExclude) {
-		Set<Contract> contractsToExclude = new HashSet<Contract>();
-		for(Contract contract : contracts) {
-			Set<String> contractTags = contract.readTags();
-			for(String tagToInclude : tagsToExclude) {
-				if(contractTags.contains(tagToInclude)) {
-					contractsToExclude.add(contract);
-					continue;
-				}
-			}
-		}
-		contracts.removeAll(contractsToExclude);
-		return this;
-	}
+  public ContractClient excludeTags(String... tagsToExclude) {
+    Set<Contract> contractsToExclude = new HashSet<Contract>();
+    for(Contract contract : contracts) {
+      Set<String> contractTags = contract.readTags();
+      for(String tagToInclude : tagsToExclude) {
+        if(contractTags.contains(tagToInclude)) {
+          contractsToExclude.add(contract);
+          continue;
+        }
+      }
+    }
+    contracts.removeAll(contractsToExclude);
+    return this;
+  }
 
-	public ContractClient tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
+  public ContractClient tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
     if(tagsToInclude != null) {
       onlyIncludeTags(toArray(tagsToInclude));
     }
     if(tagsToExclude != null) {
       excludeTags(toArray(tagsToExclude));
     }
-		return this;
-	}
+    return this;
+  }
 
-	private void assertResponseIsValid(ContractResponse contractResponse, ContractResponse actualResponse) {
-		assertStatusCodesMatch(contractResponse, actualResponse);
-		assertBodiesMatch(contractResponse, actualResponse);
-		assertHeadersContained(contractResponse, actualResponse);
-	}
+  private void assertResponseIsValid(ContractResponse contractResponse, ContractResponse actualResponse) {
+    assertStatusCodesMatch(contractResponse, actualResponse);
+    assertBodiesMatch(contractResponse, actualResponse);
+    assertHeadersContained(contractResponse, actualResponse);
+  }
 
-	private void assertHeadersContained(ContractResponse contractResponse, ContractResponse actualResponse) {
-		boolean headersContained = headerMatcher.isMatch(contractResponse.getHeaders(), actualResponse.getHeaders());
-		assertThat("Response headers are expected to contain all Contract Headers", headersContained, is(true));
-	}
+  private void assertHeadersContained(ContractResponse contractResponse, ContractResponse actualResponse) {
+    boolean headersContained = headerMatcher.isMatch(contractResponse.getHeaders(), actualResponse.getHeaders());
+    assertThat("Response headers are expected to contain all Contract Headers", headersContained, is(true));
+  }
 
-	private void assertBodiesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-		assertionService.assertOnWildCards(contractResponse, actualResponse);
-		boolean bodiesMatch = bodyMatchingService.isMatch(contractResponse.getBody(), actualResponse.getBody());
-		assertThat("Response and Contract bodies are expected to match", bodiesMatch, is(true));
-	}
+  private void assertBodiesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
+    assertionService.assertOnWildCards(contractResponse, actualResponse);
+    boolean bodiesMatch = bodyMatchingService.isMatch(contractResponse.getBody(), actualResponse.getBody());
+    assertThat("Response and Contract bodies are expected to match", bodiesMatch, is(true));
+  }
 
-	private void assertStatusCodesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-		assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(contractResponse.getStatus()));
-	}
+  private void assertStatusCodesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
+    assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(contractResponse.getStatus()));
+  }
 
 }

@@ -14,7 +14,8 @@ Release Notes
 
 0.0.2
 -----
-*
+* Feature     : Maven plugin for running contract server and client
+* Feature     : Fat & Runnable jar for starting ContractServer and running ContractClient
 
 0.0.2
 -----
