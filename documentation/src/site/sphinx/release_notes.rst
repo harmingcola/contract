@@ -4,6 +4,10 @@ Release Notes
 
 ${release.version}
 -----
+*
+
+0.0.2
+-----
 * Feature     : Support for ${contract.timestamp} in response bodies
 * Feature     : Contracts support an info block for documentation and reporting purposes
 * Feature     : Auto tagging of contracts based on directory structure.

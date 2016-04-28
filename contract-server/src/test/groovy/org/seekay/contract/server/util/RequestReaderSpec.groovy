@@ -8,7 +8,7 @@ import spock.lang.Specification
 import javax.servlet.http.HttpServletRequest
 
 
-class it  extends Specification{
+class RequestReaderSpec extends Specification{
 
     def "a http request should map to a contract request correctly"() {
         given:
