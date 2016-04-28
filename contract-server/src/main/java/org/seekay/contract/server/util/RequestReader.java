@@ -22,7 +22,7 @@ public class RequestReader {
     }
 
     public String readBody() {
-        String result;g
+        String result;
         try {
             result = CharStreams.toString(this.request.getReader());
         } catch (IOException e) {
