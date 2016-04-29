@@ -11,9 +11,10 @@ import org.seekay.contract.model.domain.ContractRequest
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static org.seekay.contract.model.domain.Method.PUT
+import static org.seekay.contract.model.domain.Method.GET
+import static org.seekay.contract.model.domain.Method.POST
 
-class MatchingServicePutSpec extends Specification{
+class MatchingServiceSpec extends Specification{
 
     @Shared
     MatchingService service = new MatchingService()
@@ -23,7 +24,6 @@ class MatchingServicePutSpec extends Specification{
     PathMatchingService pathMatchingService = Mock(PathMatchingService)
     HeaderMatcher headerMatcher = Mock(HeaderMatcher)
     BodyMatchingService bodyMatchService = Mock(BodyMatchingService)
-
 
     static def EMPTY_SET = []
 
@@ -35,41 +35,40 @@ class MatchingServicePutSpec extends Specification{
         service.bodyMatchingService = bodyMatchService
         service.objectMapper = new ObjectMapper()
 
-        contractService.read() >> {[ContractTestFixtures.defaultGetContract()] as Set}
+        contractService.read() >> {[ContractTestFixtures.oneDefaultContractOfEachMethod()] as Set}
     }
 
-    def "a PUT contract matching all parameters should return correctly"() {
+    def "a contract matching all parameters should return correctly"() {
         given:
-            Contract contract = ContractTestFixtures.defaultPutContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
+            Contract contract = ContractTestFixtures.defaultGetContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
-            Contract matchedContract = service.matchPutRequest(contract.request)
+            Contract matchedContract = service.matchGetRequest(contract.request)
         then:
             matchedContract.response.status == contract.response.status
             matchedContract.response.body == contract.response.body
             matchedContract.response.headers == contract.response.headers
     }
 
-    def "a PUT contract not matching method should return null"() {
+    def "a contract not matching method should return null"() {
         given:
-            Contract contract = ContractTestFixtures.defaultPutContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {EMPTY_SET}
+            Contract contract = ContractTestFixtures.defaultGetContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {EMPTY_SET}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
             bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
-            Contract matchedContract = service.matchPutRequest(contract.request)
+            Contract matchedContract = service.matchPostRequest(contract.request)
         then:
             matchedContract == null
     }
 
-    def "a PUT contract not matching the path should return null"() {
+    def "a contract not matching the path should return null"() {
         given:
-            Contract contract = ContractTestFixtures.defaultPutContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
+            Contract contract = ContractTestFixtures.defaultGetContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
             bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
@@ -79,42 +78,27 @@ class MatchingServicePutSpec extends Specification{
             matchedContract == null
     }
 
-    def "a PUT contract not matching headers should return null"() {
+    def "a contract not matching headers should return null"() {
         given:
-            Contract contract = ContractTestFixtures.defaultPutContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
+            Contract contract = ContractTestFixtures.defaultGetContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, GET) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
-            Contract matchedContract = service.matchPutRequest(contract.request)
-        then:
-            matchedContract == null
-    }
-
-    def "a PUT contract not matching the body should return null"() {
-        given:
-            Contract contract = ContractTestFixtures.defaultPutContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
-            pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
-            headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {EMPTY_SET}
-        when:
-            Contract matchedContract = service.matchPutRequest(contract.request)
+            Contract matchedContract = service.matchDeleteRequest(contract.request)
         then:
             matchedContract == null
     }
 
     def "if multiple contracts are matched, an illegal state should be thrown" () {
         given:
-            Contract contract1 = ContractTestFixtures.defaultPutContract().build()
+            Contract contract1 = ContractTestFixtures.defaultPostContract().build()
             Contract contract2 = ContractTestFixtures.defaultGetContract().build()
-            methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract1, contract2]}
+            methodMatcher.findMatches(_ as Set<Contract>, POST) >> {[contract1, contract2]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract1, contract2]}
         when:
-            service.matchPutRequest(contract1.request)
+            service.matchGetRequest(contract1.request)
         then:
             thrown IllegalStateException
     }
