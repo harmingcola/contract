@@ -1,8 +1,8 @@
-package org.seekay.contract.model.util
+package org.seekay.contract.model.tools
 
 import spock.lang.Specification
 
-import static org.seekay.contract.model.util.SetTools.*
+import static org.seekay.contract.model.tools.SetTools.*
 
 
 class SetToolsSpec extends Specification {

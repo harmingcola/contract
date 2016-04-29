@@ -2,6 +2,7 @@ package org.seekay.contract.common.match.body;
 
 import lombok.Setter;
 import org.seekay.contract.model.domain.Contract;
+import org.seekay.contract.model.domain.ContractRequest;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,10 +12,10 @@ public class BodyMatchingService {
 
     private Set<BodyMatcher> bodyMatchers;
 
-    public Set<Contract> findMatches(Set<Contract> contracts, String actualBody) {
+    public Set<Contract> findMatches(Set<Contract> contracts, ContractRequest actualRequest) {
         Set<Contract> results = new HashSet<Contract>();
         for(Contract contract : contracts) {
-            if(isMatch(contract.getResponse().getBody(), actualBody)) {
+            if(isMatch(contract.getResponse().getBody(), actualRequest.getBody())) {
                 results.add(contract);
             }
         }

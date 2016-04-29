@@ -1,13 +1,12 @@
 package org.seekay.contract.common.matchers
 
-import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Shared
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.oneDefaultContractOfEachMethodWithoutHeaders
-import static org.seekay.contract.model.util.SetTools.head
+import static org.seekay.contract.model.tools.SetTools.head
 
 class HeaderMatcherSpec extends Specification {
 

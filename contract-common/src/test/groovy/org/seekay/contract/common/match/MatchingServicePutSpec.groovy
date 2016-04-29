@@ -7,6 +7,7 @@ import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract
+import org.seekay.contract.model.domain.ContractRequest
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -43,7 +44,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -58,7 +59,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {EMPTY_SET}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -71,7 +72,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -84,7 +85,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {EMPTY_SET}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -97,7 +98,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {EMPTY_SET}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {EMPTY_SET}
         when:
             Contract matchedContract = service.matchPutRequest(contract.request)
         then:
@@ -111,7 +112,7 @@ class MatchingServicePutSpec extends Specification{
             methodMatcher.findMatches(_ as Set<Contract>, PUT) >> {[contract1, contract2]}
             pathMatchingService.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
             headerMatcher.isMatch(_ as Set<Contract>,_ as Map<String, String>) >> {[contract1, contract2]}
-            bodyMatchService.findMatches(_ as Set<Contract>,_ as String) >> {[contract1, contract2]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract1, contract2]}
         when:
             service.matchPutRequest(contract1.request)
         then:

@@ -10,7 +10,7 @@ import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
-import org.seekay.contract.model.util.Http;
+import org.seekay.contract.model.tools.Http;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +53,10 @@ public class ContractClient {
     return this;
   }
 
-  public void withLocalConfig(String localSource) {
+  public ContractClient withLocalConfig(String localSource) {
     LocalConfigurationSource source = new LocalConfigurationSource(localSource);
     contracts.addAll(source.load());
+    return this;
   }
 
   public static ContractClient fromContracts(List<Contract> contracts) {

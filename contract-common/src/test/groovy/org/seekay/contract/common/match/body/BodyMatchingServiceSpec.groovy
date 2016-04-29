@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.*
 
-class BodyMatcheringServiceSpec extends Specification {
+class BodyMatchingServiceSpec extends Specification {
 
     BodyMatcher uglyBodyMatcher = Mock(BodyMatcher)
     BodyMatcher prettyBodyMatcher = Mock(BodyMatcher)
@@ -57,7 +57,7 @@ class BodyMatcheringServiceSpec extends Specification {
         given:
             def contracts = [defaultPostContract().build()] as Set
         when:
-            def matchFound = service.findMatches(contracts, "Hello World")
+            def matchFound = service.findMatches(contracts, defaultPostContract().build().request)
         then:
             1 * uglyBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * prettyBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
@@ -68,7 +68,7 @@ class BodyMatcheringServiceSpec extends Specification {
         given:
             def contracts = [defaultPostContract().build()] as Set
         when:
-            def matchFound = service.findMatches(contracts, null)
+            def matchFound = service.findMatches(contracts, defaultGetContract().requestBody(null).build().request)
         then:
             0 * uglyBodyMatcher.isMatch(_ as String, _ as String)
             0 * prettyBodyMatcher.isMatch(_ as String, _ as String)

@@ -8,7 +8,7 @@ import org.seekay.contract.server.ContractServer;
 
 import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
-import static org.seekay.contract.server.ContractServer.*;
+import static org.seekay.contract.server.ContractServer.newServer;
 
 @Mojo(name = "run-server")
 public class RunServerMojo extends AbstractMojo {
@@ -28,32 +28,35 @@ public class RunServerMojo extends AbstractMojo {
   @Parameter(property = "password")
   private String password;
 
+  private boolean shouldWait = true;
 
   public void execute() throws MojoExecutionException {
-    if(gitSource == null && localSource == null) {
+    if (gitSource == null && localSource == null) {
       throw new IllegalStateException("Either gitSource or localSource arguments must be provided");
     }
-    if(username == null ^ password == null) {
+    if (username == null ^ password == null) {
       throw new IllegalStateException("Both username and password must be provided for a secure repo, or neither for a public repo");
     }
 
     ContractServer server = newServer().onPort(valueOf(port));
-    if(gitSource != null && (password == null && username == null)) {
+    if (gitSource != null && (password == null && username == null)) {
       server.withGitConfig(gitSource);
     }
-    if(gitSource != null && (password != null && username != null)) {
+    if (gitSource != null && (password != null && username != null)) {
       server.withGitConfig(gitSource, username, password);
     }
-    if(localSource != null) {
+    if (localSource != null) {
       server.withLocalConfig(localSource);
     }
     server.startServer();
 
-    while(true) try {
-      sleep(10000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    if(shouldWait) {
+      while (true) try {
+        sleep(10000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
-    
   }
+
 }

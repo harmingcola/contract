@@ -1,0 +1,13 @@
+{
+  "request" : {
+    "method" : "GET",
+    "path" : "/entity/7",
+    "headers": {
+      "key" : "value"
+    }
+  },
+  "response" : {
+    "status" : 203,
+    "body" : "hello world"
+  }
+}

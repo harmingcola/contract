@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import static org.seekay.contract.common.ApplicationContext.*;
-import static org.seekay.contract.model.util.PrintTools.prettyPrint;
+import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
 import static org.seekay.contract.server.util.RequestReader.from;
 import static org.seekay.contract.server.util.ResponseWriter.to;
 
