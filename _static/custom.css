@@ -1,3 +1,7 @@
+.wy-menu-vertical a {
+    font-size: 14px;
+}
+
 .icon-home {
     visibility:hidden;
 }

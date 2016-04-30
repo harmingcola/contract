@@ -84,6 +84,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#i-want-to-test-a-client-using-java-and-maven">I want to test a client using Java and Maven</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#i-want-to-test-a-server-using-java-and-maven">I want to test a server using Java and Maven</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-m-using-maven-with-another-programming-language">I&#8217;m using Maven with another programming language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-want-to-start-a-client-server-from-the-command-line">I want to start a client / server from the command line</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
@@ -147,7 +149,7 @@
 <div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>contract-server<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.3<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
@@ -160,12 +162,41 @@
 <div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.seekay<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>contract-client<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>0.0.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.3<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
 </div>
 <p>See the <a class="reference external" href="http://harmingcola.github.io/contract/kv_server.html">server facing example</a> for contracts and code samples.</p>
+</div>
+<div class="section" id="i-m-using-maven-with-another-programming-language">
+<h2>I&#8217;m using Maven with another programming language<a class="headerlink" href="#i-m-using-maven-with-another-programming-language" title="Permalink to this headline">¶</a></h2>
+<p>Both our client and server are available as maven plugins</p>
+<p>To run the server:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mvn org.seekay:contract-maven-plugin:0.0.3:run-server -Dport<span class="o">=</span><span class="m">8091</span> -DgitSource<span class="o">=</span>https://github.com/harmingcola/kvServerContracts.git -Dusername<span class="o">=</span>seekay_test -Dpassword<span class="o">=</span>seekay_test_password
+</pre></div>
+</div>
+<p>To run the client</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>mvn org.seekay:contract-maven-plugin:0.0.3:run-client -Dtarget<span class="o">=</span>http://localhost:8091 -DgitSource<span class="o">=</span>https://github.com/harmingcola/kvServerContracts.git -Dusername<span class="o">=</span>seekay_test -Dpassword<span class="o">=</span>seekay_test_password
+</pre></div>
+</div>
+</div>
+<div class="section" id="i-want-to-start-a-client-server-from-the-command-line">
+<h2>I want to start a client / server from the command line<a class="headerlink" href="#i-want-to-start-a-client-server-from-the-command-line" title="Permalink to this headline">¶</a></h2>
+<p>We provide a fat and runnable jar that contains both the client and server.
+This option servers practically all client / servers across a variety of languages and platforms.
+The jar is available from <a class="reference external" href="http://mvnrepository.com/artifact/org.seekay/contract-all">maven central</a></p>
+<p>To run a server:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar contract-all-0.0.3.jar run-server <span class="m">8091</span> https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+java -jar contract-all-0.0.3.jar run-server &lt;port&gt; &lt;<span class="nb">local</span> or git repo URI&gt; &lt;git username, optional&gt; &lt;git password, optional&gt;
+</pre></div>
+</div>
+<p>To run a client:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar contract-all-0.0.3.jar run-client http://localhost:8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+java -jar contract-all-0.0.3.jar run-client &lt;target url&gt; &lt;<span class="nb">local</span> or git repo URI&gt; &lt;git username, optional&gt; &lt;git password, optional&gt;
+</pre></div>
+</div>
+<p>Usernames / passwords can be omitted for publicly accessible repositories</p>
 </div>
 </div>
 
