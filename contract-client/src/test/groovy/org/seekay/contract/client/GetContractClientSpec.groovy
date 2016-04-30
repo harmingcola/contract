@@ -64,5 +64,17 @@ class GetContractClientSpec extends ClientFacingTest {
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
     }
 
+    def "a client should load contracts from a secured git repository" () {
+        given:
+            def contracts = ContractClient.newClient().withGitConfig("https://bitbucket.org/harmingcola/contract-test-private.git", 'seekay_test', 'seekay_test_password').contracts
+        expect:
+            contracts.size() == 1
+    }
 
+    def "a client should load contracts from a local source" () {
+        given:
+            def contracts = ContractClient.newClient().withLocalConfig('src/test/resources/contracts').contracts
+        expect:
+            contracts.size() == 1
+    }
 }

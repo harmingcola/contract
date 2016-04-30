@@ -16,82 +16,82 @@ import static org.seekay.contract.common.ApplicationContext.objectMapper;
 @Slf4j
 public class LocalConfigurationSource implements ConfigurationSource {
 
-    private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git");
-    public static final String CONTRACT_FILE_SUFFIX = ".contract.json";
+  private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git");
+  public static final String CONTRACT_FILE_SUFFIX = ".contract.json";
 
-    private File baseDirectory;
+  private File baseDirectory;
 
-    private ObjectMapper objectMapper = objectMapper();
+  private ObjectMapper objectMapper = objectMapper();
 
-    public LocalConfigurationSource(String baseDirectory) {
-        this.baseDirectory = new File(baseDirectory);
-        log.info("Loading config from : " + this.baseDirectory.getAbsolutePath());
+  public LocalConfigurationSource(String baseDirectory) {
+    this.baseDirectory = new File(baseDirectory);
+    log.info("Loading config from : " + this.baseDirectory.getAbsolutePath());
+  }
+
+  public List<Contract> load() {
+    List<Contract> contracts = new ArrayList<Contract>();
+    loadFromDirectory(baseDirectory, contracts);
+    return contracts;
+  }
+
+  protected void loadFromDirectory(File directory, List<Contract> contracts) {
+    if (IGNORED_DIRECTORIES.contains(directory.getName())) {
+      return;
     }
-
-    public List<Contract> load() {
-        List<Contract> contracts = new ArrayList<Contract>();
-        loadFromDirectory(baseDirectory, contracts);
-        return contracts;
-    }
-
-    protected void loadFromDirectory(File directory, List<Contract> contracts) {
-		if(IGNORED_DIRECTORIES.contains(directory.getName())) {
-			return;
-		}
-        for(File file : directory.listFiles()) { //NOSONAR
-            if(file.isDirectory()) {
-                loadFromDirectory(file, contracts);
-            } else {
-				Contract contract = loadFromFile(file);
-				if(contract != null) {
-					buildTagsFromDirectoryStructure(contract, this.baseDirectory, file);
-					contracts.add(contract);
-				}
-            }
+    for (File file : directory.listFiles()) { //NOSONAR
+      if (file.isDirectory()) {
+        loadFromDirectory(file, contracts);
+      } else {
+        Contract contract = loadFromFile(file);
+        if (contract != null) {
+          buildTagsFromDirectoryStructure(contract, this.baseDirectory, file);
+          contracts.add(contract);
         }
+      }
     }
+  }
 
-	private void buildTagsFromDirectoryStructure(Contract contract, File directory, File file) {
-		String fileAbsolutePath = file.getAbsolutePath();
-		String fileName = file.getName();
-		String relativeLocation = fileAbsolutePath.replace(directory.getAbsolutePath(), "");
-		String directoriesOnly = relativeLocation.replace(fileName, "");
-		String[] tags = directoriesOnly.split("/");
-		contract.addTags(tags);
-	}
+  private void buildTagsFromDirectoryStructure(Contract contract, File directory, File file) {
+    String fileAbsolutePath = file.getAbsolutePath();
+    String fileName = file.getName();
+    String relativeLocation = fileAbsolutePath.replace(directory.getAbsolutePath(), "");
+    String directoriesOnly = relativeLocation.replace(fileName, "");
+    String[] tags = directoriesOnly.split("/");
+    contract.addTags(tags);
+  }
 
-	protected Contract loadFromFile(File file) {
-        if(file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
-			log.info("Loading config file : " + file.getAbsolutePath());
-			return contractFileLoaderFactory(file).load();
-		}
-		return null;
+  protected Contract loadFromFile(File file) {
+    if (file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
+      log.info("Loading config file : " + file.getAbsolutePath());
+      return contractFileLoaderFactory(file).load();
     }
+    return null;
+  }
 
-	private ContractFileLoader contractFileLoaderFactory(File file) {
-		try {
-			HashMap contents = objectMapper.readValue(file, HashMap.class);
-			return checkPayloadType(file, contents);
-		} catch (IOException e) {
-			throw new IllegalStateException("Problem occurred converting json to contract", e);
-		}
-	}
+  private ContractFileLoader contractFileLoaderFactory(File file) {
+    try {
+      HashMap contents = objectMapper.readValue(file, HashMap.class);
+      return checkPayloadType(file, contents);
+    } catch (IOException e) {
+      throw new IllegalStateException("Problem occurred converting json to contract", e);
+    }
+  }
 
-	private ContractFileLoader checkPayloadType(File file, HashMap contents) {
-		Map<String, Object> request = (Map<String, Object>) contents.get("request");
-		Map<String, Object> response = (Map<String, Object>) contents.get("response");
+  private ContractFileLoader checkPayloadType(File file, HashMap contents) {
+    Map<String, Object> request = (Map<String, Object>) contents.get("request");
+    Map<String, Object> response = (Map<String, Object>) contents.get("response");
 
-		if(request.get("body") == null && response.get("body") == null) {
-			return new StringBodyJsonFileLoader(file);
-		} else if(request.get("body") instanceof String || response.get("body") instanceof String) {
-			return new StringBodyJsonFileLoader(file);
-		} else if(request.get("body") instanceof Map || response.get("body") instanceof Map) {
-			return new JsonBodyFileLoader(contents, file);
-		} else if(request.get("body") instanceof Map || response.get("body") instanceof List) {
-			return new JsonBodyFileLoader(contents, file);
-		} else {
-			throw new IllegalStateException("Not sure how to create contract from " + contents);
-		}
-	}
+    if (request.get("body") == null && response.get("body") == null) {
+      return new StringBodyJsonFileLoader(file);
+    } else if (request.get("body") instanceof String || response.get("body") instanceof String) {
+      return new StringBodyJsonFileLoader(file);
+    } else if (request.get("body") instanceof Map || response.get("body") instanceof Map) {
+      return new JsonBodyFileLoader(contents, file);
+    } else if (request.get("body") instanceof Map || response.get("body") instanceof List) {
+      return new JsonBodyFileLoader(contents, file);
+    } else {
+      throw new IllegalStateException("Not sure how to create contract from " + contents);
+    }
+  }
 
 }

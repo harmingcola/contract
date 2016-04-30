@@ -40,6 +40,8 @@
         <module>contract-configuration</module>
         <module>contract-client</module>
         <module>contract-common</module>
+        <module>contract-maven-plugin</module>
+        <module>contract-all</module>
     </modules>
 
     <dependencies>
@@ -213,6 +215,9 @@
                         <excludes>
                             <exclude>org/seekay/contract/model/domain/**/*.class</exclude>
                             <exclude>**/JenkinsPipeline*</exclude>
+                            <exclude>**/RunServerMojo*</exclude>
+                            <exclude>**/RunClientMojo*</exclude>
+                            <exclude>**/CommandLineInterface*</exclude>
                         </excludes>
                     </instrumentation>
                     <skip>${skipTests}</skip>

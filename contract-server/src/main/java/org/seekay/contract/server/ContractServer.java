@@ -10,7 +10,7 @@ import org.seekay.contract.configuration.ConfigurationSource;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
-import org.seekay.contract.model.util.Http;
+import org.seekay.contract.model.tools.Http;
 import org.seekay.contract.server.servet.ConfigurationServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
@@ -132,6 +132,4 @@ public class ContractServer {
     addServlet(context, "requestHandler", new RequestHandlerServlet());
     context.addServletMapping("/*", "requestHandler");
   }
-
-
 }

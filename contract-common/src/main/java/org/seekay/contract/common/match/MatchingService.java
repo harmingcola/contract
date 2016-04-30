@@ -14,8 +14,8 @@ import org.seekay.contract.model.domain.Method;
 
 import java.util.Set;
 
-import static org.seekay.contract.model.util.PrintTools.prettyPrint;
-import static org.seekay.contract.model.util.SetTools.intersectingElements;
+import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
+import static org.seekay.contract.model.tools.SetTools.intersectingElements;
 
 @Slf4j
 @Setter
@@ -85,7 +85,7 @@ public class MatchingService {
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
-    return bodyMatchingService.findMatches(contractService.read(), contractRequest.getBody());
+    return bodyMatchingService.findMatches(contractService.read(), contractRequest);
   }
   
   private Contract getResult(Set<Contract>... contracts) {

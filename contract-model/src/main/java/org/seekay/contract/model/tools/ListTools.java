@@ -1,4 +1,4 @@
-package org.seekay.contract.model.util;
+package org.seekay.contract.model.tools;
 
 import java.util.List;
 

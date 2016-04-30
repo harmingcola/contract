@@ -1,4 +1,4 @@
-package org.seekay.contract.model.util
+package org.seekay.contract.model.tools
 import com.fasterxml.jackson.core.JsonGenerationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Specification

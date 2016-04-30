@@ -4,6 +4,11 @@ Release Notes
 
 ${release.version}
 -----
+* Feature     : Maven plugin for running contract server and client
+* Feature     : Fat & Runnable jar for starting ContractServer and running ContractClient
+
+0.0.2
+-----
 * Feature     : Support for ${contract.timestamp} in response bodies
 * Feature     : Contracts support an info block for documentation and reporting purposes
 * Feature     : Auto tagging of contracts based on directory structure.

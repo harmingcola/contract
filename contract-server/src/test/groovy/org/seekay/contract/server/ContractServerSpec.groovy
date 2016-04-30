@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.startup.Tomcat
 import org.seekay.contract.model.ContractTestFixtures
-import org.seekay.contract.model.util.Http
+import org.seekay.contract.model.tools.Http
 
 class ContractServerSpec extends ClientFacingTest {
 

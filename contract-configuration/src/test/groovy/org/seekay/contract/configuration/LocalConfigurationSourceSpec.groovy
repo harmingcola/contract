@@ -4,7 +4,7 @@ import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
 import static org.seekay.contract.model.domain.Method.GET
-import static org.seekay.contract.model.util.ListTools.first
+import static org.seekay.contract.model.tools.ListTools.first
 
 class LocalConfigurationSourceSpec extends Specification {
 
