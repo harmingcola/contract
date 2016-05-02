@@ -49,39 +49,26 @@ To run the client
     mvn org.seekay:contract-maven-plugin:${release.version}:run-client -Dtarget=http://localhost:8091 -DgitSource=https://github.com/harmingcola/kvServerContracts.git -Dusername=seekay_test -Dpassword=seekay_test_password
 
 
-I'm using Java but not Maven
-----------------------------
+I want to start a client / server from the command line
+-------------------------------------------------------
 We provide a fat and runnable jar that contains both the client and server.
+This option servers practically all client / servers across a variety of languages and platforms.
 The jar is available from `maven central <http://mvnrepository.com/artifact/org.seekay/contract-all>`_
 
 To run a server:
 
 .. code-block:: bash
 
-    java -jar contract-all-${release.version}.jar <run-server> <port> <source> <username> <passwword>
-
-Example :
-
-.. code-block:: bash
-
-    java -jar target/contract-all-${release.version} run-server 8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
-
+    java -jar contract-all-${release.version}.jar run-server 8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+    java -jar contract-all-${release.version}.jar run-server <port> <local or git repo URI> <git username, optional> <git password, optional>
 
 To run a client:
 
 .. code-block:: bash
 
-    java -jar contract-all-${release.version}.jar <run-client> <target> <source> <username> <passwword>
-
-Example :
-
-.. code-block:: bash
-
-    java -jar target/contract-all-${release.version} run-client http://localhost:8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+    java -jar contract-all-${release.version}.jar run-client http://localhost:8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+    java -jar contract-all-${release.version}.jar run-client <target url> <local or git repo URI> <git username, optional> <git password, optional>
 
 
 Usernames / passwords can be omitted for publicly accessible repositories
 
-I'm not using Java
-------------------
-I'm afraid we cant help you right now.

@@ -19,6 +19,6 @@ Client Features
 * Verification of responses to POST, GET, PUT & DELETE requests.
 * Specified headers will be sent & expected by the client.
 * Support for current timestamp in request bodies.
-
+* Filtering of contracts to be executed
 
 

@@ -77,4 +77,18 @@ class GetContractClientSpec extends ClientFacingTest {
         expect:
             contracts.size() == 1
     }
+
+	def "a client should be able to run contracts with certain tags" () {
+		given:
+			def contracts = [
+			        defaultGetContract().tags("one", "delete").build(),
+					defaultGetContract().tags("two", "delete").build(),
+					defaultGetContract().tags("three", "delete").build()
+			]
+			def contractClient = ContractClient.fromContracts(contracts)
+		when:
+			contractClient.onlyIncludeTags("three")
+		then:
+			contractClient.contracts.size() == 1
+	}
 }

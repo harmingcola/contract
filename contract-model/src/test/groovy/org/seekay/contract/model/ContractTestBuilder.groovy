@@ -18,7 +18,11 @@ class ContractTestBuilder {
     String responseBody
     Map<String, String> responseHeaders
 
-    private ContractTestBuilder(Method method) {
+	Map<String, Object> info = [] as HashMap
+	Set<String> tags = []
+
+
+	private ContractTestBuilder(Method method) {
         this.method = method
     }
 
@@ -80,12 +84,20 @@ class ContractTestBuilder {
         return this
     }
 
+	ContractTestBuilder tags(String... tags) {
+		this.tags = Arrays.asList(tags)
+		return this
+	}
+
 
     /*
      * Builder
      */
     Contract build() {
         return new Contract(
+				info: [
+					tags: tags.asList()
+				],
                 request: new ContractRequest(
                         method: method,
                         path: path,
@@ -99,5 +111,6 @@ class ContractTestBuilder {
                 )
         )
     }
+
 
 }

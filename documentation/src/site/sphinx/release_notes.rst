@@ -2,9 +2,13 @@
 Release Notes
 =============
 
-${release.version}
+0.0.4
 -----
-* Feature     : Maven plugin for running contract server and client
+* Feature     : Filter Contracts from being executed by ContractClient
+
+0.0.3
+-----
+* Feature     : Maven plugin for running ContractServer and ContractClient
 * Feature     : Fat & Runnable jar for starting ContractServer and running ContractClient
 
 0.0.2
@@ -14,7 +18,7 @@ ${release.version}
 * Feature     : Auto tagging of contracts based on directory structure.
 * Improvement : Request & response bodies can now be written in json and escaped text.
 * Bug fix     : When a contract doesn't load correctly, no error is thrown.
-
+* Feature     : Matching support for paths with query parameters.
 
 0.0.1
 -----

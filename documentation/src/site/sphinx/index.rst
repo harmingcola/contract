@@ -69,6 +69,7 @@ However, all a service provider need do is publish their contracts, and any clie
     kv_server
     kv_client
     contract_repository
+    tagging
     building
     contributing
     support

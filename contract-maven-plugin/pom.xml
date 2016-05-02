@@ -52,7 +52,17 @@
                 <version>3.2</version>
                 <configuration>
                     <goalPrefix>contract</goalPrefix>
-                </configuration>
+					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				</configuration>
+				<executions>
+					<execution>
+						<id>mojo-descriptor</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
             </plugin>
 
         </plugins>

@@ -17,11 +17,10 @@ public class Contract implements Comparable<Contract> {
 		if(info == null) {
 			info = new HashMap<String, Object>();
 		}
-
-		ArrayList<String> arrayListTags = (ArrayList<String>) info.get("tags");
+		List<String> arrayListTags = (ArrayList<String>) info.get("tags");
 		if(arrayListTags == null) {
 			arrayListTags = new ArrayList<String>();
-			info.put("tags", new ArrayList<String>());
+			info.put("tags", arrayListTags);
 		}
 		return new HashSet<String>(arrayListTags);
 	}
