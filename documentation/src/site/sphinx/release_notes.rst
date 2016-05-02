@@ -5,6 +5,7 @@ Release Notes
 0.0.4
 -----
 * Feature     : Filter Contracts from being executed by ContractClient
+* Improvement : Switched far jar interface to use Apache commons CLI
 
 0.0.3
 -----

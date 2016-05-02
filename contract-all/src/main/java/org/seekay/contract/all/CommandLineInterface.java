@@ -8,38 +8,60 @@ import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
 
 public class CommandLineInterface {
-	
+
 	public static void main(String[] args) throws Exception {
 
 		Options options = buildOptions();
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd = parser.parse(options, args);
 
-		boolean displayHelp = true;
+		StringBuffer footer = new StringBuffer();
+
+		boolean displayHelp = false;
 		if(cmd.hasOption("s")) {
-			if(cmd.hasOption("p") && cmd.hasOption("g") && !cmd.hasOption("u") && !cmd.hasOption("q")) {
-				startServerUnsecuredSource(cmd.getOptionValue("p"), cmd.getOptionValue("g"));
-				displayHelp = false;
+			if(cmd.hasOption("p") && cmd.hasOption("g")) {
+				if(!cmd.hasOption("u") && !cmd.hasOption("q")) {
+					startServerUnsecuredSource(cmd.getOptionValue("p"), cmd.getOptionValue("g"));
+				}
+				else if(cmd.hasOption("u") && cmd.hasOption("q")) {
+					startServerSecuredSource(cmd.getOptionValue("p"), cmd.getOptionValue("g"), cmd.getOptionValue("u"), cmd.getOptionValue("q"));
+				}
+				else {
+					footer.append("Looks like either a username or password was supplied, but not both\n");
+					displayHelp = true;
+				}
 			}
-			else if(cmd.hasOption("p") && cmd.hasOption("g") && cmd.hasOption("u") && cmd.hasOption("q")) {
-				startServerSecuredSource(cmd.getOptionValue("p"), cmd.getOptionValue("g"), cmd.getOptionValue("u"), cmd.getOptionValue("q"));
-				displayHelp = false;
+			else {
+				footer.append("To start a server, both a port and a configuration source must be specified\n");
+				displayHelp = true;
 			}
 		}
 		else if(cmd.hasOption("c")) {
-			if(cmd.hasOption("t") && cmd.hasOption("g") && !cmd.hasOption("u") && !cmd.hasOption("q")) {
-				startClientUnsecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"));
-				displayHelp = false;
+			if(cmd.hasOption("t") && cmd.hasOption("g")) {
+				if (!cmd.hasOption("u") && !cmd.hasOption("q")) {
+					startClientUnsecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"));
+				}
+				else if (cmd.hasOption("t") && cmd.hasOption("g") && cmd.hasOption("u") && cmd.hasOption("q")) {
+					startClientSecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"), cmd.getOptionValue("u"), cmd.getOptionValue("q"));
+				}
+				else {
+					footer.append("Looks like either a username or password was supplied, but not both\n");
+					displayHelp = true;
+				}
 			}
-			else if(cmd.hasOption("t") && cmd.hasOption("g") && cmd.hasOption("u") && cmd.hasOption("q")) {
-				startClientSecuredSource(cmd.getOptionValue("t"), cmd.getOptionValue("g"), cmd.getOptionValue("u"), cmd.getOptionValue("q"));
-				displayHelp = false;
+			else {
+				footer.append("To run client tests, both a target and a configuration source must be specified\n");
+				displayHelp = true;
 			}
+		}
+		else {
+			footer.append("Please select a mode to run the jar in, -s for server, -c for client\n");
+			displayHelp = true;
 		}
 
 		if(displayHelp) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("contract", "", options, "", true);
+			formatter.printHelp("contract", "", options, footer.toString(), true);
 		}
 	}
 
