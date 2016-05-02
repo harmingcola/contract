@@ -52,4 +52,13 @@ Multiple tags can also be passed as arguments
         .onlyIncludeTags("core", "webclient", "login")
         .runTests()
 
-And contracts with any of these tags will be executed.
+And contracts with any of these tags will be executed. The Opposite is also possible.
+
+.. code-block::
+
+    ContractClient.fromContracts(contracts)
+        .excludeTags("core")
+        .runTests()
+
+This will exclude every contract with the tag 'core'. Include and exclude can be used in conjunction with one another.
+However, their ordering will need to be taken into account by the user.
