@@ -8,6 +8,7 @@ import org.seekay.contract.server.ContractServer;
 
 import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
+import static org.seekay.contract.model.tools.SetTools.toSet;
 import static org.seekay.contract.server.ContractServer.newServer;
 
 @Mojo(name = "run-server")
@@ -27,6 +28,12 @@ public class RunServerMojo extends AbstractMojo {
 
   @Parameter(property = "password")
   private String password;
+
+  @Parameter(property = "excludedTags")
+  private String excludedTags;
+
+  @Parameter(property = "includedTags")
+  private String includedTags;
 
   private boolean shouldWait = true;
 
@@ -48,6 +55,7 @@ public class RunServerMojo extends AbstractMojo {
     if (localSource != null) {
       server.withLocalConfig(localSource);
     }
+    server.tags(toSet(includedTags), toSet(excludedTags));
     server.startServer();
 
     if(shouldWait) {

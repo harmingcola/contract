@@ -6,6 +6,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.seekay.contract.client.client.ContractClient;
 
+import static org.seekay.contract.model.tools.SetTools.toSet;
+
 @Mojo(name = "run-client")
 public class RunClientMojo extends AbstractMojo {
 
@@ -24,6 +26,11 @@ public class RunClientMojo extends AbstractMojo {
   @Parameter(property = "password")
   private String password;
 
+  @Parameter(property = "excludedTags")
+  private String excludedTags;
+
+  @Parameter(property = "includedTags")
+  private String includedTags;
 
   public void execute() throws MojoExecutionException {
     if(gitSource == null && localSource == null) {
@@ -43,7 +50,7 @@ public class RunClientMojo extends AbstractMojo {
     if(localSource != null) {
       client.withLocalConfig(localSource);
     }
-
+    client.tags(toSet(includedTags), toSet(excludedTags));
     client.runTests();
   }
 }

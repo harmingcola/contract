@@ -4,12 +4,9 @@ import org.apache.commons.cli.*;
 import org.seekay.contract.client.client.ContractClient;
 import org.seekay.contract.server.ContractServer;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
+import static org.seekay.contract.model.tools.SetTools.toSet;
 
 public class CommandLineInterface {
 
@@ -103,10 +100,7 @@ public class CommandLineInterface {
 		waitUntilKilled();
 	}
 
-  private static Set<String> toSet(String csvTags) {
-    String[] tokens = csvTags.replaceAll(" ", "").split(",");
-    return new HashSet<String>(Arrays.asList(tokens));
-  }
+
 
 	private static void waitUntilKilled() {
 		while (true) try {

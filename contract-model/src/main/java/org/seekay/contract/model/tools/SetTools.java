@@ -111,6 +111,16 @@ public class SetTools {
         return output;
     }
 
+    /**
+     * Converts a csv string to a set of strings
+     * @param csvTags
+     * @return
+     */
+    public static Set<String> toSet(String csvTags) {
+        String[] tokens = csvTags.replaceAll(" ", "").split(",");
+        return toSet(tokens);
+    }
+
     private static <T> List<Set<T>> tail(Set<T>... sets) {
         if (sets.length < 2) {
             throw new IllegalStateException("Matching configured incorrectly");

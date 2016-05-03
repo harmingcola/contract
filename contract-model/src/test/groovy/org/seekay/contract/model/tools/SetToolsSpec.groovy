@@ -3,6 +3,7 @@ package org.seekay.contract.model.tools
 import spock.lang.Specification
 
 import static org.seekay.contract.model.tools.SetTools.*
+import static org.seekay.contract.model.tools.SetTools.toSet
 
 
 class SetToolsSpec extends Specification {
@@ -97,7 +98,7 @@ class SetToolsSpec extends Specification {
         given:
             String[] array = "zero one two three four".split()
         when:
-            def set = SetTools.toSet(array)
+            def set = toSet(array)
         then:
             set.contains("zero")
             set.contains("one")
@@ -109,7 +110,7 @@ class SetToolsSpec extends Specification {
     def "an empty array converted to a set should have no elements"() {
         given:
             def array = new String[0]
-        when:
+        when    :
             def set = toSet(array)
         then:
             set.size() == 0
@@ -120,6 +121,24 @@ class SetToolsSpec extends Specification {
             def array = null
         when:
             def set = toSet(array)
+        then:
+            set.size() == 0
+    }
+
+    def "a csv string should be split into a set with the correct elements" () {
+        given:
+            def csv = "one, two, three"
+        when:
+            def set = toSet(csv)
+        then:
+            set.contains("one")
+            set.contains("two")
+            set.contains("three")
+    }
+
+    def "null string split by commas should return an empty set" () {
+        when:
+            def set = toSet(null)
         then:
             set.size() == 0
     }
