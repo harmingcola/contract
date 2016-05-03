@@ -6,7 +6,7 @@ import java.util.Set;
 
 public interface ContractOperator<T> {
 
-  T tags(Set<String> tagsToInclude, Set<String> tagsToExclude);
+  T tags(Set<String> tagsToRetain, Set<String> tagsToExclude);
 
   /**
    * Filters already loaded contracts. Only contracts containing none of the tagsToExclude will be retained.
@@ -17,10 +17,10 @@ public interface ContractOperator<T> {
 
   /**
    * Filters already loaded contracts. Only contracts containing at least one tag will be retained.
-   * @param tagsToInclude
+   * @param tagsToRetain
    * @return
    */
-  T onlyIncludeTags(String... tagsToInclude);
+  T retainTags(String... tagsToRetain);
 
   /**
    * Adds contracts to memory for execution

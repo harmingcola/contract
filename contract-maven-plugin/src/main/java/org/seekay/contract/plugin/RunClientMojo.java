@@ -26,11 +26,11 @@ public class RunClientMojo extends AbstractMojo {
   @Parameter(property = "password")
   private String password;
 
-  @Parameter(property = "excludedTags")
-  private String excludedTags;
+  @Parameter(property = "tagsToExclude")
+  private String tagsToExclude;
 
-  @Parameter(property = "includedTags")
-  private String includedTags;
+  @Parameter(property = "tagsToRetain")
+  private String tagsToRetain;
 
   public void execute() throws MojoExecutionException {
     if(gitSource == null && localSource == null) {
@@ -50,7 +50,7 @@ public class RunClientMojo extends AbstractMojo {
     if(localSource != null) {
       client.withLocalConfig(localSource);
     }
-    client.tags(toSet(includedTags), toSet(excludedTags));
+    client.tags(toSet(tagsToRetain), toSet(tagsToExclude));
     client.runTests();
   }
 }

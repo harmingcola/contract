@@ -35,13 +35,13 @@ This contract will also be tagged with 'admin' and 'core.
 Filtering
 ---------
 
-The ContractClient can either onlyInclude or exclude certain contracts based on their tags.
+The ContractClient can either retain or exclude certain contracts based on their tags.
 For example to execute the Contracts tagged with 'core'
 
 .. code-block::
 
     ContractClient.fromContracts(contracts)
-        .onlyIncludeTags("core")
+        .retainTags("core")
         .runTests()
 
 Multiple tags can also be passed as arguments
@@ -49,7 +49,7 @@ Multiple tags can also be passed as arguments
 .. code-block::
 
     ContractClient.fromContracts(contracts)
-        .onlyIncludeTags("core", "webclient", "login")
+        .retainTags("core", "webclient", "login")
         .runTests()
 
 And contracts with any of these tags will be executed. The Opposite is also possible.
@@ -60,5 +60,5 @@ And contracts with any of these tags will be executed. The Opposite is also poss
         .excludeTags("core")
         .runTests()
 
-This will exclude every contract with the tag 'core'. Include and exclude can be used in conjunction with one another.
+This will exclude every contract with the tag 'core'. Retain and exclude can be used in conjunction with one another.
 However, their ordering will need to be taken into account by the user.

@@ -124,8 +124,8 @@ public class ContractClient implements ContractOperator<ContractClient> {
     return this;
   }
 
-  public ContractClient onlyIncludeTags(String... tagsToInclude) {
-    this.contracts = ContractTools.onlyIncludeTags(this.contracts, tagsToInclude);
+  public ContractClient retainTags(String... tagsToRetain) {
+    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
     return this;
   }
 
@@ -134,8 +134,8 @@ public class ContractClient implements ContractOperator<ContractClient> {
     return this;
   }
 
-  public ContractClient tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
-    this.contracts = ContractTools.tags(this.contracts, tagsToInclude, tagsToExclude);
+  public ContractClient tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
+    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;
   }
 

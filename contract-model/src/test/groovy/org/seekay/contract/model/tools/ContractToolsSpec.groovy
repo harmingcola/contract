@@ -7,7 +7,7 @@ class ContractToolsSpec extends Specification {
 
     def "set tools should never be constructed" () {
         when:
-        	SetTools.class.newInstance()
+            ContractTools.class.newInstance()
         then:
         	IllegalStateException e = thrown()
         	e.message == "Utility classes should never be constructed"
@@ -21,7 +21,7 @@ class ContractToolsSpec extends Specification {
                 defaultGetContract().tags("three", "delete").build()
             ]
         when:
-            contracts = ContractTools.onlyIncludeTags(contracts, "three")
+            contracts = ContractTools.retainTags(contracts, "three")
         then:
             contracts.size() == 1
     }

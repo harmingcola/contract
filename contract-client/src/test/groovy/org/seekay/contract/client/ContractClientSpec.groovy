@@ -87,7 +87,7 @@ class ContractClientSpec extends ClientFacingTest {
 			]
 			def contractClient = ContractClient.fromContracts(contracts)
 		when:
-			contractClient.onlyIncludeTags("three")
+			contractClient.retainTags("three")
 		then:
 			contractClient.contracts.size() == 1
 	}

@@ -70,7 +70,7 @@ public class CommandLineInterface {
 		ContractClient.newClient().withGitConfig(
           cmd.getOptionValue('g'), cmd.getOptionValue('u'), cmd.getOptionValue('q'))
         .againstPath(cmd.getOptionValue('t'))
-        .tags(toSet(cmd.getOptionValue('i')), toSet(cmd.getOptionValue('e')))
+        .tags(toSet(cmd.getOptionValue('r')), toSet(cmd.getOptionValue('e')))
         .runTests();
 	}
 
@@ -78,7 +78,7 @@ public class CommandLineInterface {
     ContractClient.newClient().withGitConfig(
           cmd.getOptionValue('g'))
         .againstPath(cmd.getOptionValue('t'))
-        .tags(toSet(cmd.getOptionValue('i')), toSet(cmd.getOptionValue('e')))
+        .tags(toSet(cmd.getOptionValue('r')), toSet(cmd.getOptionValue('e')))
         .runTests();
 	}
 
@@ -127,7 +127,7 @@ public class CommandLineInterface {
 		options.addOption("u", "username", true, "Username of secured git repository, optional");
 		options.addOption("q", "password",true,"Password of secured git repository, optional");
 		options.addOption("e", "exclude-tags", true, "Comma separated list of tags to be excluded from test run");
-		options.addOption("i", "include-tags", true, "Comma separated list of tags to be included in test run");
+		options.addOption("r", "retain-tags", true, "Comma separated list of tags to be retained, all other contracts will be ignored");
 		options.addOption("h", "help",false,"Prints usage info");
 
 		return options;

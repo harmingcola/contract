@@ -29,11 +29,11 @@ public class RunServerMojo extends AbstractMojo {
   @Parameter(property = "password")
   private String password;
 
-  @Parameter(property = "excludedTags")
-  private String excludedTags;
+  @Parameter(property = "tagsToExclude")
+  private String tagsToExclude;
 
-  @Parameter(property = "includedTags")
-  private String includedTags;
+  @Parameter(property = "tagsToRetain")
+  private String tagsToRetain;
 
   private boolean shouldWait = true;
 
@@ -55,7 +55,7 @@ public class RunServerMojo extends AbstractMojo {
     if (localSource != null) {
       server.withLocalConfig(localSource);
     }
-    server.tags(toSet(includedTags), toSet(excludedTags));
+    server.tags(toSet(tagsToRetain), toSet(tagsToExclude));
     server.startServer();
 
     if(shouldWait) {
