@@ -10,15 +10,18 @@ import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
+import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.model.tools.Http;
 import org.seekay.contract.server.servet.ConfigurationServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import static org.apache.catalina.startup.Tomcat.addServlet;
-import static org.seekay.contract.model.tools.SetTools.toArray;
 
 @Slf4j
 public class ContractServer implements ContractOperator<ContractServer> {
@@ -159,42 +162,17 @@ public class ContractServer implements ContractOperator<ContractServer> {
   }
 
 	public ContractServer onlyIncludeTags(String... tagsToInclude) {
-		Set<Contract> contractsToInclude = new HashSet<Contract>();
-		for(Contract contract : contracts) {
-			Set<String> contractTags = contract.readTags();
-			for(String tagToInclude : tagsToInclude) {
-				if(contractTags.contains(tagToInclude)) {
-					contractsToInclude.add(contract);
-					continue;
-				}
-			}
-		}
-		contracts = new ArrayList<Contract>(contractsToInclude);
+		this.contracts = ContractTools.onlyIncludeTags(this.contracts, tagsToInclude);
 		return this;
 	}
 
 	public ContractServer excludeTags(String... tagsToExclude) {
-		Set<Contract> contractsToExclude = new HashSet<Contract>();
-		for(Contract contract : contracts) {
-			Set<String> contractTags = contract.readTags();
-			for(String tagToInclude : tagsToExclude) {
-				if(contractTags.contains(tagToInclude)) {
-					contractsToExclude.add(contract);
-					continue;
-				}
-			}
-		}
-		contracts.removeAll(contractsToExclude);
+		this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
 		return this;
 	}
 
 	public ContractServer tags(Set<String> tagsToInclude, Set<String> tagsToExclude) {
-		if(tagsToInclude != null) {
-			onlyIncludeTags(toArray(tagsToInclude));
-		}
-		if(tagsToExclude != null) {
-			excludeTags(toArray(tagsToExclude));
-		}
+		this.contracts = ContractTools.tags(this.contracts, tagsToInclude, tagsToExclude);
 		return this;
 	}
 
@@ -202,7 +180,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
 		try {
 			return objectMapper.writeValueAsString(contract);
 		} catch (JsonProcessingException e) {
-			//log.error("Error configuring server with contract ["+ contract +"]", e);
+			log.error("Error configuring server with contract ["+ contract +"]", e);
 			throw new IllegalStateException(e);
 		}
 	}
