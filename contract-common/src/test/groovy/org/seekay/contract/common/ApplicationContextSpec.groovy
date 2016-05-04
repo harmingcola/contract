@@ -54,10 +54,10 @@ class ApplicationContextSpec extends Specification {
 
     def "a single exact path matcher should be created" () {
         when:
-            PathMatchingService pathMatchingService = ApplicationContext.pathMatchService()
+            PathMatchingService pathMatchingService = ApplicationContext.pathMatchingService()
         then:
             pathMatchingService != null
-            pathMatchingService == ApplicationContext.pathMatchService()
+            pathMatchingService == ApplicationContext.pathMatchingService()
     }
 
     def "a single method matcher should be created" () {
@@ -109,7 +109,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.objectMapper()
             ApplicationContext.contractBuilder()
             ApplicationContext.matchingService()
-            ApplicationContext.pathMatchService()
+            ApplicationContext.pathMatchingService()
             ApplicationContext.methodMatcher()
             ApplicationContext.headerMatcher()
             ApplicationContext.bodyMatchingService()

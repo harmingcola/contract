@@ -68,6 +68,7 @@ However, all a service provider need do is publish their contracts, and any clie
     contract_files
     kv_server
     kv_client
+    matching
     contract_repository
     tagging
     building

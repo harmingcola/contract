@@ -1,5 +1,6 @@
 package org.seekay.contract.client.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.ApplicationContext;
 import org.seekay.contract.common.assertion.AssertionService;
@@ -11,16 +12,20 @@ import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
+import org.seekay.contract.model.exception.ContractFailedExceptionBuilder;
 import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.model.tools.Http;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.seekay.contract.common.match.path.ExpressionPathMatcher.ANY_STRING;
+import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
 
 @Slf4j
 public class ContractClient implements ContractOperator<ContractClient> {
@@ -31,6 +36,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
   private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
   private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
   private AssertionService assertionService = ApplicationContext.assertionService();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   private ContractClient() {
     contracts = new ArrayList<Contract>();
@@ -70,15 +76,18 @@ public class ContractClient implements ContractOperator<ContractClient> {
    */
   public void runTests() {
     for (Contract contract : contracts) {
-      log.info("Checking contract " + contract);
+      log.info("Executing test contract " + prettyPrint(contract, objectMapper));
       ContractRequest request = contract.getRequest();
+
+      String enrichedRequestPath = enrich(request.getPath());
+
       ContractResponse response = Http.method(request.getMethod())
-          .toPath(path + request.getPath())
+          .toPath(path + enrichedRequestPath)
           .withHeaders(request.getHeaders())
           .withBody(request.getBody())
           .execute()
           .toResponse();
-      assertResponseIsValid(contract.getResponse(), response);
+      assertResponseIsValid(contract, response);
     }
   }
 
@@ -139,25 +148,57 @@ public class ContractClient implements ContractOperator<ContractClient> {
     return this;
   }
 
-  private void assertResponseIsValid(ContractResponse contractResponse, ContractResponse actualResponse) {
-    assertStatusCodesMatch(contractResponse, actualResponse);
-    assertBodiesMatch(contractResponse, actualResponse);
-    assertHeadersContained(contractResponse, actualResponse);
+  private String enrich(String path) {
+    Pattern anyStringPatten = Pattern.compile(ANY_STRING);
+    if(anyStringPatten.matcher(path).find()) {
+      path = path.replaceAll(ANY_STRING, randomString());
+    }
+    return path;
   }
 
-  private void assertHeadersContained(ContractResponse contractResponse, ContractResponse actualResponse) {
-    boolean headersContained = headerMatcher.isMatch(contractResponse.getHeaders(), actualResponse.getHeaders());
-    assertThat("Response headers are expected to contain all Contract Headers", headersContained, is(true));
+  private String randomString() {
+    SecureRandom random = new SecureRandom();
+    return new BigInteger(130, random).toString(32).substring(3, 3 +random.nextInt(7));
   }
 
-  private void assertBodiesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-    assertionService.assertOnWildCards(contractResponse, actualResponse);
-    boolean bodiesMatch = bodyMatchingService.isMatch(contractResponse.getBody(), actualResponse.getBody());
-    assertThat("Response and Contract bodies are expected to match", bodiesMatch, is(true));
+  private void assertResponseIsValid(Contract contract, ContractResponse actualResponse) {
+    assertStatusCodesMatch(contract, actualResponse);
+    assertBodiesMatch(contract, actualResponse);
+    assertHeadersContained(contract, actualResponse);
   }
 
-  private void assertStatusCodesMatch(ContractResponse contractResponse, ContractResponse actualResponse) {
-    assertThat("Response and Contract status codes are expected to match", actualResponse.getStatus(), is(contractResponse.getStatus()));
+  private void assertHeadersContained(Contract contract, ContractResponse actualResponse) {
+    boolean headersContained = headerMatcher.isMatch(contract.getResponse().getHeaders(), actualResponse.getHeaders());
+    if(!headersContained) {
+      throw ContractFailedExceptionBuilder
+          .expectedContract(contract)
+          .actualResponse(actualResponse)
+          .errorMessage("Response headers are expected to contain all Contract Headers")
+          .build();
+    }
+  }
+
+  private void assertBodiesMatch(Contract contract, ContractResponse actualResponse) {
+    assertionService.assertOnWildCards(contract.getResponse(), actualResponse);
+    boolean bodiesMatch = bodyMatchingService.isMatch(contract.getResponse().getBody(), actualResponse.getBody());
+    if(!bodiesMatch) {
+      throw ContractFailedExceptionBuilder
+          .expectedContract(contract)
+          .actualResponse(actualResponse)
+          .errorMessage("Bodies are expected to match")
+          .build();
+    }
+  }
+
+  private void assertStatusCodesMatch(Contract contract, ContractResponse actualResponse) {
+    if(!actualResponse.getStatus().equals(contract.getResponse().getStatus())) {
+      throw ContractFailedExceptionBuilder
+          .expectedContract(contract)
+          .actualResponse(actualResponse)
+          .statusCodes(contract.getResponse().getStatus(), actualResponse.getStatus())
+          .build();
+    }
+
   }
 
 }

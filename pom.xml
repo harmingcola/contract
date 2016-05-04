@@ -223,6 +223,7 @@
                     <instrumentation>
                         <excludes>
                             <exclude>org/seekay/contract/model/domain/**/*.class</exclude>
+                            <exclude>org/seekay/contract/model/exception/**/*.class</exclude>
                             <exclude>**/JenkinsPipeline*</exclude>
                             <exclude>**/RunServerMojo*</exclude>
                             <exclude>**/RunClientMojo*</exclude>

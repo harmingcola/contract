@@ -1,6 +1,7 @@
 package org.seekay.contract.client
 import org.seekay.contract.client.client.ContractClient
 import org.seekay.contract.model.domain.Contract
+import org.seekay.contract.model.exception.ContractFailedException
 import org.seekay.contract.server.ClientFacingTest
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
@@ -23,8 +24,8 @@ class ContractClientSpec extends ClientFacingTest {
         when:
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
-            def e = thrown(AssertionError)
-            e.message.contains("Response and Contract status codes are expected to match")
+            def e = thrown(ContractFailedException)
+            e.message.contains("Status codes are expected to match")
     }
 
     def "The client will throw an exception when the returned body doesn't match the expected" () {
@@ -35,8 +36,20 @@ class ContractClientSpec extends ClientFacingTest {
         when:
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
         then:
-            def e = thrown(AssertionError)
-            e.message.contains("Response and Contract bodies are expected to match")
+            def e = thrown(ContractFailedException)
+            e.message.contains("Bodies are expected to match")
+    }
+
+    def "The client will throw an exception when the returned headers doesn't contain everything from the contract" () {
+        given:
+            Contract serverContract = defaultGetContract().responseHeaders(["hello":"world"]).build()
+            Contract clientContract = defaultGetContract().responseHeaders(["booo":"ya"]).build()
+            server.addContract(serverContract)
+        when:
+            ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()
+        then:
+            def e = thrown(ContractFailedException)
+            e.message.contains("Response headers are expected to contain all Contract Headers")
     }
 
     def "a server and client configured from identical sources should operate correctly" () {

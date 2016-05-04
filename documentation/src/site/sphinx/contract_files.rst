@@ -66,17 +66,14 @@ Fields
 Wildcards
 ---------
 Wildcards are expressions that the server will fill with the appropriate data, and the client will recognise when given in a response.
-
-    * ${contract.timestamp}
-        * Will be replaced / recognised as the current time in nano seconds. The contract-client will give allow for 1 millisecond on either side of the timestamp.
-        * Currently only supported in response.body
+For more detail on wildcards, see `Matching <http://harmingcola.github.io/contract/matching.html>`_
 
 .. code-block:: javascript
 
     {
       "request" : {
         "method" : "GET",
-        "path" : "/kv/service/times"
+        "path" : "/kv/service/${contract.anyString}"
       },
       "response" : {
         "status" : 200,

@@ -8,6 +8,9 @@ public class QueryParamPathMatcher implements PathMatcher {
   public boolean isMatch(String contractPath, String actualPath) {
     Map<String, String> contractParameters = extractParameters(contractPath);
     Map<String, String> actualParameters = extractParameters(actualPath);
+    if(contractParameters.size() == 0) {
+      return false;
+    }
     return areParametersEquivalent(contractParameters, actualParameters);
   }
 

@@ -5,6 +5,8 @@ Features
 * DSL supports both json objects and text for specifying bodies.
 * Share contracts via GIT or local storage.
 * Auto and manual tagging of contracts.
+* Filtering of contracts by tags
+* Out of order JSON body matching.
 
 Server Features
 ---------------
@@ -12,6 +14,7 @@ Server Features
 * Hard coded server responses for POST, GET, PUT & DELETE requests.
 * Specified headers will be expected & returned by the server.
 * Support for current timestamp included in response bodies.
+* Out of order query params will be recognised.
 
 Client Features
 ---------------

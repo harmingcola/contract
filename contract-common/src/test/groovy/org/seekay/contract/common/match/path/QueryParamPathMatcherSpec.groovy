@@ -56,4 +56,14 @@ class QueryParamPathMatcherSpec extends Specification {
         then:
             !isMatch
     }
+
+    def "two paths without params should not match, another classes responsibility" () {
+        given:
+            String contractPath = "/index"
+            String actualPath = "/index"
+        when:
+            boolean isMatch = matcher.isMatch(contractPath, actualPath)
+        then:
+            !isMatch
+    }
 }
