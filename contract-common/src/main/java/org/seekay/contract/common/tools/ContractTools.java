@@ -1,4 +1,4 @@
-package org.seekay.contract.model.tools;
+package org.seekay.contract.common.tools;
 
 import org.seekay.contract.model.domain.Contract;
 
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.seekay.contract.model.tools.SetTools.*;
+import static org.seekay.contract.common.tools.SetTools.*;
 
 public class ContractTools {
 

@@ -1,14 +1,14 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common.tools
 
 import spock.lang.Specification
 
-import static org.seekay.contract.model.tools.SetTools.*
-import static org.seekay.contract.model.tools.SetTools.toSet
+import static org.seekay.contract.common.tools.SetTools.*
+import static org.seekay.contract.common.tools.SetTools.toSet
 
 
 class SetToolsSpec extends Specification {
 
-    def "set tools should never be constructed" () {
+    def "SetTools should never be constructed" () {
         when:
         	SetTools.class.newInstance()
         then:

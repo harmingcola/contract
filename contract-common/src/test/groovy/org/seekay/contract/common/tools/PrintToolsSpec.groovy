@@ -1,4 +1,4 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common.tools
 import com.fasterxml.jackson.core.JsonGenerationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Specification
@@ -7,7 +7,7 @@ class PrintToolsSpec extends Specification {
 
 	ObjectMapper objectMapper = new ObjectMapper();
 
-	def "print tools should never be constructed" () {
+	def "PrintTools should never be constructed" () {
 		when:
 			PrintTools.class.newInstance()
 		then:

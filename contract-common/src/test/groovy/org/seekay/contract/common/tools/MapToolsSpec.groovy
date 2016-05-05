@@ -1,18 +1,17 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common.tools
 
 import spock.lang.Specification
 
-import javax.servlet.http.HttpServletRequest
+import static org.seekay.contract.common.tools.MapTools.isSubMap
 
+class MapToolsSpec extends Specification {
 
-class HeaderToolsSpec extends Specification {
-
-    def "header tools should never be constructed" () {
+    def "MapTools should never be constructed" () {
         when:
-        	HeaderTools.class.newInstance()
+            MapTools.class.newInstance()
         then:
-			IllegalStateException e = thrown()
-			e.message == "Utility classes should never be constructed"
+            IllegalStateException e = thrown()
+            e.message == "Utility classes should never be constructed"
     }
 
     def "a null map should be a subset of a map" () {
@@ -20,7 +19,7 @@ class HeaderToolsSpec extends Specification {
             def subMap = null
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             result
     }
@@ -30,7 +29,7 @@ class HeaderToolsSpec extends Specification {
             def subMap = new HashMap<String,String>()
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             result
     }
@@ -40,7 +39,7 @@ class HeaderToolsSpec extends Specification {
             def subMap = aPopulatedMap()
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             result
     }
@@ -51,7 +50,7 @@ class HeaderToolsSpec extends Specification {
             subMap.remove("Content-Type:")
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             result
     }
@@ -62,7 +61,7 @@ class HeaderToolsSpec extends Specification {
             subMap.put("status","grand")
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             !result
     }
@@ -74,25 +73,10 @@ class HeaderToolsSpec extends Specification {
             subMap.put("superhero","batman")
             def superMap = aPopulatedMap()
         when:
-            boolean result = HeaderTools.isSubMap(subMap, superMap)
+            boolean result = isSubMap(subMap, superMap)
         then:
             !result
     }
-
-	def "headers should be extracted correctly" () {
-		given:
-			Enumeration<String> headerNames = new StringTokenizer("browser time")
-			HttpServletRequest request = Mock(HttpServletRequest)
-		when:
-			Map result = HeaderTools.extractHeaders(request)
-		then:
-			result["browser"] == "chrome"
-			result["time"] == "nowish"
-			1 * request.getHeaderNames() >> headerNames
-			1 * request.getHeader("browser") >> "chrome"
-			1 * request.getHeader("time") >> "nowish"
-
-	}
 
     Map<String,String> aPopulatedMap() {
         return [

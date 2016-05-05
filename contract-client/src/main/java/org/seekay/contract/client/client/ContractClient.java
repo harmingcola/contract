@@ -3,18 +3,18 @@ package org.seekay.contract.client.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.ApplicationContext;
+import org.seekay.contract.common.Http;
 import org.seekay.contract.common.assertion.AssertionService;
+import org.seekay.contract.common.builder.ContractFailedExceptionBuilder;
 import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
+import org.seekay.contract.common.tools.ContractTools;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
-import org.seekay.contract.model.exception.ContractFailedExceptionBuilder;
-import org.seekay.contract.model.tools.ContractTools;
-import org.seekay.contract.model.tools.Http;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -24,8 +24,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static org.seekay.contract.common.match.path.ExpressionPathMatcher.ANY_STRING;
-import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
+import static org.seekay.contract.common.match.common.ExpressionMatcher.ANY_STRING;
+import static org.seekay.contract.common.tools.PrintTools.prettyPrint;
 
 @Slf4j
 public class ContractClient implements ContractOperator<ContractClient> {

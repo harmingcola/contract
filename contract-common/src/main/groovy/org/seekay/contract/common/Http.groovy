@@ -1,4 +1,4 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common
 
 import org.apache.http.Header
 import org.apache.http.HttpResponse

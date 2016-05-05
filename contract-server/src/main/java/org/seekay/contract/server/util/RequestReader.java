@@ -7,7 +7,7 @@ import org.seekay.contract.model.domain.Method;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static org.seekay.contract.model.tools.HeaderTools.extractHeaders;
+import static org.seekay.contract.common.tools.HeaderTools.extractHeaders;
 
 public class RequestReader {
 

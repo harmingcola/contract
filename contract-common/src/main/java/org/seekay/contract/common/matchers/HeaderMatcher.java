@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.seekay.contract.model.tools.HeaderTools.isSubMap;
+import static org.seekay.contract.common.tools.MapTools.isSubMap;
 
 public class HeaderMatcher {
 

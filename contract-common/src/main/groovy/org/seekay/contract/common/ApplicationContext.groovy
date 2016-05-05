@@ -10,10 +10,8 @@ import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
 import org.seekay.contract.common.match.body.JsonBodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
-import org.seekay.contract.common.match.path.ExactPathMatcher
-import org.seekay.contract.common.match.path.ExpressionPathMatcher
-import org.seekay.contract.common.match.path.PathMatchingService
-import org.seekay.contract.common.match.path.QueryParamPathMatcher
+import org.seekay.contract.common.match.common.ExpressionMatcher
+import org.seekay.contract.common.match.path.*
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
@@ -86,7 +84,12 @@ class ApplicationContext {
             pathMatchingService = new PathMatchingService(
                     exactPathMatcher: new ExactPathMatcher(),
                     queryParamPathMatcher: new QueryParamPathMatcher(),
-                    expressionPathMatcher: new ExpressionPathMatcher()
+                    expressionQueryParamPathMatcher: new ExpressionQueryParamPathMatcher(
+                            expressionMatcher: new ExpressionMatcher()
+                    ),
+                    expressionPathMatcher: new ExpressionPathMatcher(
+                            expressionMatcher: new ExpressionMatcher()
+                    )
             )
         }
         return pathMatchingService

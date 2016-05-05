@@ -7,7 +7,7 @@ import spock.lang.Specification
 import static org.seekay.contract.model.domain.Method.GET
 import static org.seekay.contract.model.domain.Method.POST
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
-import static org.seekay.contract.model.tools.SetTools.head
+import static org.seekay.contract.common.tools.SetTools.head
 
 class MethodMatcherSpec extends Specification {
 

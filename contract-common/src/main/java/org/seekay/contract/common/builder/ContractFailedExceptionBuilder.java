@@ -1,10 +1,11 @@
-package org.seekay.contract.model.exception;
+package org.seekay.contract.common.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractResponse;
+import org.seekay.contract.model.exception.ContractFailedException;
 
-import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
+import static org.seekay.contract.common.tools.PrintTools.prettyPrint;
 
 public class ContractFailedExceptionBuilder extends RuntimeException {
 

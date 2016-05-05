@@ -7,11 +7,13 @@ class PathMatchingServiceSpec extends Specification {
 
     ExactPathMatcher exactPathMatcher = Mock(ExactPathMatcher)
     QueryParamPathMatcher queryParamPathMatcher = Mock(QueryParamPathMatcher)
+    ExpressionQueryParamPathMatcher expressionQueryParamPathMatcher = Mock(ExpressionQueryParamPathMatcher)
     ExpressionPathMatcher expressionPathMatcher = Mock(ExpressionPathMatcher)
 
     PathMatchingService service = new PathMatchingService(
         exactPathMatcher: exactPathMatcher,
         queryParamPathMatcher: queryParamPathMatcher,
+        expressionQueryParamPathMatcher: expressionQueryParamPathMatcher,
         expressionPathMatcher: expressionPathMatcher
     )
 
@@ -23,6 +25,7 @@ class PathMatchingServiceSpec extends Specification {
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * queryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * expressionPathMatcher.isMatch(_ as String, _ as String) >> { return true }
             matches.size() == 1
     }
@@ -35,6 +38,7 @@ class PathMatchingServiceSpec extends Specification {
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * queryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * expressionPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             matches.size() == 0
     }
@@ -47,6 +51,7 @@ class PathMatchingServiceSpec extends Specification {
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return true }
             0 * queryParamPathMatcher.isMatch(_ as String, _ as String)
+            0 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String)
             0 * expressionPathMatcher.isMatch(_ as String, _ as String)
             matches.size() == 1
     }
@@ -59,6 +64,7 @@ class PathMatchingServiceSpec extends Specification {
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * queryParamPathMatcher.isMatch(_ as String, _ as String) >> {return true}
+            0 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String)
             0 * expressionPathMatcher.isMatch(_ as String, _ as String)
             matches.size() == 1
     }

@@ -1,11 +1,11 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common.tools
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 
 class ContractToolsSpec extends Specification {
 
-    def "set tools should never be constructed" () {
+    def "ContractTools should never be constructed" () {
         when:
             ContractTools.class.newInstance()
         then:

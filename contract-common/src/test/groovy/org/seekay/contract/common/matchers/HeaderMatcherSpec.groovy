@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.oneDefaultContractOfEachMethodWithoutHeaders
-import static org.seekay.contract.model.tools.SetTools.head
+import static org.seekay.contract.common.tools.SetTools.head
 
 class HeaderMatcherSpec extends Specification {
 

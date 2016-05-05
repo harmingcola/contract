@@ -1,11 +1,16 @@
 package org.seekay.contract.common.match.path
 
+import org.seekay.contract.common.match.common.ExpressionMatcher
 import spock.lang.Shared
 import spock.lang.Specification
 
 class ExpressionPathMatcherSpec extends Specification {
 
     @Shared ExpressionPathMatcher matcher = new ExpressionPathMatcher();
+
+    def setupSpec() {
+        matcher.expressionMatcher = new ExpressionMatcher()
+    }
 
     def 'identical strings shouldnt match, not this classes responsibility' () {
         expect:

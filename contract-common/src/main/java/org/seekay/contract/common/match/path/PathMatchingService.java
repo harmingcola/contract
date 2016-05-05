@@ -15,6 +15,8 @@ public class PathMatchingService {
 
   private QueryParamPathMatcher queryParamPathMatcher;
 
+  private ExpressionQueryParamPathMatcher expressionQueryParamPathMatcher;
+
   private ExpressionPathMatcher expressionPathMatcher;
 
   public Set<Contract> findMatches(Set<Contract> contracts, final String actualPath) {
@@ -31,6 +33,15 @@ public class PathMatchingService {
     if(results.isEmpty()) {
       for(Contract contract : contracts) {
         if(isMatch(queryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
+          results.add(contract);
+        }
+      }
+    }
+
+    // Find matches with query params out of order using expressions
+    if(results.isEmpty()) {
+      for(Contract contract : contracts) {
+        if(isMatch(expressionQueryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
           results.add(contract);
         }
       }

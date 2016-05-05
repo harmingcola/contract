@@ -1,11 +1,11 @@
-package org.seekay.contract.model.tools
+package org.seekay.contract.common.tools
 
 import spock.lang.Specification
 
 
 class ListToolsSpec extends Specification {
 
-    def "list tools should never be constructed" () {
+    def "ListTools should never be constructed" () {
         when:
             ListTools.class.newInstance()
         then:
