@@ -1,60 +1,69 @@
 package org.seekay.contract.common.match.body;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @Setter
 public class BodyMatchingService {
 
-    private Set<BodyMatcher> bodyMatchers;
+  private WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher;
 
-    public Set<Contract> findMatches(Set<Contract> contracts, ContractRequest actualRequest) {
-        Set<Contract> results = new HashSet<Contract>();
-        for(Contract contract : contracts) {
-            if(isMatch(contract.getResponse().getBody(), actualRequest.getBody())) {
-                results.add(contract);
-            }
-        }
-        return results;
+  private JsonBodyMatcher jsonBodyMatcher;
+
+  public Set<Contract> findMatches(Set<Contract> contracts, ContractRequest actualRequest) {
+    Set<Contract> results = new HashSet<Contract>();
+
+    // Find text matches ignoring whitespace
+    for(Contract contract : contracts) {
+      if(isMatch(whiteSpaceIgnoringBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
+        results.add(contract);
+      }
     }
 
-    public boolean isMatch(String contractBody, String actualBody) {
-        if(bothAreNull(contractBody, actualBody)) {
-            return true;
-        } else if(contractIsNullResponseIsEmpty(contractBody, actualBody)) {
-            return true;
-        }else if(eitherAreNull(contractBody, actualBody)) {
-            return false;
+    // Look for json specific matches
+    if(results.isEmpty()) {
+      for(Contract contract : contracts) {
+        if(isMatch(jsonBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
+          results.add(contract);
         }
-
-        for(BodyMatcher bodyMatcher : bodyMatchers) {
-            boolean matchFound = bodyMatcher.isMatch(contractBody, actualBody);
-            if(matchFound) {
-                return true;
-            }
-        }
-        return false;
+      }
     }
 
-    private boolean contractIsNullResponseIsEmpty(String contractBody, String actualBody) {
-        return contractBody == null && actualBody.trim().isEmpty();
-    }
+    return results;
+  }
 
-    private boolean eitherAreNull(String contractBody, String actualBody) {
-        if(contractBody == null && actualBody != null) {
-            return true;
-        }
-        if(contractBody != null && actualBody == null) {
-            return true;
-        }
-        return false;
+  public boolean isMatch(String contractBody, String actualBody) {
+    if(isMatch(whiteSpaceIgnoringBodyMatcher, contractBody, actualBody)) {
+      return true;
+    } else if (isMatch(jsonBodyMatcher, contractBody, actualBody)) {
+      return true;
     }
+    return false;
+  }
 
-    private boolean bothAreNull(String contractBody, String actualBody) {
-        return contractBody == null && actualBody == null;
+  private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
+    log.info("Checking {} against {} using {}", contractBody, actualBody, bodyMatcher);
+    if(contractBody == null && actualBody == null) {
+      return true;
     }
+    if(contractIsNullResponseIsEmpty(contractBody, actualBody)) {
+      return true;
+    }
+    if(contractBody == null ^ actualBody == null) {
+      return false;
+    }
+    return bodyMatcher.isMatch(contractBody, actualBody);
+  }
+
+  private boolean contractIsNullResponseIsEmpty(String contractBody, String actualBody) {
+    return contractBody == null && actualBody.trim().isEmpty();
+  }
+
+
 }

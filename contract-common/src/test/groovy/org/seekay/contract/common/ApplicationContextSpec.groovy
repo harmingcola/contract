@@ -1,6 +1,5 @@
 package org.seekay.contract.common
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.assertion.AssertionService
 import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
@@ -82,7 +81,6 @@ class ApplicationContextSpec extends Specification {
         then:
             bodyMatchService != null
             bodyMatchService == ApplicationContext.bodyMatchingService()
-            !bodyMatchService.bodyMatchers.isEmpty()
     }
 
     def "an enricher service should be created" () {
@@ -91,19 +89,9 @@ class ApplicationContextSpec extends Specification {
         then:
             enricherService != null
             enricherService == ApplicationContext.enricherService()
-            !enricherService.enrichers.isEmpty()
     }
 
-    def "an assertion service should be created" () {
-        when:
-            AssertionService assertionService = ApplicationContext.assertionService()
-        then:
-            assertionService != null
-            assertionService == ApplicationContext.assertionService()
-            !assertionService.asserters.isEmpty()
-    }
-
-    def "a context can be cleared and all singletons will be nulled" () {
+    def "a context can be cleared and all singletons will be nullified" () {
         given:
             ApplicationContext.contractService()
             ApplicationContext.objectMapper()

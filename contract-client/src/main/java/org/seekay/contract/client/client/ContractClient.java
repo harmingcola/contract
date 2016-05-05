@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.ApplicationContext;
 import org.seekay.contract.common.Http;
-import org.seekay.contract.common.assertion.AssertionService;
 import org.seekay.contract.common.builder.ContractFailedExceptionBuilder;
+import org.seekay.contract.common.enrich.EnricherService;
 import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.common.tools.ContractTools;
@@ -16,15 +16,11 @@ import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import static java.util.Arrays.asList;
-import static org.seekay.contract.common.match.common.ExpressionMatcher.ANY_STRING;
 import static org.seekay.contract.common.tools.PrintTools.prettyPrint;
 
 @Slf4j
@@ -35,8 +31,8 @@ public class ContractClient implements ContractOperator<ContractClient> {
 
   private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
   private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
-  private AssertionService assertionService = ApplicationContext.assertionService();
   private ObjectMapper objectMapper = new ObjectMapper();
+  private EnricherService enricherService = ApplicationContext.enricherService();
 
   private ContractClient() {
     contracts = new ArrayList<Contract>();
@@ -77,12 +73,12 @@ public class ContractClient implements ContractOperator<ContractClient> {
   public void runTests() {
     for (Contract contract : contracts) {
       log.info("Executing test contract " + prettyPrint(contract, objectMapper));
+
+      enricherService.enrichRequest(contract);
       ContractRequest request = contract.getRequest();
 
-      String enrichedRequestPath = enrich(request.getPath());
-
       ContractResponse response = Http.method(request.getMethod())
-          .toPath(path + enrichedRequestPath)
+          .toPath(path + request.getPath())
           .withHeaders(request.getHeaders())
           .withBody(request.getBody())
           .execute()
@@ -148,19 +144,6 @@ public class ContractClient implements ContractOperator<ContractClient> {
     return this;
   }
 
-  private String enrich(String path) {
-    Pattern anyStringPatten = Pattern.compile(ANY_STRING);
-    if(anyStringPatten.matcher(path).find()) {
-      path = path.replaceAll(ANY_STRING, randomString());
-    }
-    return path;
-  }
-
-  private String randomString() {
-    SecureRandom random = new SecureRandom();
-    return new BigInteger(130, random).toString(32).substring(3, 3 +random.nextInt(7));
-  }
-
   private void assertResponseIsValid(Contract contract, ContractResponse actualResponse) {
     assertStatusCodesMatch(contract, actualResponse);
     assertBodiesMatch(contract, actualResponse);
@@ -179,7 +162,6 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   private void assertBodiesMatch(Contract contract, ContractResponse actualResponse) {
-    assertionService.assertOnWildCards(contract.getResponse(), actualResponse);
     boolean bodiesMatch = bodyMatchingService.isMatch(contract.getResponse().getBody(), actualResponse.getBody());
     if(!bodiesMatch) {
       throw ContractFailedExceptionBuilder

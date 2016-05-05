@@ -1,17 +1,19 @@
 package org.seekay.contract.common.match.body
 import com.fasterxml.jackson.databind.ObjectMapper
-import spock.lang.Shared
+import org.seekay.contract.common.match.common.ExpressionMatcher
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.*
 
 class JsonBodyMatcherSpec extends Specification {
 
-    @Shared ObjectMapper objectMapper = new ObjectMapper()
-    @Shared JsonBodyMatcher matcher = new JsonBodyMatcher()
+    ObjectMapper objectMapper = new ObjectMapper()
+    JsonBodyMatcher matcher = new JsonBodyMatcher()
+    ExpressionMatcher expressionMatcher = Mock(ExpressionMatcher)
 
-    def setupSpec() {
+    def setup() {
         matcher.objectMapper = objectMapper
+        matcher.expressionMatcher = expressionMatcher
     }
 
     def "a json body should match an identical json body" () {
@@ -132,4 +134,21 @@ class JsonBodyMatcherSpec extends Specification {
         expect:
             !matcher.isMatch(contractBody, actualBody)
     }
+
+
+    def 'a non matching string should be sent to the expression matcher' () {
+        given:
+            def contract = ["one":['${contract.anyString}',"four","three"]]
+            def actual = ["one":["five","four","three"]]
+            String contractBody = objectMapper.writeValueAsString(contract)
+            String actualBody = objectMapper.writeValueAsString(actual)
+        when:
+            def isMatch = matcher.isMatch(contractBody, actualBody)
+        then:
+            expressionMatcher.containsAnExpression(_ as String) >> {return true}
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return true}
+            isMatch
+    }
+
+
 }

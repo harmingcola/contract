@@ -1,27 +1,55 @@
 package org.seekay.contract.common.match.common;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Date;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
+import static org.seekay.contract.model.expression.Expressions.*;
+
+@Slf4j
 public class ExpressionMatcher {
-
-  public static final String CONTRACT_EXPRESSION = ".*\\$\\{contract\\..*\\}.*";
-  public static final String ANY_STRING = "\\$\\{contract\\.anyString\\}";
 
   private static Pattern contractExpressionPattern = Pattern.compile(CONTRACT_EXPRESSION);
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
+  private static Pattern timeStampPattern = Pattern.compile(TIMESTAMP);
 
   public boolean isMatch(String contractString, String actualString) {
     if(containsAnExpression(contractString)) {
-      if (anyStringPattern.matcher(contractString).find()) {
-        String oneTimeStringRegex = contractString.replaceAll(ANY_STRING, ".*");
-        return actualString.matches(oneTimeStringRegex);
+      String oneTimeStringRegex = contractString;
+      if (anyStringPattern.matcher(oneTimeStringRegex).find()) {
+        oneTimeStringRegex = anyStringPattern.matcher(contractString).replaceAll(".*");
       }
-      return false;
+      if (timeStampPattern.matcher(oneTimeStringRegex).find()) {
+        oneTimeStringRegex = timeStampPattern.matcher(oneTimeStringRegex).replaceAll(buildTimestampPattern());
+      }
+
+      try {
+        if(actualString.matches(oneTimeStringRegex)) {
+          return true;
+        } else {
+          log.info("Failed attempted match on {} with {}", actualString, oneTimeStringRegex);
+        }
+      } catch (PatternSyntaxException e) {
+        throw new IllegalStateException("Problem occurred compiling regex for : " + oneTimeStringRegex);
+      }
     }
     return false;
   }
 
-  private boolean containsAnExpression(String text) {
+  private String buildTimestampPattern() {
+    String timestamp = String.valueOf(new Date().getTime());
+    timestamp = timestamp.substring(0,8);
+
+    StringBuilder builder = new StringBuilder();
+    builder.append(timestamp);
+    builder.append("([0-9]){5}");
+
+    return builder.toString();
+  }
+
+  public boolean containsAnExpression(String text) {
     return contractExpressionPattern.matcher(text).find();
   }
 }

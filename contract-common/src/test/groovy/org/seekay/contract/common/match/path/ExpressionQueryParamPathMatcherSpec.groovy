@@ -1,15 +1,15 @@
 package org.seekay.contract.common.match.path
-
 import org.seekay.contract.common.match.common.ExpressionMatcher
-import spock.lang.Shared
 import spock.lang.Specification
 
 class ExpressionQueryParamPathMatcherSpec extends Specification {
 
-    @Shared ExpressionQueryParamPathMatcher matcher = new ExpressionQueryParamPathMatcher()
+    ExpressionQueryParamPathMatcher matcher = new ExpressionQueryParamPathMatcher()
 
-    def setupSpec() {
-        matcher.expressionMatcher = new ExpressionMatcher()
+    ExpressionMatcher expressionMatcher = Mock(ExpressionMatcher)
+
+    def setup() {
+        matcher.expressionMatcher = expressionMatcher
     }
 
     def 'a contract path with a single expression parameter should match' () {
@@ -19,6 +19,7 @@ class ExpressionQueryParamPathMatcherSpec extends Specification {
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return true}
             isMatch
     }
 
@@ -29,6 +30,7 @@ class ExpressionQueryParamPathMatcherSpec extends Specification {
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return true}
             isMatch
     }
 
@@ -39,6 +41,18 @@ class ExpressionQueryParamPathMatcherSpec extends Specification {
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return false}
+            !isMatch
+    }
+
+    def 'non matching parameters should be reported' () {
+        given:
+            String contractPath = '/index?page=${contract.anyString}'
+            String actualPath = '/index?page=hello'
+        when:
+            boolean isMatch = matcher.isMatch(contractPath, actualPath)
+        then:
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return false}
             !isMatch
     }
 
@@ -49,6 +63,7 @@ class ExpressionQueryParamPathMatcherSpec extends Specification {
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
+            expressionMatcher.isMatch(_ as String, _ as String) >> {return true}
             isMatch
     }
 
@@ -56,16 +71,6 @@ class ExpressionQueryParamPathMatcherSpec extends Specification {
         given:
             String contractPath = '/index'
             String actualPath = '/index'
-        when:
-            boolean isMatch = matcher.isMatch(contractPath, actualPath)
-        then:
-            !isMatch
-    }
-
-    def 'a contract path with an incorrect expression should not match' () {
-        given:
-            String contractPath = '/index?result=${contract.gibberish}'
-            String actualPath = '/index?result=success'
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:

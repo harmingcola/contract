@@ -25,8 +25,21 @@ class ExpressionMatcherSpec extends Specification {
            )
     }
 
-    def 'an incorrect expression will not match' () {
+    def 'a timestamp in a string should match' () {
+        given:
+            String timestamp = String.valueOf(new Date().getTime())
         expect:
+            matcher.isMatch(
+                    'the current time is ${contract.timestamp}',
+                    "the current time is $timestamp"
+            )
+    }
+
+    def 'an incorrect expression throw an exception' () {
+        when:
             !matcher.isMatch('/${contract.gibberish}', '/index')
+        then:
+            def e = thrown(IllegalStateException)
+            e.message == 'Problem occurred compiling regex for : /${contract.gibberish}'
     }
 }

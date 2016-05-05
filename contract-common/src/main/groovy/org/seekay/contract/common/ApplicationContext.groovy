@@ -1,11 +1,7 @@
 package org.seekay.contract.common
-
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.assertion.AssertionService
-import org.seekay.contract.common.assertion.TimestampAsserter
 import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
-import org.seekay.contract.common.enrich.enrichers.TimestampEnricher
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
 import org.seekay.contract.common.match.body.JsonBodyMatcher
@@ -27,7 +23,6 @@ class ApplicationContext {
     static BodyMatchingService bodyMatchService
     static HeaderMatcher headerMatcher
     static EnricherService enricherService
-    static AssertionService assertionService
 
     public static void clear() {
         contractService = null
@@ -39,7 +34,6 @@ class ApplicationContext {
         headerMatcher = null
         bodyMatchService = null
         enricherService = null
-        assertionService = null
     }
 
     public static ContractService contractService() {
@@ -112,10 +106,11 @@ class ApplicationContext {
     public static BodyMatchingService bodyMatchingService() {
         if (bodyMatchService == null) {
             bodyMatchService = new BodyMatchingService(
-                    bodyMatchers: [
-                            new WhiteSpaceIgnoringBodyMatcher(),
-                            new JsonBodyMatcher(objectMapper: objectMapper())
-                    ] as LinkedHashSet
+                    whiteSpaceIgnoringBodyMatcher: new WhiteSpaceIgnoringBodyMatcher(),
+                    jsonBodyMatcher : new JsonBodyMatcher(
+                            objectMapper: objectMapper(),
+                            expressionMatcher: new ExpressionMatcher()
+                    )
             )
         }
         return bodyMatchService
@@ -123,23 +118,8 @@ class ApplicationContext {
 
     public static EnricherService enricherService() {
         if (enricherService == null) {
-            enricherService = new EnricherService(
-                    enrichers: [
-                            new TimestampEnricher()
-                    ] as LinkedHashSet
-            )
+            enricherService = new EnricherService()
         }
         return enricherService
-    }
-
-    public static AssertionService assertionService() {
-        if (assertionService == null) {
-            assertionService = new AssertionService(
-                    asserters: [
-                            new TimestampAsserter()
-                    ] as LinkedHashSet
-            )
-        }
-        return assertionService
     }
 }

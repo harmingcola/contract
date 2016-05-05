@@ -1,42 +1,59 @@
 package org.seekay.contract.common.enrich
-import org.seekay.contract.common.enrich.enrichers.Enricher
+
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract
+import spock.lang.Shared
 import spock.lang.Specification
 
-class EnricherServiceSpec extends Specification{
+class EnricherServiceSpec extends Specification {
 
-    Enricher uglyEnricher = Mock(Enricher)
-    Enricher prettyEnricher = Mock(Enricher)
+    @Shared EnricherService service = new EnricherService()
 
-    EnricherService service = new EnricherService(
-            enrichers: [
-                    uglyEnricher, prettyEnricher
-            ] as LinkedHashSet
-    )
-
-    def 'Enriching a contract will forward the call to every enricher implementation' () {
+    def 'a request path containing a timestamp should be enriched correctly ' () {
         given:
-            Contract contract = ContractTestFixtures
-                    .defaultPostContract()
-                    .responseBody("Hello World")
-                    .requestBody("Hello World")
-                    .build()
-            1 * uglyEnricher.enrichResponseBody("Hello World") >> {return "Goodbye World"}
-            1 * prettyEnricher.enrichResponseBody("Goodbye World") >> {return "Goodbye Cruel World"}
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/time/${contract.timestamp}').build()
         when:
-            service.enrichResponseBody(contract)
+            service.enrichRequest(contract)
+            String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
         then:
-            contract.response.body == 'Goodbye Cruel World'
+            contract.request.path.startsWith("/time/$timestamp")
     }
 
-    def 'an enrichBody call will be forwarded to every enricher implementation' () {
+    def 'a request path containing an anyString should be enriched correctly ' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.anyString}').build()
         when:
-            String result = service.enrichResponseBody("Hello World")
+            service.enrichRequest(contract)
         then:
-            1 * uglyEnricher.enrichResponseBody("Hello World") >> {return "Goodbye World"}
-            1 * prettyEnricher.enrichResponseBody("Goodbye World") >> {return "Goodbye Cruel World"}
-            result == "Goodbye Cruel World"
+            contract.request.path.matches("/home/.*")
     }
 
+    def 'a response body should be enriched correctly' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract()
+                    .responseBody('name,${contract.anyString},time,${contract.timestamp}').build()
+        when:
+            service.enrichResponse(contract)
+            String[] chunks = contract.response.body.split(",")
+            String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
+        then:
+            chunks[1].matches(".*")
+            chunks[3].startsWith(timestamp)
+    }
+
+    def 'a null string wont be enriched' () {
+        when:
+            def result = service.enrichString(null)
+        then:
+            result == null
+            noExceptionThrown()
+    }
+
+    def 'an empty string wont be enriched' () {
+        when:
+            def result = service.enrichString('')
+        then:
+            result.isEmpty()
+            noExceptionThrown()
+    }
 }

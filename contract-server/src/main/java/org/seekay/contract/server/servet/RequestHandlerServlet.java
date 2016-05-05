@@ -35,7 +35,7 @@ public class RequestHandlerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchGetRequest(contractRequest);
-        enricherService.enrichResponseBody(contract);
+        enricherService.enrichResponse(contract);
         writeResponse(httpsResponse, contract);
     }
 
@@ -43,7 +43,7 @@ public class RequestHandlerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchPostRequest(contractRequest);
-        enricherService.enrichResponseBody(contract);
+        enricherService.enrichResponse(contract);
         writeResponse(httpResponse, contract);
     }
 
@@ -51,7 +51,7 @@ public class RequestHandlerServlet extends HttpServlet {
     protected void doPut(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchPutRequest(contractRequest);
-        enricherService.enrichResponseBody(contract);
+        enricherService.enrichResponse(contract);
         writeResponse(httpResponse, contract);
     }
 
@@ -59,7 +59,7 @@ public class RequestHandlerServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest httpRequest, HttpServletResponse httpsResponse) throws ServletException, IOException {
         ContractRequest contractRequest = from(httpRequest).toContractRequest();
         Contract contract = matchingService.matchDeleteRequest(contractRequest);
-        enricherService.enrichResponseBody(contract);
+        enricherService.enrichResponse(contract);
         writeResponse(httpsResponse, contract);
     }
 
