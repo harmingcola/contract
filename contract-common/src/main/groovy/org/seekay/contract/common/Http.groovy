@@ -29,7 +29,7 @@ class Http {
     HttpResponse response
 
     private Http(Method method) {
-        this.method = method;
+        this.method = method
         this.httpClient = HttpClientBuilder.create().build()
     }
 
@@ -43,24 +43,24 @@ class Http {
             case POST: post(); break;
             case PUT: put(); break;
             case DELETE: delete(); break;
-            default: throw new IllegalStateException("Unsupported method ["+ method +"] requested, supported are [GET, POST]")
+            default: throw new IllegalStateException("Unsupported method $method requested, supported are [GET, POST, PUT, DELETE]")
         }
     }
 
     static Http get() {
-        return new Http(GET);
+        return new Http(GET)
     }
 
     static Http post() {
-        return new Http(POST);
+        return new Http(POST)
     }
 
     static Http put() {
-        return new Http(PUT);
+        return new Http(PUT)
     }
 
     static Http delete() {
-        return new Http(DELETE);
+        return new Http(DELETE)
     }
 
 
@@ -80,12 +80,12 @@ class Http {
 
     Http withBody(String body) {
         this.body = body
-        return this;
+        return this
     }
 
     Http withHeaders(Map<String, String> headers) {
         this.requestHeaders = headers
-        return this;
+        return this
     }
 
     /*
@@ -98,12 +98,12 @@ class Http {
         }
         if(method == POST) {
             HttpPost post = new HttpPost(path)
-            post.setEntity(new StringEntity(body));
+            post.setEntity(new StringEntity(body))
             request = post
         }
         if(method == PUT) {
             HttpPut put = new HttpPut(path)
-            put.setEntity(new StringEntity(body));
+            put.setEntity(new StringEntity(body))
             request = put
         }
         if(method == DELETE) {
@@ -127,15 +127,15 @@ class Http {
         if(response.getEntity() != null) {
             return EntityUtils.toString(response.getEntity())
         }
-        return null;
+        return null
     }
 
     Map<String, String> getResponseHeaders() {
-        Map<String, String> responseHeaders = new HashMap<String, String>();
+        Map<String, String> responseHeaders = new HashMap<String, String>()
         for(Header header : response.getAllHeaders()) {
             responseHeaders.put(header.name, header.value)
         }
-        return responseHeaders;
+        return responseHeaders
     }
 
     ContractResponse toResponse() {
@@ -154,7 +154,7 @@ class Http {
     private def addHeaders() {
         if(requestHeaders != null && !requestHeaders.isEmpty()) {
             for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
-                request.addHeader(entry.key, entry.value);
+                request.addHeader(entry.key, entry.value)
             }
         }
     }

@@ -117,7 +117,7 @@ class HttpSpec extends Specification {
 			Http.method(Method.CONNECT)
 		then:
 			IllegalStateException e = thrown()
-			e.message.startsWith("Unsupported method [CONNECT] requested, supported are")
+			e.message.startsWith("Unsupported method CONNECT requested, supported are")
 
 	}
 

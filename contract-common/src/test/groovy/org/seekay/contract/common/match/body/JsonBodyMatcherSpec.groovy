@@ -19,7 +19,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(defaultGetContract().build())
             String actualBody = objectMapper.writeValueAsString(defaultGetContract().build())
         expect:
-            matcher.isMatch(contractBody, actualBody);
+            matcher.isMatch(contractBody, actualBody)
     }
 
     def "different json bodies should not match" () {
@@ -27,7 +27,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(defaultGetContract().build())
             String actualBody = objectMapper.writeValueAsString(defaultPostContract().build())
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def "json lists in a different order should match" () {
@@ -47,7 +47,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body where keys have the same name but different types should not match' () {
@@ -57,7 +57,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with different numbers should not match' () {
@@ -67,7 +67,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with different strings should not match' () {
@@ -77,7 +77,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with different booleans should not match' () {
@@ -87,7 +87,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with a list of different objects should not match' () {
@@ -97,7 +97,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with a list objects in a different order should match' () {
@@ -107,7 +107,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            matcher.isMatch(contractBody, actualBody);
+            matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body with a list objects of different size shouldnt match' () {
@@ -117,7 +117,7 @@ class JsonBodyMatcherSpec extends Specification {
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 
     def 'an error thrown parsing json should be treated as not a match' () {
@@ -130,6 +130,6 @@ class JsonBodyMatcherSpec extends Specification {
             String actualBody = this.objectMapper.writeValueAsString(actual)
             1 * mockObjectMapper.readValue(_, Object.class) >> {throw new IOException()}
         expect:
-            !matcher.isMatch(contractBody, actualBody);
+            !matcher.isMatch(contractBody, actualBody)
     }
 }

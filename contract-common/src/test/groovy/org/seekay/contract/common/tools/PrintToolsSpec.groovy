@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class PrintToolsSpec extends Specification {
 
-	ObjectMapper objectMapper = new ObjectMapper();
+	ObjectMapper objectMapper = new ObjectMapper()
 
 	def "PrintTools should never be constructed" () {
 		when:

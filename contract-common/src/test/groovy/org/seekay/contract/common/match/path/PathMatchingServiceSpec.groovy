@@ -71,21 +71,21 @@ class PathMatchingServiceSpec extends Specification {
 
     def 'two nulls should match' () {
         when:
-            def isMatch = service.isMatch(exactPathMatcher, null, null);
+            def isMatch = service.isMatch(exactPathMatcher, null, null)
         then:
             isMatch
     }
 
     def 'Contract null and actual not null should not match' () {
         when:
-           def isMatch = service.isMatch(exactPathMatcher, null, "/index");
+           def isMatch = service.isMatch(exactPathMatcher, null, "/index")
         then:
             !isMatch
     }
 
     def 'Contract not null and actual null should not match' () {
         when:
-            def isMatch = service.isMatch(exactPathMatcher, "/index", null);
+            def isMatch = service.isMatch(exactPathMatcher, "/index", null)
         then:
             !isMatch
     }

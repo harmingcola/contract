@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class ExpressionPathMatcherSpec extends Specification {
 
-    @Shared ExpressionPathMatcher matcher = new ExpressionPathMatcher();
+    @Shared ExpressionPathMatcher matcher = new ExpressionPathMatcher()
 
     def setupSpec() {
         matcher.expressionMatcher = new ExpressionMatcher()

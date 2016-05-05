@@ -12,7 +12,7 @@ import static org.seekay.contract.common.tools.SetTools.head
 class MethodMatcherSpec extends Specification {
 
     @Shared
-    MethodMatcher matcher = new MethodMatcher();
+    MethodMatcher matcher = new MethodMatcher()
 
     def "only a contract matching the correct method should be returned"() {
         given:
