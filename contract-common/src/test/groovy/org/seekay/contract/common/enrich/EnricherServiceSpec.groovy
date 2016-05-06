@@ -56,4 +56,34 @@ class EnricherServiceSpec extends Specification {
             result.isEmpty()
             noExceptionThrown()
     }
+
+    def 'headers in a request should be enriched' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract()
+                    .requestHeaders([
+                        'generatedAt':'${contract.timestamp}',
+                        'cacheKey':'${contract.anyString}'
+                    ]).build()
+        when:
+            service.enrichRequest(contract)
+            String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
+        then:
+            contract.request.headers['generatedAt'].startsWith(timestamp)
+            Dictionary.words.contains(contract.request.headers['cacheKey'])
+    }
+
+    def 'headers in a response should be enriched' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract()
+                    .responseHeaders([
+                        'generatedAt':'${contract.timestamp}',
+                        'cacheKey':'${contract.anyString}'
+            ]).build()
+        when:
+            service.enrichResponse(contract)
+            String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
+        then:
+            contract.response.headers['generatedAt'].startsWith(timestamp)
+            Dictionary.words.contains(contract.response.headers['cacheKey'])
+    }
 }

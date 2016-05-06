@@ -3,8 +3,10 @@ package org.seekay.contract.common.enrich;
 import lombok.Setter;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
+import org.seekay.contract.model.domain.ContractResponse;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.seekay.contract.model.expression.Expressions.*;
@@ -17,18 +19,31 @@ public class EnricherService {
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
 
   public void enrichRequest(Contract contract) {
-    if (contract != null) {
+    if (contract != null && contract.getRequest() != null) {
       ContractRequest request = contract.getRequest();
-      String enrichedPath = enrichString(request.getPath());
-      request.setPath(enrichedPath);
+      request.setPath(enrichString(request.getPath()));
+      request.setHeaders(enrichHeaders(request.getHeaders()));
     }
   }
 
   public void enrichResponse(Contract contract) {
-    if (contract != null) {
-      String enrichedResponseBody = enrichString(contract.getResponse().getBody());
-      contract.getResponse().setBody(enrichedResponseBody);
+    if (contract != null && contract.getResponse() != null) {
+      ContractResponse response = contract.getResponse();
+      response.setBody(enrichString(response.getBody()));
+      response.setHeaders(enrichHeaders(response.getHeaders()));
     }
+  }
+
+  private Map<String, String> enrichHeaders(Map<String, String> headers) {
+    if(headers != null) {
+      for (Map.Entry<String, String> entry : headers.entrySet()) {
+        String value = entry.getValue();
+        if (containsAnExpression(value)) {
+          headers.put(entry.getKey(), enrichString(value));
+        }
+      }
+    }
+    return headers;
   }
 
   private String enrichString(String input) {

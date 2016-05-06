@@ -12,7 +12,7 @@ public class Dictionary {
     return words.get(random.nextInt(words.size()));
   }
 
-  private static final List<String> words = new ArrayList<String>() {{
+  public static final List<String> words = new ArrayList<String>() {{
     addAll(Arrays.asList("condition","guarantee","trip","activity","aspiring","hospitable","naughty","disapprove",
         "lunchroom","frame","appreciate","thirsty","glistening","dapper","trick","intelligent","abortive","secretary",
         "silent","treatment","use","hushed","risk","neat","panoramic","allow","nasty","uttermost","itch","equal",

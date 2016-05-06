@@ -101,7 +101,9 @@ class ApplicationContext {
 
     public static HeaderMatcher headerMatcher() {
         if (headerMatcher == null) {
-            headerMatcher = new HeaderMatcher()
+            headerMatcher = new HeaderMatcher(
+                    expressionMatcher: expressionMatcher()
+            )
         }
         return headerMatcher
     }
