@@ -1,9 +1,9 @@
-package org.seekay.contract.common.tools
+package org.seekay.contract.model.tools
 
 import spock.lang.Specification
 
-import static org.seekay.contract.common.tools.SetTools.*
-import static org.seekay.contract.common.tools.SetTools.toSet
+import static org.seekay.contract.model.tools.SetTools.*
+import static org.seekay.contract.model.tools.SetTools.toSet
 
 
 class SetToolsSpec extends Specification {

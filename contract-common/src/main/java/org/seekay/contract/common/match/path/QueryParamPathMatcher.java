@@ -1,7 +1,7 @@
 package org.seekay.contract.common.match.path;
 
-import org.seekay.contract.common.tools.MapTools;
-import org.seekay.contract.common.tools.QueryParamTools;
+import org.seekay.contract.model.tools.MapTools;
+import org.seekay.contract.model.tools.QueryParamTools;
 
 import java.util.Map;
 

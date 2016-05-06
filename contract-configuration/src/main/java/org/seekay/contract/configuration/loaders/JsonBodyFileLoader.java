@@ -9,14 +9,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.seekay.contract.common.ApplicationContext.objectMapper;
-
 public class JsonBodyFileLoader implements ContractFileLoader {
 
 	private File file;
 	private Map<String, Object> contents;
 
-	private ObjectMapper objectMapper = objectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	public JsonBodyFileLoader(HashMap contents, File file) {
 		this.contents = contents;

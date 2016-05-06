@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.seekay.contract.model.tools.CloneTools.*;
 import static org.seekay.contract.model.expression.Expressions.*;
 
 @Setter
@@ -18,20 +19,26 @@ public class EnricherService {
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
 
-  public void enrichRequest(Contract contract) {
+  public Contract enrichRequest(Contract contract) {
     if (contract != null && contract.getRequest() != null) {
-      ContractRequest request = contract.getRequest();
+      Contract clonedContract = cloneContract(contract);
+      ContractRequest request = clonedContract.getRequest();
       request.setPath(enrichString(request.getPath()));
       request.setHeaders(enrichHeaders(request.getHeaders()));
+      return clonedContract;
     }
+    return contract;
   }
 
-  public void enrichResponse(Contract contract) {
+  public Contract enrichResponse(Contract contract) {
     if (contract != null && contract.getResponse() != null) {
-      ContractResponse response = contract.getResponse();
+      Contract clonedContract = cloneContract(contract);
+      ContractResponse response = clonedContract.getResponse();
       response.setBody(enrichString(response.getBody()));
       response.setHeaders(enrichHeaders(response.getHeaders()));
+      return clonedContract;
     }
+    return contract;
   }
 
   private Map<String, String> enrichHeaders(Map<String, String> headers) {

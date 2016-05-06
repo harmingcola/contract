@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.seekay.contract.common.tools.MapTools.isSubMap;
+import static org.seekay.contract.model.tools.MapTools.isSubMap;
 
 @Setter
 public class HeaderMatcher {

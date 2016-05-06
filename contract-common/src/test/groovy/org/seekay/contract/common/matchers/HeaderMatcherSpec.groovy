@@ -4,7 +4,7 @@ import org.seekay.contract.common.match.common.ExpressionMatcher
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
-import static org.seekay.contract.common.tools.SetTools.head
+import static org.seekay.contract.model.tools.SetTools.head
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.oneDefaultContractOfEachMethodWithoutHeaders
 

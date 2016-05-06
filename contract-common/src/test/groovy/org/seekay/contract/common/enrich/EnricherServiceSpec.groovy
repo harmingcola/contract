@@ -13,7 +13,7 @@ class EnricherServiceSpec extends Specification {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().path('/time/${contract.timestamp}').build()
         when:
-            service.enrichRequest(contract)
+            contract = service.enrichRequest(contract)
             String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
         then:
             contract.request.path.startsWith("/time/$timestamp")
@@ -23,7 +23,7 @@ class EnricherServiceSpec extends Specification {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.anyString}').build()
         when:
-            service.enrichRequest(contract)
+            contract = service.enrichRequest(contract)
         then:
             contract.request.path.matches("/home/.*")
     }
@@ -33,7 +33,7 @@ class EnricherServiceSpec extends Specification {
             Contract contract = ContractTestFixtures.defaultGetContract()
                     .responseBody('name,${contract.anyString},time,${contract.timestamp}').build()
         when:
-            service.enrichResponse(contract)
+            contract = service.enrichResponse(contract)
             String[] chunks = contract.response.body.split(",")
             String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
         then:
@@ -65,7 +65,7 @@ class EnricherServiceSpec extends Specification {
                         'cacheKey':'${contract.anyString}'
                     ]).build()
         when:
-            service.enrichRequest(contract)
+            contract = service.enrichRequest(contract)
             String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
         then:
             contract.request.headers['generatedAt'].startsWith(timestamp)
@@ -80,7 +80,7 @@ class EnricherServiceSpec extends Specification {
                         'cacheKey':'${contract.anyString}'
             ]).build()
         when:
-            service.enrichResponse(contract)
+            contract = service.enrichResponse(contract)
             String timestamp = String.valueOf(new Date().getTime()).substring(0,9)
         then:
             contract.response.headers['generatedAt'].startsWith(timestamp)

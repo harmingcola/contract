@@ -1,4 +1,5 @@
 package org.seekay.contract.common
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService

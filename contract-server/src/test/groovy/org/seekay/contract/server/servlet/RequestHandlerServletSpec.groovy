@@ -1,9 +1,10 @@
 package org.seekay.contract.server.servlet
 
 import org.seekay.contract.common.enrich.EnricherService
+import org.seekay.contract.common.match.MatchingService
+import org.seekay.contract.model.domain.Contract
 import org.seekay.contract.model.domain.ContractRequest
 import org.seekay.contract.server.servet.RequestHandlerServlet
-import org.seekay.contract.common.match.MatchingService
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import spock.lang.Shared
@@ -12,10 +13,7 @@ import spock.lang.Specification
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import static org.seekay.contract.model.ContractTestFixtures.defaultDeleteContract
-import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
-import static org.seekay.contract.model.ContractTestFixtures.defaultPostContract
-import static org.seekay.contract.model.ContractTestFixtures.defaultPutContract
+import static org.seekay.contract.model.ContractTestFixtures.*
 
 class RequestHandlerServletSpec extends Specification {
 
@@ -44,6 +42,7 @@ class RequestHandlerServletSpec extends Specification {
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
             1 * matchingService.matchGetRequest(_ as ContractRequest) >> {defaultGetContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultGetContract().build()}
         when:
             servlet.doGet(request, response)
         then:
@@ -57,6 +56,7 @@ class RequestHandlerServletSpec extends Specification {
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
             1 * matchingService.matchPostRequest(_ as ContractRequest) >> {defaultPostContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultPostContract().build()}
         when:
             servlet.doPost(request, response)
         then:
@@ -70,6 +70,7 @@ class RequestHandlerServletSpec extends Specification {
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
             1 * matchingService.matchPutRequest(_ as ContractRequest) >> {defaultPutContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultPutContract().build()}
         when:
             servlet.doPut(request, response)
         then:
@@ -83,6 +84,7 @@ class RequestHandlerServletSpec extends Specification {
             HttpServletRequest request = buildServletRequest()
             HttpServletResponse response = new MockHttpServletResponse()
             1 * matchingService.matchDeleteRequest(_ as ContractRequest) >> {defaultDeleteContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultDeleteContract().build()}
         when:
             servlet.doDelete(request, response)
         then:

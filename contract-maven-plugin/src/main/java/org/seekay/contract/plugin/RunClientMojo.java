@@ -6,7 +6,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.seekay.contract.client.client.ContractClient;
 
-import static org.seekay.contract.common.tools.SetTools.toSet;
+import static org.seekay.contract.model.tools.SetTools.toSet;
 
 @Mojo(name = "run-client")
 public class RunClientMojo extends AbstractMojo {

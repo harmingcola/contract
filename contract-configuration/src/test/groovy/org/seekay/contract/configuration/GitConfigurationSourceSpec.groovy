@@ -3,7 +3,7 @@ import org.eclipse.jgit.api.errors.CheckoutConflictException
 import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
-import static org.seekay.contract.common.tools.ListTools.first
+import static org.seekay.contract.model.tools.ListTools.first
 
 class GitConfigurationSourceSpec extends Specification {
 

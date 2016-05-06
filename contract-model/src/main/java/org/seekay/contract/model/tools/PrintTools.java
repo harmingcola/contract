@@ -1,4 +1,4 @@
-package org.seekay.contract.common.tools;
+package org.seekay.contract.model.tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

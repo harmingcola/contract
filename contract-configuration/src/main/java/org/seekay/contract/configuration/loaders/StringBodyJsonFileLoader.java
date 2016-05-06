@@ -6,11 +6,9 @@ import org.seekay.contract.model.domain.Contract;
 import java.io.File;
 import java.io.IOException;
 
-import static org.seekay.contract.common.ApplicationContext.objectMapper;
-
 public class StringBodyJsonFileLoader implements ContractFileLoader {
 
-	private ObjectMapper objectMapper = objectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	private File file;
 

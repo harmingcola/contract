@@ -14,8 +14,8 @@ import org.seekay.contract.model.domain.Method;
 
 import java.util.Set;
 
-import static org.seekay.contract.common.tools.PrintTools.prettyPrint;
-import static org.seekay.contract.common.tools.SetTools.intersectingElements;
+import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
+import static org.seekay.contract.model.tools.SetTools.intersectingElements;
 
 @Slf4j
 @Setter

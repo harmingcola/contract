@@ -1,8 +1,8 @@
-package org.seekay.contract.common.tools
+package org.seekay.contract.model.tools
 
 import spock.lang.Specification
 
-import static org.seekay.contract.common.tools.MapTools.isSubMap
+import static org.seekay.contract.model.tools.MapTools.isSubMap
 
 class MapToolsSpec extends Specification {
 

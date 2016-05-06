@@ -8,7 +8,7 @@ import org.seekay.contract.common.builder.ContractFailedExceptionBuilder;
 import org.seekay.contract.common.enrich.EnricherService;
 import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
-import org.seekay.contract.common.tools.ContractTools;
+import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.builder.ContractOperator;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
-import static org.seekay.contract.common.tools.PrintTools.prettyPrint;
+import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
 
 @Slf4j
 public class ContractClient implements ContractOperator<ContractClient> {
@@ -74,7 +74,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
     for (Contract contract : contracts) {
       log.info("Executing test contract " + prettyPrint(contract, objectMapper));
 
-      enricherService.enrichRequest(contract);
+      contract = enricherService.enrichRequest(contract);
       ContractRequest request = contract.getRequest();
 
       ContractResponse response = Http.method(request.getMethod())

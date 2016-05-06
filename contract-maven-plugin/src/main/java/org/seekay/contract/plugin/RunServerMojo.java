@@ -8,7 +8,7 @@ import org.seekay.contract.server.ContractServer;
 
 import static java.lang.Integer.valueOf;
 import static java.lang.Thread.sleep;
-import static org.seekay.contract.common.tools.SetTools.toSet;
+import static org.seekay.contract.model.tools.SetTools.toSet;
 import static org.seekay.contract.server.ContractServer.newServer;
 
 @Mojo(name = "run-server")

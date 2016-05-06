@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static org.seekay.contract.common.ApplicationContext.objectMapper;
 
 @Slf4j
 public class LocalConfigurationSource implements ConfigurationSource {
@@ -21,7 +20,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
 
   private File baseDirectory;
 
-  private ObjectMapper objectMapper = objectMapper();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public LocalConfigurationSource(String baseDirectory) {
     this.baseDirectory = new File(baseDirectory);
