@@ -86,4 +86,30 @@ class EnricherServiceSpec extends Specification {
             contract.response.headers['generatedAt'].startsWith(timestamp)
             Dictionary.words.contains(contract.response.headers['cacheKey'])
     }
+
+    def 'multiple numbers will be replaced with different values' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultPostContract()
+                .requestBody('${contract.anyNumber},${contract.anyNumber},${contract.anyNumber}')
+                .build()
+        when:
+            contract = service.enrichRequest(contract)
+            String[] chunks = contract.request.body.split(",")
+        then:
+            chunks[0] != chunks[1]
+            chunks[1] != chunks[2]
+    }
+
+    def 'multiple anyStrings will be replaced with different values' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultPostContract()
+                .requestBody('${contract.anyString},${contract.anyString},${contract.anyString}')
+                .build()
+        when:
+            contract = service.enrichRequest(contract)
+            String[] chunks = contract.request.body.split(",")
+        then:
+            chunks[0] != chunks[1]
+            chunks[1] != chunks[2]
+    }
 }

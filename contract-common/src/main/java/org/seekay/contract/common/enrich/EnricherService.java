@@ -7,16 +7,18 @@ import org.seekay.contract.model.domain.ContractResponse;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.seekay.contract.model.tools.CloneTools.*;
 import static org.seekay.contract.model.expression.Expressions.*;
+import static org.seekay.contract.model.tools.CloneTools.cloneContract;
 
 @Setter
 public class EnricherService {
 
   private static Pattern contractExpressionPattern = Pattern.compile(CONTRACT_EXPRESSION);
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
+  private static Pattern anyNumberPattern = Pattern.compile(ANY_NUMBER);
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
 
   public Contract enrichRequest(Contract contract) {
@@ -25,6 +27,7 @@ public class EnricherService {
       ContractRequest request = clonedContract.getRequest();
       request.setPath(enrichString(request.getPath()));
       request.setHeaders(enrichHeaders(request.getHeaders()));
+      request.setBody(enrichString(request.getBody()));
       return clonedContract;
     }
     return contract;
@@ -60,13 +63,21 @@ public class EnricherService {
     String output = input;
     if (containsAnExpression(output)) {
       output = replaceAnyString(output);
-      output = replaceTimestamp(input, output);
+      output = replaceTimestamp(output);
+      output = replaceNumber(output);
     }
     return output;
   }
 
-  private String replaceTimestamp(String input, String output) {
-    if(currentTimeStampPattern.matcher(input).find()) {
+  private String replaceNumber(String output) {
+    while(anyNumberPattern.matcher(output).find()) {
+      output = anyNumberPattern.matcher(output).replaceFirst(String.valueOf(new Random().nextInt()));
+    }
+    return output;
+  }
+
+  private String replaceTimestamp(String output) {
+    if(currentTimeStampPattern.matcher(output).find()) {
       String currentTime = String.valueOf(new Date().getTime());
       output = output.replaceAll(TIMESTAMP, currentTime);
     }
@@ -74,8 +85,8 @@ public class EnricherService {
   }
 
   private String replaceAnyString(String output) {
-    if (anyStringPattern.matcher(output).find()) {
-      output = output.replaceAll(ANY_STRING, Dictionary.randomWord());
+    while(anyStringPattern.matcher(output).find()) {
+      output = anyStringPattern.matcher(output).replaceFirst(Dictionary.randomWord());
     }
     return output;
   }

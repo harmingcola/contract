@@ -42,4 +42,28 @@ class ExpressionMatcherSpec extends Specification {
             def e = thrown(IllegalStateException)
             e.message == 'Problem occurred compiling regex for : /${contract.gibberish}'
     }
+
+    def 'a number alone should match the anyNumber expression' () {
+        expect:
+            matcher.isMatch('${contract.anyNumber}', "45")
+    }
+
+    def 'a negative floating point number alone should match the anyNumber expression' () {
+        expect:
+            matcher.isMatch('${contract.anyNumber}', "-23.47")
+    }
+
+    def 'a number with some text should match' () {
+        expect:
+            matcher.isMatch('I can count to ${contract.anyNumber}', "I can count to 89")
+
+    }
+
+    def 'all expressions in one string should match, ignoring timestamp'() {
+        given:
+            String contract = '${contract.anyString},${contract.anyNumber}'
+            String actual = 'boop,-417.00'
+        expect:
+            matcher.isMatch(contract, actual)
+    }
 }
