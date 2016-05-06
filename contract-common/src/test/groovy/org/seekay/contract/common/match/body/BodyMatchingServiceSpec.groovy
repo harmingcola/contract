@@ -8,21 +8,24 @@ import static org.seekay.contract.model.ContractTestFixtures.defaultPostContract
 class BodyMatchingServiceSpec extends Specification {
 
     WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher = Mock(WhiteSpaceIgnoringBodyMatcher)
+    ExpressionBodyMatcher expressionBodyMatcher = Mock(ExpressionBodyMatcher)
     JsonBodyMatcher jsonBodyMatcher = Mock(JsonBodyMatcher)
 
     BodyMatchingService service = new BodyMatchingService(
             whiteSpaceIgnoringBodyMatcher: whiteSpaceIgnoringBodyMatcher,
+            expressionBodyMatcher: expressionBodyMatcher,
             jsonBodyMatcher :jsonBodyMatcher
     )
 
-    def 'if no exact body match is found, the json body matcher should be called'() {
+    def 'if no exact body match is found, the expression body matcher should be called'() {
         given:
             def contracts = [defaultPostContract().build()] as Set
         when:
             def matches = service.findMatches(contracts, defaultPostContract().build().request)
         then:
             1 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
-            1 * jsonBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
+            1 * expressionBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
+            0 * jsonBodyMatcher.isMatch(_ as String, _ as String)
             matches.size() == 1
     }
 
@@ -33,7 +36,32 @@ class BodyMatchingServiceSpec extends Specification {
             def matches = service.findMatches(contracts, defaultPostContract().build().request)
         then:
             1 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
+            0 * expressionBodyMatcher.isMatch(_ as String, _ as String)
             0 * jsonBodyMatcher.isMatch(_ as String, _ as String)
+            matches.size() == 1
+    }
+
+    def 'if an expression body match is found, no other matcher is checked' () {
+        given:
+            def contracts = [defaultPostContract().build()] as Set
+        when:
+            def matches = service.findMatches(contracts, defaultPostContract().build().request)
+        then:
+            1 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
+            0 * jsonBodyMatcher.isMatch(_ as String, _ as String)
+            matches.size() == 1
+    }
+
+    def 'if a json body match is found, the result should be true' () {
+        given:
+            def contracts = [defaultPostContract().build()] as Set
+        when:
+            def matches = service.findMatches(contracts, defaultPostContract().build().request)
+        then:
+            1 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * jsonBodyMatcher.isMatch(_ as String, _ as String) >> { return true }
             matches.size() == 1
     }
 
@@ -44,6 +72,7 @@ class BodyMatchingServiceSpec extends Specification {
             def matches = service.findMatches(contracts, defaultGetContract().requestBody(null).build().request)
         then:
             0 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String)
+            0 * expressionBodyMatcher.isMatch(_ as String, _ as String)
             0 * jsonBodyMatcher.isMatch(_ as String, _ as String)
             matches.size() == 0
     }

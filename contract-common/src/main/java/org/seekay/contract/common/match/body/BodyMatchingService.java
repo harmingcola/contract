@@ -12,7 +12,11 @@ import java.util.Set;
 @Setter
 public class BodyMatchingService {
 
+  // If you add another matcher, make sure its added in both methods below
+
   private WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher;
+
+  private ExpressionBodyMatcher expressionBodyMatcher;
 
   private JsonBodyMatcher jsonBodyMatcher;
 
@@ -23,6 +27,15 @@ public class BodyMatchingService {
     for(Contract contract : contracts) {
       if(isMatch(whiteSpaceIgnoringBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
         results.add(contract);
+      }
+    }
+
+    // Find text matches ignoring whitespace
+    if(results.isEmpty()) {
+      for (Contract contract : contracts) {
+        if (isMatch(expressionBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
+          results.add(contract);
+        }
       }
     }
 
@@ -41,7 +54,11 @@ public class BodyMatchingService {
   public boolean isMatch(String contractBody, String actualBody) {
     if(isMatch(whiteSpaceIgnoringBodyMatcher, contractBody, actualBody)) {
       return true;
-    } else if (isMatch(jsonBodyMatcher, contractBody, actualBody)) {
+    }
+    else if (isMatch(expressionBodyMatcher, contractBody, actualBody)) {
+      return true;
+    }
+    else if (isMatch(jsonBodyMatcher, contractBody, actualBody)) {
       return true;
     }
     return false;

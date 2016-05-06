@@ -4,6 +4,7 @@ import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
+import org.seekay.contract.common.match.body.ExpressionBodyMatcher
 import org.seekay.contract.common.match.body.JsonBodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
 import org.seekay.contract.common.match.common.ExpressionMatcher
@@ -23,6 +24,7 @@ class ApplicationContext {
     static BodyMatchingService bodyMatchService
     static HeaderMatcher headerMatcher
     static EnricherService enricherService
+    static ExpressionMatcher expressionMatcher
 
     public static void clear() {
         contractService = null
@@ -34,6 +36,7 @@ class ApplicationContext {
         headerMatcher = null
         bodyMatchService = null
         enricherService = null
+        expressionMatcher = null
     }
 
     public static ContractService contractService() {
@@ -79,10 +82,10 @@ class ApplicationContext {
                     exactPathMatcher: new ExactPathMatcher(),
                     queryParamPathMatcher: new QueryParamPathMatcher(),
                     expressionQueryParamPathMatcher: new ExpressionQueryParamPathMatcher(
-                            expressionMatcher: new ExpressionMatcher()
+                            expressionMatcher: expressionMatcher()
                     ),
                     expressionPathMatcher: new ExpressionPathMatcher(
-                            expressionMatcher: new ExpressionMatcher()
+                            expressionMatcher: expressionMatcher()
                     )
             )
         }
@@ -107,9 +110,12 @@ class ApplicationContext {
         if (bodyMatchService == null) {
             bodyMatchService = new BodyMatchingService(
                     whiteSpaceIgnoringBodyMatcher: new WhiteSpaceIgnoringBodyMatcher(),
+                    expressionBodyMatcher: new ExpressionBodyMatcher(
+                            expressionMatcher: expressionMatcher()
+                    ),
                     jsonBodyMatcher : new JsonBodyMatcher(
                             objectMapper: objectMapper(),
-                            expressionMatcher: new ExpressionMatcher()
+                            expressionMatcher: expressionMatcher()
                     )
             )
         }
@@ -121,5 +127,12 @@ class ApplicationContext {
             enricherService = new EnricherService()
         }
         return enricherService
+    }
+
+    public static ExpressionMatcher expressionMatcher() {
+        if (expressionMatcher == null) {
+            expressionMatcher = new ExpressionMatcher()
+        }
+        return expressionMatcher
     }
 }

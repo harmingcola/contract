@@ -4,6 +4,7 @@ import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
+import org.seekay.contract.common.match.common.ExpressionMatcher
 import org.seekay.contract.common.match.path.PathMatchingService
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
@@ -91,6 +92,14 @@ class ApplicationContextSpec extends Specification {
             enricherService == ApplicationContext.enricherService()
     }
 
+    def "a single expression matcher should be created" () {
+        when:
+            ExpressionMatcher expressionMatcher = ApplicationContext.expressionMatcher()
+        then:
+            expressionMatcher != null
+            expressionMatcher == ApplicationContext.expressionMatcher()
+    }
+
     def "a context can be cleared and all singletons will be nullified" () {
         given:
             ApplicationContext.contractService()
@@ -102,6 +111,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.headerMatcher()
             ApplicationContext.bodyMatchingService()
             ApplicationContext.enricherService()
+            ApplicationContext.expressionMatcher()
         when:
             ApplicationContext.clear()
         then:
@@ -114,5 +124,6 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.headerMatcher == null
             ApplicationContext.bodyMatchService == null
             ApplicationContext.enricherService == null
+            ApplicationContext.expressionMatcher == null
     }
 }
