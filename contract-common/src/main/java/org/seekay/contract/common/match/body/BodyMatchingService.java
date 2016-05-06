@@ -8,6 +8,13 @@ import org.seekay.contract.model.domain.ContractRequest;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Matches the body a request / response with contracts
+ *
+ * 1. Looks for an exact match ignoring whitespace
+ * 2. Looks for a match with expressions
+ * 3. Looks for a match with json elements out of order with expressions
+ */
 @Slf4j
 @Setter
 public class BodyMatchingService {

@@ -7,6 +7,14 @@ import org.seekay.contract.model.domain.Contract;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Matches the path a request is made on with its contract.
+ *
+ * 1. Looks for an exact match
+ * 2. Looks for a match with query params out of order
+ * 3. Looks for a match with query params out of order with expressions
+ * 4. Looks for a match with expressions
+ */
 @Slf4j
 @Setter
 public class PathMatchingService {
