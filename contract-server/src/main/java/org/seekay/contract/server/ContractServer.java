@@ -6,13 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
+import org.seekay.contract.common.Http;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.tools.ContractTools;
-import org.seekay.contract.common.Http;
 import org.seekay.contract.server.servet.ConfigurationServlet;
+import org.seekay.contract.server.servet.HealthServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
 import java.io.File;
@@ -22,6 +23,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static org.apache.catalina.startup.Tomcat.addServlet;
+import static org.seekay.contract.model.tools.SleepTools.sleep;
 
 @Slf4j
 public class ContractServer implements ContractOperator<ContractServer> {
@@ -83,6 +85,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
     configureServer();
     try {
       tomcat.start();
+			waitForServerToStart();
     } catch (LifecycleException e) {
       throw new IllegalStateException("Problem occurred starting tomcat", e);
     }
@@ -91,7 +94,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
     return this;
   }
 
-  /**
+	/**
    * Returns the path of the current server. Useful when using the randomPort() method.
    * @return
    */
@@ -119,6 +122,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
    * Loads contracts from every config source. Useful when used in conjunction with reset() to blank slate the server.
    */
   public void pushContractsToServer() {
+		log.info("Uploading contracts to server");
     for (Contract contract : contracts) {
       addContract(contract);
     }
@@ -176,6 +180,14 @@ public class ContractServer implements ContractOperator<ContractServer> {
 		return this;
 	}
 
+	private void waitForServerToStart() {
+		String healthUrl = path() + "/__health";
+		Http http = Http.get().fromPath(healthUrl);
+		while (http.execute().status() != 200) {
+			sleep(100);
+		}
+	}
+
 	private String toJson(Contract contract) {
 		try {
 			return objectMapper.writeValueAsString(contract);
@@ -187,6 +199,9 @@ public class ContractServer implements ContractOperator<ContractServer> {
 
 	private void configureServer() {
 		Context context = tomcat.addContext("/", new File(".").getAbsolutePath());
+
+		addServlet(context, "healthEndpoint", new HealthServlet());
+		context.addServletMapping("/__health", "healthEndpoint");
 
 		addServlet(context, "configurationHandler", new ConfigurationServlet());
 		context.addServletMapping("/__configure", "configurationHandler");

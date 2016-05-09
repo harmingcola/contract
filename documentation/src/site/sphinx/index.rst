@@ -64,6 +64,7 @@ However, all a service provider need do is publish their contracts, and any clie
     :maxdepth: 1
 
     quick_start
+    iwant
     features
     contract_files
     kv_server

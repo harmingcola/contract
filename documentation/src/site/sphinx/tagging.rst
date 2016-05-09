@@ -35,7 +35,7 @@ This contract will also be tagged with 'admin' and 'core.
 Filtering
 ---------
 
-The ContractClient can either retain or exclude certain contracts based on their tags.
+The ContractClient and ContractServer can either retain or exclude certain contracts based on their tags, the syntax is identical for both.
 For example to execute the Contracts tagged with 'core'
 
 .. code-block::

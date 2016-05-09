@@ -119,7 +119,7 @@ class Http {
      * Return hooks
      */
 
-    Integer getStatusCode() {
+    Integer status() {
         return response.statusLine.statusCode
     }
 
@@ -140,7 +140,7 @@ class Http {
 
     ContractResponse toResponse() {
         return new ContractResponse(
-                status: getStatusCode(),
+                status: status(),
                 body: getBody(),
                 headers: getResponseHeaders()
         )

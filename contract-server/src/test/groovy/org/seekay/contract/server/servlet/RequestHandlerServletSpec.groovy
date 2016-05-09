@@ -91,18 +91,6 @@ class RequestHandlerServletSpec extends Specification {
             response.getStatus() == 204
     }
 
-    def "if no matching contracts are found, a NOT_FOUND and error message should be returned" () {
-        given:
-            HttpServletRequest request = buildServletRequest()
-            HttpServletResponse response = new MockHttpServletResponse()
-            1 * matchingService.matchPostRequest(_ as ContractRequest) >> null
-        when:
-            servlet.doPost(request, response)
-        then:
-            response.getStatus() == 404
-            response.getContentAsString() == RequestHandlerServlet.NO_MATCHING_PACTS_FOUND
-    }
-
 
     HttpServletRequest buildServletRequest() {
         MockHttpServletRequest request = new MockHttpServletRequest()

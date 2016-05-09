@@ -19,6 +19,9 @@ public class ContractTools {
   }
 
   public static List<Contract> retainTags(List<Contract> contracts, String... tagsToRetain) {
+    if(tagsToRetain.length == 0) {
+      return contracts;
+    }
     Set<Contract> contractsToRetain = new HashSet<Contract>();
     for(Contract contract : contracts) {
       Set<String> contractTags = contract.readTags();
@@ -33,17 +36,19 @@ public class ContractTools {
   }
 
   public static List<Contract> excludeTags(List<Contract> contracts, String... tagsToExclude) {
-    Set<Contract> contractsToExclude = new HashSet<Contract>();
-    for(Contract contract : contracts) {
-      Set<String> contractTags = contract.readTags();
-      for(String tagToExclude : tagsToExclude) {
-        if(contractTags.contains(tagToExclude)) {
-          contractsToExclude.add(contract);
-          continue;
+    if(tagsToExclude.length != 0) {
+      Set<Contract> contractsToExclude = new HashSet<Contract>();
+      for (Contract contract : contracts) {
+        Set<String> contractTags = contract.readTags();
+        for (String tagToExclude : tagsToExclude) {
+          if (contractTags.contains(tagToExclude)) {
+            contractsToExclude.add(contract);
+            continue;
+          }
         }
       }
+      contracts.removeAll(contractsToExclude);
     }
-    contracts.removeAll(contractsToExclude);
     return contracts;
   }
 

@@ -35,8 +35,6 @@ public class RunServerMojo extends AbstractMojo {
   @Parameter(property = "tagsToRetain")
   private String tagsToRetain;
 
-  private boolean shouldWait = true;
-
   public void execute() throws MojoExecutionException {
     if (gitSource == null && localSource == null) {
       throw new IllegalStateException("Either gitSource or localSource arguments must be provided");
@@ -58,12 +56,11 @@ public class RunServerMojo extends AbstractMojo {
     server.tags(toSet(tagsToRetain), toSet(tagsToExclude));
     server.startServer();
 
-    if(shouldWait) {
-      while (true) try {
-        sleep(10000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+
+    while (true) try {
+      sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 

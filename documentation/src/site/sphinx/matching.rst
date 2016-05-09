@@ -3,7 +3,9 @@ Matching
 
 Matching is how we identify a contract from a request and how we validate a response against a contract.
 All matching is performed in the order outlined below.
-Our intent with matching is to always go from most specific to least specific.
+Our intent with matching is to always go from most specific to least specific and to follow postel's law where
+what is specified in a contract is what is required, if additional detail is included it will be ignored. This allows
+clients and servers to develop independently.
 
 Path
 ----
@@ -60,7 +62,7 @@ Body
     # Exact or Json body match
     "body" : {
         "name" : "bob",
-        "agte" : "25"
+        "age" : "25"
     }
 
     # Text and Json Expression body match

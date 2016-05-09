@@ -96,9 +96,6 @@ public class JsonBodyMatcher implements BodyMatcher {
         return false;
       }
     }
-    if (!keysChecked.containsAll(actualMap.keySet())) {
-      return false;
-    }
-    return true;
+    return keysChecked.containsAll(actualMap.keySet());
   }
 }

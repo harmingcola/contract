@@ -19,8 +19,6 @@ import static org.seekay.contract.server.util.ResponseWriter.to;
 
 public class RequestHandlerServlet extends HttpServlet {
 
-    public static final String NO_MATCHING_PACTS_FOUND = "No Matching Contracts Found";
-
     private MatchingService matchingService;
     private EnricherService enricherService;
 
@@ -70,7 +68,7 @@ public class RequestHandlerServlet extends HttpServlet {
                     .headers(contract.getResponse().getHeaders())
                     .write(contract.getResponse().getBody());
         } else {
-            to(httpResponse).notFound().write(NO_MATCHING_PACTS_FOUND);
+            to(httpResponse).notFound();
         }
     }
 }

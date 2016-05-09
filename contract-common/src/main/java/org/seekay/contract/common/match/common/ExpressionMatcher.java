@@ -32,8 +32,6 @@ public class ExpressionMatcher {
       try {
         if(actualString.matches(oneTimeStringRegex)) {
           return true;
-        } else {
-          log.info("Failed attempted match on {} with {}", actualString, oneTimeStringRegex);
         }
       } catch (PatternSyntaxException e) {
         log.info("Problem occurred compiling regex for : " + oneTimeStringRegex);
