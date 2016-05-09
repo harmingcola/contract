@@ -37,11 +37,8 @@ class ExpressionPathMatcherSpec extends Specification {
             matcher.isMatch('I am ${contract.anyString}', 'I am Iron Man')
     }
 
-    def 'a nonsense expression will throw and exception' () {
-        when:
+    def 'a nonsense expression will be ignored' () {
+        expect:
             !matcher.isMatch('/${contract.gibberish}', 'I am Iron Man')
-        then:
-            def e = thrown(IllegalStateException)
-            e.message == 'Problem occurred compiling regex for : /${contract.gibberish}'
     }
 }

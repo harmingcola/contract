@@ -32,7 +32,7 @@ public class JsonBodyMatcher implements BodyMatcher {
     } else if (contractObject == null || actualObject == null) {
       return false;
     } else if (contractObject.getClass() != actualObject.getClass()) {
-      return false;
+      return doStringsMatch(contractObject.toString(), actualObject.toString());
     } else if (contractObject instanceof Map) {
       return doMapsMatch((Map<String, Object>) contractObject, (Map<String, Object>) actualObject);
     } else if (contractObject instanceof Number) {

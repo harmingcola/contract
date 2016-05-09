@@ -35,14 +35,6 @@ class ExpressionMatcherSpec extends Specification {
             )
     }
 
-    def 'an incorrect expression throw an exception' () {
-        when:
-            !matcher.isMatch('/${contract.gibberish}', '/index')
-        then:
-            def e = thrown(IllegalStateException)
-            e.message == 'Problem occurred compiling regex for : /${contract.gibberish}'
-    }
-
     def 'a number alone should match the anyNumber expression' () {
         expect:
             matcher.isMatch('${contract.anyNumber}', "45")
@@ -65,5 +57,13 @@ class ExpressionMatcherSpec extends Specification {
             String actual = 'boop,-417.00'
         expect:
             matcher.isMatch(contract, actual)
+    }
+
+    def 'regex characters should be escaped' () {
+        given:
+            String contract = '''{"value" : "${contract.anyNumber}" }'''
+            String actual = '''{"value" : 24 }'''
+        expect:
+            !matcher.isMatch(contract, actual)
     }
 }

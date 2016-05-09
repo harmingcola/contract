@@ -7,6 +7,7 @@ Features
 * Auto and manual tagging of contracts.
 * Filtering of contracts by tags
 * Out of order JSON body matching.
+* String, number and timestamp wildcard matching for paths, headers, and bodies
 
 Server Features
 ---------------

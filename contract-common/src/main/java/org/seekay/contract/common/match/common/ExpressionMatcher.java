@@ -23,7 +23,7 @@ public class ExpressionMatcher {
         oneTimeStringRegex = anyStringPattern.matcher(oneTimeStringRegex).replaceAll(".*");
       }
       if (anyNumberPattern.matcher(oneTimeStringRegex).find()) {
-        oneTimeStringRegex = anyNumberPattern.matcher(oneTimeStringRegex).replaceAll("(-?[0-9]+(\\\\.[0-9]+)?)");
+        oneTimeStringRegex = anyNumberPattern.matcher(oneTimeStringRegex).replaceAll("-?[0-9]+(\\\\.[0-9]+)?");
       }
       if (timeStampPattern.matcher(oneTimeStringRegex).find()) {
         oneTimeStringRegex = timeStampPattern.matcher(oneTimeStringRegex).replaceAll(buildTimestampPattern());
@@ -36,7 +36,7 @@ public class ExpressionMatcher {
           log.info("Failed attempted match on {} with {}", actualString, oneTimeStringRegex);
         }
       } catch (PatternSyntaxException e) {
-        throw new IllegalStateException("Problem occurred compiling regex for : " + oneTimeStringRegex);
+        log.info("Problem occurred compiling regex for : " + oneTimeStringRegex);
       }
     }
     return false;
@@ -48,7 +48,7 @@ public class ExpressionMatcher {
 
     StringBuilder builder = new StringBuilder();
     builder.append(timestamp);
-    builder.append("([0-9]){5}");
+    builder.append("[0-9]{5}");
 
     return builder.toString();
   }

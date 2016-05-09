@@ -150,5 +150,20 @@ class JsonBodyMatcherSpec extends Specification {
             isMatch
     }
 
+    def 'checking' () {
+        given:
+            ObjectMapper objectMapper = new ObjectMapper()
+            JsonBodyMatcher matcher = new JsonBodyMatcher()
+            ExpressionMatcher expressionMatcher = new ExpressionMatcher();
+            matcher.objectMapper = objectMapper
+            matcher.expressionMatcher = expressionMatcher
+            String contract = '''{"value" : "${contract.anyNumber}" }'''
+            String actual = '''{"value" : 24 }'''
+        when:
+            def isMatch = matcher.isMatch(contract, actual)
+        then:
+            isMatch
+    }
+
 
 }
