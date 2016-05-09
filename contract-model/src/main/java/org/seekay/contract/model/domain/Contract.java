@@ -14,10 +14,7 @@ public class Contract implements Comparable<Contract> {
   private ContractResponse response;
 
   public Set<String> readTags() {
-    if (info == null) {
-      info = new HashMap<String, Object>();
-    }
-    List<String> arrayListTags = (ArrayList<String>) info.get("tags");
+    List<String> arrayListTags = (ArrayList<String>) readInfo().get("tags");
     if (arrayListTags == null) {
       arrayListTags = new ArrayList<String>();
       info.put("tags", arrayListTags);
@@ -35,11 +32,15 @@ public class Contract implements Comparable<Contract> {
     info.put("tags", new ArrayList<String>(tags));
   }
 
-  public void addInfo(String key, String value) {
-    if (info == null) {
-      info = new HashMap<String, Object>();
+  public Map<String, Object> readInfo() {
+    if(info == null) {
+      info = new HashMap();
     }
-    info.put(key, value);
+    return info;
+  }
+
+  public void addInfo(String key, String value) {
+    readInfo().put(key, value);
   }
 
   public int compareTo(Contract otherContract) {
