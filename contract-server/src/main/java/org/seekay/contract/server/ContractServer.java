@@ -122,10 +122,10 @@ public class ContractServer implements ContractOperator<ContractServer> {
    * Loads contracts from every config source. Useful when used in conjunction with reset() to blank slate the server.
    */
   public void pushContractsToServer() {
-		log.info("Uploading contracts to server");
     for (Contract contract : contracts) {
       addContract(contract);
     }
+		log.info("Uploaded {} contracts to server", contracts.size());
   }
 
   /**

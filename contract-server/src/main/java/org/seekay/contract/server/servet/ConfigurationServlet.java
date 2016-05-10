@@ -37,7 +37,6 @@ public class ConfigurationServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-		log.info("Configuration request received");
 		Set<Contract> contracts = contractService.read();
 		if (!contracts.isEmpty()) {
 			String responseBody = objectMapper.writeValueAsString(contracts);
@@ -53,7 +52,7 @@ public class ConfigurationServlet extends HttpServlet {
 		Contract contract = contractBuilder.fromJson(contractDefinition);
 		contractService.create(contract);
 		to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
-		log.info("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
+		log.debug("Contract successfully added to server {}", prettyPrint(contract, objectMapper));
 	}
 
 	@Override
