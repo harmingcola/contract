@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static java.lang.Integer.*;
+
 public class ResponseWriter {
 
     private HttpServletResponse response;
@@ -51,7 +53,7 @@ public class ResponseWriter {
         response.setStatus(404); return this;
     }
 
-    public ResponseWriter status(Integer status) {
-        response.setStatus(status); return this;
+    public ResponseWriter status(String status) {
+        response.setStatus(valueOf(status)); return this;
     }
 }

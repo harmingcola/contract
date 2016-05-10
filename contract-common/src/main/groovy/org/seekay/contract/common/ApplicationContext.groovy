@@ -1,5 +1,7 @@
 package org.seekay.contract.common
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
@@ -50,6 +52,8 @@ class ApplicationContext {
     public static ObjectMapper objectMapper() {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper()
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         }
         return objectMapper
     }

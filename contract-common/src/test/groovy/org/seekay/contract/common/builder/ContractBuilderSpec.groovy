@@ -38,7 +38,7 @@ class ContractBuilderSpec extends Specification {
             contract.request.body == "what do ya say world?"
             contract.request.headers["one"] == "two"
 
-            contract.response.status == 200
+            contract.response.status == '200'
             contract.response.body == "hello world!"
             contract.response.headers["three"] == "four"
     }

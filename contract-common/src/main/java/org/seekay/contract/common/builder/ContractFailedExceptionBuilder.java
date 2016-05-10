@@ -46,7 +46,7 @@ public class ContractFailedExceptionBuilder extends RuntimeException {
     return this;
   }
 
-  public ContractFailedExceptionBuilder statusCodes(Integer contractStatus, Integer actualStatus) {
+  public ContractFailedExceptionBuilder statusCodes(String contractStatus, String actualStatus) {
     this.statusCodeText = "Status codes are expected to match, contract : " + contractStatus + ", actual : " + actualStatus;
     return this;
   }

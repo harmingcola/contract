@@ -7,7 +7,7 @@ import java.util.Map;
 @Data
 public class ContractResponse {
 
-    private Integer status;
+    private String status;
 
     private String body;
 

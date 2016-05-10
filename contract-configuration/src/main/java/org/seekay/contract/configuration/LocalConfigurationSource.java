@@ -44,11 +44,18 @@ public class LocalConfigurationSource implements ConfigurationSource {
         Contract contract = loadFromFile(file);
         if (contract != null) {
           buildTagsFromDirectoryStructure(contract, this.baseDirectory, file);
-          contracts.add(contract);
+          if(ParameterExpander.containsParameters(contract)) {
+            ParameterExpander expander = new ParameterExpander();
+            contracts.addAll(expander.expandParameters(contract));
+          } else {
+            contracts.add(contract);
+          }
         }
       }
     }
   }
+
+
 
   private void buildTagsFromDirectoryStructure(Contract contract, File directory, File file) {
     String fileAbsolutePath = file.getAbsolutePath();

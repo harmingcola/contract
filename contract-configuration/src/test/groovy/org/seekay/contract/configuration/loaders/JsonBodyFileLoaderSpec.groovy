@@ -31,7 +31,7 @@ class JsonBodyFileLoaderSpec extends Specification {
 			contract.request.path == '/context/resource'
 			contract.request.method == Method.PUT
 			contract.request.body == """{"steve":"rogers"}"""
-			contract.response.status == 201
+			contract.response.status == '201'
 			contract.response.body == """{"matt":"murdock"}"""
 	}
 

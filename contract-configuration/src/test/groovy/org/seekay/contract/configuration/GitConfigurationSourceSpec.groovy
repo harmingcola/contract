@@ -23,7 +23,7 @@ class GitConfigurationSourceSpec extends Specification {
         then:
             contracts.size() == 1
             contract.request.path == "/entity/1"
-            contract.response.status == 200
+            contract.response.status == '200'
     }
 
     def "contract files can be downloaded from a private git repo and unmarshalled into contract objects" () {
@@ -35,7 +35,7 @@ class GitConfigurationSourceSpec extends Specification {
         then:
             contracts.size() == 1
             contract.request.path == "/entity/1"
-            contract.response.status == 200
+            contract.response.status == '200'
     }
 
     def "the config source should delete an old source files before continuing" () {
@@ -49,7 +49,7 @@ class GitConfigurationSourceSpec extends Specification {
         then:
             contracts.size() == 1
             contract.request.path == "/entity/1"
-            contract.response.status == 200
+            contract.response.status == '200'
     }
 
     def "a problem during cloning the repository should be thrown as an illegal state" () {

@@ -57,7 +57,7 @@ class ResponseWriterSpec extends Specification {
         given:
             HttpServletResponse response = new MockHttpServletResponse()
         when:
-            ResponseWriter.to(response).status(101).write('')
+            ResponseWriter.to(response).status('101').write('')
         then:
             response.getStatus() == 101
     }

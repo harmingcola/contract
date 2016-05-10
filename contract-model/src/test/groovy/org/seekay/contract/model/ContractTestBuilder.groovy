@@ -14,12 +14,13 @@ class ContractTestBuilder {
     String requestBody
     Map<String, String> requestHeaders
 
-    Integer status
+    String status
     String responseBody
     Map<String, String> responseHeaders
 
 	Map<String, Object> info = [] as HashMap
 	Set<String> tags = []
+    List<Map<String, String>> parameters
 
 
 	private ContractTestBuilder(Method method) {
@@ -69,7 +70,7 @@ class ContractTestBuilder {
         return this
     }
 
-    ContractTestBuilder status(Integer status) {
+    ContractTestBuilder status(String status) {
         this.status = status
         return this
     }
@@ -88,6 +89,11 @@ class ContractTestBuilder {
 		this.tags = Arrays.asList(tags)
 		return this
 	}
+
+    ContractTestBuilder parameters(List<Map<String, String>> parameters) {
+        this.parameters = parameters
+        return this
+    }
 
 
     /*
@@ -108,7 +114,8 @@ class ContractTestBuilder {
                         status: status,
                         body: responseBody,
                         headers: responseHeaders
-                )
+                ),
+                parameters: parameters
         )
     }
 

@@ -31,7 +31,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
 
   private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
   private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = ApplicationContext.objectMapper();
   private EnricherService enricherService = ApplicationContext.enricherService();
 
   private ContractClient() {

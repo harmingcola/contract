@@ -135,7 +135,7 @@ class HttpSpec extends Specification {
 			def contractResponse = http.toPath("/hello/world").execute().toResponse()
 		then:
 			httpClient.execute(_ as HttpUriRequest) >> httpResponse(200, null)
-			contractResponse.status == 200
+			contractResponse.status == '200'
 	}
 
 	def "the correct body should be returned" () {

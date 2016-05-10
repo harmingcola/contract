@@ -27,7 +27,7 @@ class LocalConfigurationSourceSpec extends Specification {
             contract.request.method == GET
             contract.request.path == "/entity/1"
             contract.request.headers["key"] == "value"
-            contract.response.status == 200
+            contract.response.status == '200'
             contract.response.body == "hello world"
     }
 
@@ -40,7 +40,7 @@ class LocalConfigurationSourceSpec extends Specification {
             contracts.size() == 2
             contracts.collect { contract ->
                 assert contract.response.body == "hello world"
-                assert contract.response.status == 200
+                assert contract.response.status == '200'
             }
     }
 
@@ -53,7 +53,7 @@ class LocalConfigurationSourceSpec extends Specification {
             contracts.size() == 2
             contracts.collect { contract ->
                 assert contract.response.body == "hello world"
-                assert contract.response.status == 200
+                assert contract.response.status == '200'
             }
     }
 

@@ -19,7 +19,7 @@ class StringBodyJsonFileLoaderSpec extends Specification {
 			contract.request.method == Method.GET
 			contract.request.path == '/entity/1'
 			contract.request.headers['key'] == 'value'
-			contract.response.status == 200
+			contract.response.status == '200'
 			contract.response.body == 'hello world'
 	}
 

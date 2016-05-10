@@ -18,8 +18,8 @@ class ContractClientSpec extends ClientFacingTest {
 
     def "The client will throw an exception when the incorrect status code is returned" () {
         given:
-            Contract clientContract = defaultGetContract().path("/ClientGetRequestStatusSpec/2").status(200).build()
-            Contract serverContract = defaultGetContract().path("/ClientGetRequestStatusSpec/2").status(201).build()
+            Contract clientContract = defaultGetContract().path("/ClientGetRequestStatusSpec/2").status('200').build()
+            Contract serverContract = defaultGetContract().path("/ClientGetRequestStatusSpec/2").status('201').build()
             server.addContract(serverContract)
         when:
             ContractClient.fromContracts([clientContract]).againstPath(server.path()).runTests()

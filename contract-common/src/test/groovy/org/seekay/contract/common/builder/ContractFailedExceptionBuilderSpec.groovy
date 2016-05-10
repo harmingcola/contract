@@ -14,7 +14,7 @@ class ContractFailedExceptionBuilderSpec extends Specification {
         when:
             def exception = ContractFailedExceptionBuilder.expectedContract(contract)
                     .actualResponse(response)
-                    .statusCodes(200, 400)
+                    .statusCodes('200', '400')
                     .build()
         then:
             exception.message.contains('Status codes are expected to match, contract : 200, actual : 400')

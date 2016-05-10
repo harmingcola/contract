@@ -1,6 +1,7 @@
 package org.seekay.contract.common.match.body
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.common.match.common.ExpressionMatcher
+import org.seekay.contract.model.domain.Experiment
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.*
@@ -164,6 +165,18 @@ class JsonBodyMatcherSpec extends Specification {
         then:
             isMatch
     }
+
+
+    def 'experiment' () {
+        given:
+            String json = '''{"count":5,"result":"true"}'''
+        when:
+            Experiment ex = objectMapper.readValue(json, Experiment.class);
+        then:
+            ex.count == 5
+            ex.result == true
+    }
+
 
 
 }
