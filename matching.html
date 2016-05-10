@@ -234,7 +234,7 @@ clients and servers to develop independently.</p>
 <h2>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>We support matching based on expressions, they can be put in the path, headers, or body of a contract. We currently support</dt>
-<dd><ul class="first">
+<dd><ul class="first last">
 <li><dl class="first docutils">
 <dt>${contract.anyString}</dt>
 <dd><ul class="first last simple">
@@ -243,16 +243,15 @@ clients and servers to develop independently.</p>
 </dd>
 </dl>
 </li>
-</ul>
-<dl class="docutils">
-<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>${contract.anyNumber}</dt>
+<li><dl class="first docutils">
+<dt>${contract.anyNumber}</dt>
 <dd><ul class="first last simple">
 <li>Will match with any number in its place, regex equivalent : -?[0-9]+(\.[0-9]+)?</li>
 <li>Currently only operates inside a string</li>
 </ul>
 </dd>
 </dl>
-<ul class="last">
+</li>
 <li><dl class="first docutils">
 <dt>${contract.timestamp}</dt>
 <dd><ul class="first last simple">
@@ -264,6 +263,11 @@ clients and servers to develop independently.</p>
 </ul>
 </dd>
 </dl>
+<p>Expressions can be contained within other strings, they are not exclusive to a field. for example:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="s2">&quot;my name is </span><span class="si">${</span><span class="nv">contract</span><span class="p">.anyString</span><span class="si">}</span><span class="s2"></span>
+</pre></div>
+</div>
+<p>Will match with &#8220;my name is bob&#8221;</p>
 </div>
 </div>
 

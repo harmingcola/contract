@@ -80,8 +80,15 @@ Expressions
 We support matching based on expressions, they can be put in the path, headers, or body of a contract. We currently support
     * ${contract.anyString}
         * Will match with any string in its place, regex equivalent : .*
-    *${contract.anyNumber}
+    * ${contract.anyNumber}
         * Will match with any number in its place, regex equivalent : -?[0-9]+(\\.[0-9]+)?
         * Currently only operates inside a string
     * ${contract.timestamp}
         * Will match the current time. It will give 10 milliseconds of leeway when matching the value.
+Expressions can be contained within other strings, they are not exclusive to a field. for example:
+
+.. code-block:: bash
+
+    "my name is ${contract.anyString}
+
+Will match with "my name is bob"
