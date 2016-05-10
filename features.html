@@ -90,7 +90,9 @@
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging and Filtering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -146,6 +148,9 @@
 <li>DSL supports both json objects and text for specifying bodies.</li>
 <li>Share contracts via GIT or local storage.</li>
 <li>Auto and manual tagging of contracts.</li>
+<li>Filtering of contracts by tags</li>
+<li>Out of order JSON body matching.</li>
+<li>String, number and timestamp wildcard matching for paths, headers, and bodies</li>
 </ul>
 <div class="section" id="server-features">
 <h2>Server Features<a class="headerlink" href="#server-features" title="Permalink to this headline">¶</a></h2>
@@ -154,6 +159,7 @@
 <li>Hard coded server responses for POST, GET, PUT &amp; DELETE requests.</li>
 <li>Specified headers will be expected &amp; returned by the server.</li>
 <li>Support for current timestamp included in response bodies.</li>
+<li>Out of order query params will be recognised.</li>
 </ul>
 </div>
 <div class="section" id="client-features">
@@ -163,6 +169,7 @@
 <li>Verification of responses to POST, GET, PUT &amp; DELETE requests.</li>
 <li>Specified headers will be sent &amp; expected by the client.</li>
 <li>Support for current timestamp in request bodies.</li>
+<li>Filtering of contracts to be executed based on tags.</li>
 </ul>
 </div>
 </div>

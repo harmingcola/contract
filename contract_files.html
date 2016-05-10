@@ -91,7 +91,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging and Filtering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -284,24 +286,12 @@
 </div>
 <div class="section" id="wildcards">
 <h2>Wildcards<a class="headerlink" href="#wildcards" title="Permalink to this headline">¶</a></h2>
-<p>Wildcards are expressions that the server will fill with the appropriate data, and the client will recognise when given in a response.</p>
-<blockquote>
-<div><ul>
-<li><dl class="first docutils">
-<dt>${contract.timestamp}</dt>
-<dd><ul class="first last simple">
-<li>Will be replaced / recognised as the current time in nano seconds. The contract-client will give allow for 1 millisecond on either side of the timestamp.</li>
-<li>Currently only supported in response.body</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div></blockquote>
+<p>Wildcards are expressions that the server will fill with the appropriate data, and the client will recognise when given in a response.
+For more detail on wildcards, see <a class="reference external" href="http://harmingcola.github.io/contract/matching.html">Matching</a></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/service/times&quot;</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/service/${contract.anyString}&quot;</span>
   <span class="p">},</span>
   <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>

@@ -2,9 +2,19 @@
 Release Notes
 =============
 
+0.0.4
+-----
+* Feature     : Filter Contracts from being executed by ContractClient
+* Improvement : Switched far jar interface to use Apache commons CLI
+
 0.0.3
 -----
 * Feature     : Maven plugin for running ContractServer and ContractClient
+* Feature     : Fat & Runnable jar for starting ContractServer and running ContractClient
+
+0.0.2
+-----
+* Feature     : Maven plugin for running contract server and client
 * Feature     : Fat & Runnable jar for starting ContractServer and running ContractClient
 
 0.0.2
