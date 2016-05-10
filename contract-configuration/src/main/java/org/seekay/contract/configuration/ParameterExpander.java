@@ -47,7 +47,7 @@ public class ParameterExpander {
   }
 
   private String expandString(String text, String key, String value) {
-    return text.replaceAll("\\$\\{contract.parameters."+ key +"\\}", value);
+    return text.replaceAll("\\$\\{contract.parameter."+ key +"\\}", value);
   }
 
   private Map<String, String> expandHeaders(Map<String, String> headers, String key, String value) {

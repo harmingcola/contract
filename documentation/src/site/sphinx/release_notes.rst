@@ -2,6 +2,10 @@
 Release Notes
 =============
 
+0.0.5
+-----
+* Feature     : Support for `parameters <http://harmingcola.github.io/contract/parameters.html>`_ block, expands single contracts into multiple contracts
+
 0.0.4
 -----
 * Feature     : Filter Contracts from being executed by ContractClient

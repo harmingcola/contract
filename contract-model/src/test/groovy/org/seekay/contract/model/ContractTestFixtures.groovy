@@ -69,12 +69,12 @@ class ContractTestFixtures {
 
     static ContractTestBuilder postContractWithOneParameterBlock() {
         return ContractTestBuilder.post()
-                .path('/builder/${contract.parameters.door}')
-                .requestBody('This body contains a parameter ${contract.parameters.window}')
-                .requestHeaders(['captain':'a${contract.parameters.hero}'])
-                .status('${contract.parameters.status}')
-                .responseHeaders(['incredible':'${contract.parameters.nameExpression}'])
-                .responseBody('${contract.parameters.responseBody}')
+                .path('/builder/${contract.parameter.door}')
+                .requestBody('This body contains a parameter ${contract.parameter.window}')
+                .requestHeaders(['captain':'a${contract.parameter.hero}'])
+                .status('${contract.parameter.status}')
+                .responseHeaders(['incredible':'${contract.parameter.nameExpression}'])
+                .responseBody('${contract.parameter.responseBody}')
                 .parameters([
                     [
                         'door':'blue',

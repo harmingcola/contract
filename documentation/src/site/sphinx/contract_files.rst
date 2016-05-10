@@ -90,3 +90,56 @@ Info
 The info will be auto-populated by certain data when your contracts are loaded.
     * filename : The name of the file the contract came from
     * tags     : A tag for every directory in the directory structure the contract was loaded from. Tags can also be added manually, they will be added to the auto-populated tags.
+
+
+
+Parameters
+----------
+The parameters block allows for a single contract to be expanded into multiple. The example below shows an example from our kvServer project.
+This contract specifies a list of 4 maps of key value pairs. We will search for each key in the contract and replace it with the specified value.
+A key with the name *age* will match ${contract.parameter.age}.
+Any values can be used in the parameters block, `expressions <http://harmingcola.github.io/contract/matching.html#expressions>`_ can also be used.
+
+.. code-block:: javascript
+
+    {
+      "info" : {
+        "details": "The server should accept and store multiple create key/value requests and respond correctly"
+      },
+      "parameters" : [
+        {
+          "first" : "iron",
+          "last": "man"
+        },
+        {
+          "first" : "captain",
+          "last": "america"
+        },
+        {
+          "first" : "incredible",
+          "last": "hulk"
+        },
+        {
+          "first" : "black",
+          "last": "widow"
+        }
+      ],
+      "request" : {
+        "method" : "POST",
+        "path" : "/kv/pair",
+        "headers": {
+          "content-type" : "application/json"
+        },
+        "body": {
+          "key": "${contract.parameter.first}",
+          "value": "${contract.parameter.last}"
+        }
+      },
+      "response" : {
+        "status" : 201,
+        "body" : {
+          "key": "${contract.parameter.first}",
+          "value": "${contract.parameter.last}"
+        }
+      }
+    }
