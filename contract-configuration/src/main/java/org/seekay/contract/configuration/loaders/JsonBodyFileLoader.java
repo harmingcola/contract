@@ -5,21 +5,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.seekay.contract.model.domain.Contract;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JsonBodyFileLoader implements ContractFileLoader {
 
-  private File file;
   private Map<String, Object> contents;
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public JsonBodyFileLoader(HashMap contents, File file) {
+  public JsonBodyFileLoader(HashMap contents) {
     this.contents = contents;
-    this.file = file;
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
@@ -37,7 +34,6 @@ public class JsonBodyFileLoader implements ContractFileLoader {
 
       String payload = objectMapper.writeValueAsString(contents);
       Contract contract = objectMapper.readValue(payload, Contract.class);
-      contract.addInfo("fileName", file.getName());
       return contract;
     } catch (JsonProcessingException e) {
       throw new IllegalStateException("Problem occurred creating contract from json", e);

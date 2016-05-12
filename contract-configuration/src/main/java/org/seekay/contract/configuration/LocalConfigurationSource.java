@@ -9,18 +9,27 @@ import org.seekay.contract.model.domain.Contract;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static org.seekay.contract.configuration.ParameterExpander.*;
 
 
 @Slf4j
 public class LocalConfigurationSource implements ConfigurationSource {
 
-  private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git");
+  private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git", "__ignored");
   public static final String CONTRACT_FILE_SUFFIX = ".contract.json";
 
   private File baseDirectory;
 
   private ObjectMapper objectMapper = new ObjectMapper();
+
+  public LocalConfigurationSource() {
+    // Purposefully left empty
+  }
 
   public LocalConfigurationSource(String baseDirectory) {
     this.baseDirectory = new File(baseDirectory);
@@ -44,7 +53,7 @@ public class LocalConfigurationSource implements ConfigurationSource {
         Contract contract = loadFromFile(file);
         if (contract != null) {
           buildTagsFromDirectoryStructure(contract, this.baseDirectory, file);
-          if(ParameterExpander.containsParameters(contract)) {
+          if(containsParameters(contract)) {
             ParameterExpander expander = new ParameterExpander();
             contracts.addAll(expander.expandParameters(contract));
           } else {
@@ -66,37 +75,46 @@ public class LocalConfigurationSource implements ConfigurationSource {
     contract.addTags(tags);
   }
 
-  protected Contract loadFromFile(File file) {
+  private Contract loadFromFile(File file) {
     if (file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
       log.info("Loading config file : " + file.getAbsolutePath());
-      return contractFileLoaderFactory(file).load();
+
+      try {
+        byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+        String fileContents = new String(encoded, Charset.defaultCharset());
+        return loadFromString(fileContents);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
     return null;
   }
 
-  private ContractFileLoader contractFileLoaderFactory(File file) {
+  public Contract loadFromString(String contractDefinition) {
+    return contractFileLoaderFactory(contractDefinition).load();
+  }
+
+  private ContractFileLoader contractFileLoaderFactory(String contractDefinition) {
     try {
-      HashMap contents = objectMapper.readValue(file, HashMap.class);
-      return checkPayloadType(file, contents);
+      HashMap contents = objectMapper.readValue(contractDefinition, HashMap.class);
+      return checkPayloadType(contractDefinition, contents);
     } catch (IOException e) {
       throw new IllegalStateException("Problem occurred converting json to contract", e);
     }
   }
 
-  private ContractFileLoader checkPayloadType(File file, HashMap contents) {
+  private ContractFileLoader checkPayloadType(String contractDefinition, HashMap contents) {
     Map<String, Object> request = (Map<String, Object>) contents.get("request");
     Map<String, Object> response = (Map<String, Object>) contents.get("response");
 
-    if (request.get("body") == null && response.get("body") == null) {
-      return new StringBodyJsonFileLoader(file);
-    } else if (request.get("body") instanceof String || response.get("body") instanceof String) {
-      return new StringBodyJsonFileLoader(file);
+    if (request.get("body") instanceof String || response.get("body") instanceof String) {
+      return new StringBodyJsonFileLoader(contractDefinition);
     } else if (request.get("body") instanceof Map || response.get("body") instanceof Map) {
-      return new JsonBodyFileLoader(contents, file);
+      return new JsonBodyFileLoader(contents);
     } else if (request.get("body") instanceof Map || response.get("body") instanceof List) {
-      return new JsonBodyFileLoader(contents, file);
-    } else {
-      throw new IllegalStateException("Not sure how to create contract from " + contents);
+      return new JsonBodyFileLoader(contents);
+    } else{
+      return new StringBodyJsonFileLoader(contractDefinition);
     }
   }
 

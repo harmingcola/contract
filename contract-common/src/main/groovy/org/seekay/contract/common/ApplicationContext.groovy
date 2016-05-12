@@ -1,9 +1,6 @@
 package org.seekay.contract.common
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
@@ -15,12 +12,15 @@ import org.seekay.contract.common.match.path.*
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.configuration.LocalConfigurationSource
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 
 class ApplicationContext {
 
     static ContractService contractService
     static ObjectMapper objectMapper
-    static ContractBuilder contractBuilder
     static MatchingService matchingService
     static PathMatchingService pathMatchingService
     static MethodMatcher methodMatcher
@@ -28,11 +28,11 @@ class ApplicationContext {
     static HeaderMatcher headerMatcher
     static EnricherService enricherService
     static ExpressionMatcher expressionMatcher
+    static LocalConfigurationSource localConfigurationSource
 
     public static void clear() {
         contractService = null
         objectMapper = null
-        contractBuilder = null
         matchingService = null
         pathMatchingService = null
         methodMatcher = null
@@ -40,6 +40,7 @@ class ApplicationContext {
         bodyMatchService = null
         enricherService = null
         expressionMatcher = null
+        localConfigurationSource = null
     }
 
     public static ContractService contractService() {
@@ -52,19 +53,10 @@ class ApplicationContext {
     public static ObjectMapper objectMapper() {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper()
-            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.setSerializationInclusion(Include.NON_NULL);
+            objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
         }
         return objectMapper
-    }
-
-    public static ContractBuilder contractBuilder() {
-        if (contractBuilder == null) {
-            contractBuilder = new ContractBuilder(
-                    objectMapper: objectMapper()
-            )
-        }
-        return contractBuilder
     }
 
     public static MatchingService matchingService() {
@@ -141,5 +133,12 @@ class ApplicationContext {
             expressionMatcher = new ExpressionMatcher()
         }
         return expressionMatcher
+    }
+
+    public static LocalConfigurationSource localConfigurationSource() {
+        if (localConfigurationSource == null) {
+            localConfigurationSource = new LocalConfigurationSource()
+        }
+        return localConfigurationSource
     }
 }

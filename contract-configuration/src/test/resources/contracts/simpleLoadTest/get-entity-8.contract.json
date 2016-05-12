@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "GET",
+    "path" : "/server-unit-tests/8",
+    "headers": {
+      "key" : "value"
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : {
+      "id":47,
+      "name":"Barry"
+    }
+  }
+}

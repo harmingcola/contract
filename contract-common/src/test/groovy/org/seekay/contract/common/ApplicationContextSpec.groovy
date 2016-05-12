@@ -1,6 +1,5 @@
 package org.seekay.contract.common
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.enrich.EnricherService
 import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
@@ -27,15 +26,6 @@ class ApplicationContextSpec extends Specification {
         then:
             objectMapper1 != null
             objectMapper1 == ApplicationContext.objectMapper()
-    }
-
-    def "a single contract builder should be created" () {
-        when:
-            ContractBuilder contractBuilder = ApplicationContext.contractBuilder()
-        then:
-            contractBuilder != null
-            contractBuilder.objectMapper != null
-            contractBuilder == ApplicationContext.contractBuilder()
     }
 
     def "a single matching service should be created" () {
@@ -104,7 +94,6 @@ class ApplicationContextSpec extends Specification {
         given:
             ApplicationContext.contractService()
             ApplicationContext.objectMapper()
-            ApplicationContext.contractBuilder()
             ApplicationContext.matchingService()
             ApplicationContext.pathMatchingService()
             ApplicationContext.methodMatcher()
@@ -112,12 +101,12 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.bodyMatchingService()
             ApplicationContext.enricherService()
             ApplicationContext.expressionMatcher()
+            ApplicationContext.localConfigurationSource()
         when:
             ApplicationContext.clear()
         then:
             ApplicationContext.contractService == null
             ApplicationContext.objectMapper == null
-            ApplicationContext.contractBuilder == null
             ApplicationContext.matchingService == null
             ApplicationContext.pathMatchingService == null
             ApplicationContext.methodMatcher == null
@@ -125,5 +114,6 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.bodyMatchService == null
             ApplicationContext.enricherService == null
             ApplicationContext.expressionMatcher == null
+            ApplicationContext.localConfigurationSource == null
     }
 }

@@ -22,7 +22,7 @@ class JsonBodyFileLoaderSpec extends Specification {
 		]
 	]
 
-	JsonBodyFileLoader loader = new JsonBodyFileLoader(contents, new File("src/test/resources/contracts/simpleLoadTest/get-entity-1.contract.json"))
+	JsonBodyFileLoader loader = new JsonBodyFileLoader(contents)
 
 	def 'the contents hashmap should convert into a contract correctly' () {
 		when:
@@ -55,12 +55,5 @@ class JsonBodyFileLoaderSpec extends Specification {
 		then:
 			1 * objectMapper.writeValueAsString(_) >> {throw new IOException()}
 			thrown(IllegalStateException)
-	}
-
-	def 'the fileName should be loaded into the info block' () {
-		when:
-			def contract = loader.load()
-		then:
-			contract.info['fileName'] == 'get-entity-1.contract.json'
 	}
 }

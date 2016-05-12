@@ -1,0 +1,47 @@
+{
+  "info" : {
+    "details": "The server should accept and store multiple create key/value requests and respond correctly",
+    "tags" : ["omg", "lol"]
+  },
+  "parameters" : [
+    {
+      "id" : 11,
+      "first" : "iron",
+      "last": "man"
+    },
+    {
+      "id" : 12,
+      "first" : "captain",
+      "last": "america"
+    },
+    {
+      "id" : 13,
+      "first" : "incredible",
+      "last": "hulk"
+    },
+    {
+      "id" : 14,
+      "first" : "black",
+      "last": "widow"
+    }
+  ],
+  "request" : {
+    "method" : "POST",
+    "path" : "/entity/",
+    "headers": {
+      "content-type" : "application/json"
+    },
+    "body": {
+      "key": "${contract.parameters.first}",
+      "value": "${contract.parameters.last}"
+    }
+  },
+  "response" : {
+    "status" : 201,
+    "body" : {
+      "id" : "${contract.parameters.id}",
+      "key": "${contract.parameters.first}",
+      "value": "${contract.parameters.last}"
+    }
+  }
+}

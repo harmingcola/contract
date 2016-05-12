@@ -3,8 +3,8 @@ package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.common.builder.ContractBuilder;
 import org.seekay.contract.common.service.ContractService;
+import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.domain.Contract;
 
 import javax.servlet.ServletException;
@@ -25,14 +25,14 @@ public class ConfigurationServlet extends HttpServlet {
 	public static final String NO_PACTS_HAVE_BEEN_DEFINED = "No contracts have been defined";
 
 	private ContractService contractService;
-	private ContractBuilder contractBuilder;
 	private ObjectMapper objectMapper;
+	private LocalConfigurationSource localConfigurationSource;
 
 	@Override
 	public void init() throws ServletException {
 		contractService = contractService();
-		contractBuilder = contractBuilder();
 		objectMapper = objectMapper();
+		localConfigurationSource = localConfigurationSource();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ConfigurationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
 		String contractDefinition = from(httpRequest).readBody();
-		Contract contract = contractBuilder.fromJson(contractDefinition);
+		Contract contract = localConfigurationSource.loadFromString(contractDefinition);
 		contractService.create(contract);
 		to(httpResponse).created().write(objectMapper.writeValueAsString(contract));
 		log.debug("Contract successfully added to server {}", prettyPrint(contract, objectMapper));

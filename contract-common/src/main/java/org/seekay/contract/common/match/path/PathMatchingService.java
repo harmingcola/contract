@@ -68,7 +68,6 @@ public class PathMatchingService {
   }
 
   private boolean isMatch(PathMatcher pathMatcher, String contractPath, String actualPath) {
-    log.info("Checking {} against {} using {}", contractPath, actualPath, pathMatcher);
     if(contractPath == null && actualPath == null) {
       return true;
     }

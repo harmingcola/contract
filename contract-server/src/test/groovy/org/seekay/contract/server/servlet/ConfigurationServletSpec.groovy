@@ -1,8 +1,7 @@
 package org.seekay.contract.server.servlet
-
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.seekay.contract.common.builder.ContractBuilder
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.configuration.LocalConfigurationSource
 import org.seekay.contract.model.domain.Contract
 import org.seekay.contract.server.servet.ConfigurationServlet
 import org.springframework.mock.web.MockHttpServletRequest
@@ -18,13 +17,13 @@ class ConfigurationServletSpec extends Specification {
     ConfigurationServlet servlet = new ConfigurationServlet()
 
     ContractService contractService = Mock(ContractService)
-    ContractBuilder contractBuilder = Mock(ContractBuilder)
+    LocalConfigurationSource localConfigurationSource = Mock(LocalConfigurationSource)
     ObjectMapper objectMapper = new ObjectMapper()
 
     def setup() {
         servlet.contractService = contractService
-        servlet.contractBuilder = contractBuilder
         servlet.objectMapper = objectMapper
+        servlet.localConfigurationSource = localConfigurationSource
     }
 
     def "init should setup the servlet correctly"() {
@@ -34,7 +33,6 @@ class ConfigurationServletSpec extends Specification {
             configurationServlet.init()
         then:
             configurationServlet.contractService != null
-            configurationServlet.contractBuilder != null
             configurationServlet.objectMapper != null
     }
 
@@ -74,6 +72,7 @@ class ConfigurationServletSpec extends Specification {
         then:
             response.status == 201
             response.contentAsString.contains("""method":"GET""")
-            1 * contractBuilder.fromJson(_ as String) >> {defaultGetContract().build()}
+            1 * localConfigurationSource.loadFromString(_ as String) >> {defaultGetContract().build()}
     }
 }
+

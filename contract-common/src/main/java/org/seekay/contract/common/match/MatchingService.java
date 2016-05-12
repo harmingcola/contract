@@ -73,19 +73,27 @@ public class MatchingService {
   }
   
   private Set<Contract> matchByMethod(Method method) {
-    return methodMatcher.findMatches(contractService.read(), method);
+    Set<Contract> matches =  methodMatcher.findMatches(contractService.read(), method);
+    log.info("Matched {} contracts by method", matches.size());
+    return matches;
   }
   
   private Set<Contract> matchByPath(ContractRequest contractRequest) {
-    return pathMatchingService.findMatches(contractService.read(), contractRequest.getPath());
+    Set<Contract> matches = pathMatchingService.findMatches(contractService.read(), contractRequest.getPath());
+    log.info("Matched {} contracts by path", matches.size());
+    return matches;
   }
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
-    return headerMatcher.isMatch(contractService.read(), contractRequest.getHeaders());
+    Set<Contract> matches = headerMatcher.isMatch(contractService.read(), contractRequest.getHeaders());
+    log.info("Matched {} contracts by headers", matches.size());
+    return matches;
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
-    return bodyMatchingService.findMatches(contractService.read(), contractRequest);
+    Set<Contract> matches = bodyMatchingService.findMatches(contractService.read(), contractRequest);
+    log.info("Matched {} contracts by body", matches.size());
+    return matches;
   }
   
   private Contract getResult(Set<Contract>... contracts) {

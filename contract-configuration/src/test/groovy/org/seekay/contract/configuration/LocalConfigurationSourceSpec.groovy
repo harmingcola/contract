@@ -4,7 +4,6 @@ import org.seekay.contract.model.domain.Contract
 import spock.lang.Specification
 
 import static org.seekay.contract.model.domain.Method.GET
-import static org.seekay.contract.model.tools.ListTools.first
 
 class LocalConfigurationSourceSpec extends Specification {
 
@@ -14,7 +13,7 @@ class LocalConfigurationSourceSpec extends Specification {
         when:
             List<Contract> contracts = source.load()
         then:
-            contracts.size() == 1
+            contracts.size() == 8
     }
 
     def "contracts should be loaded correctly" () {
@@ -22,10 +21,9 @@ class LocalConfigurationSourceSpec extends Specification {
             ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/simpleLoadTest")
         when:
             List<Contract> contracts = source.load()
-            Contract contract = first(contracts)
+            Contract contract = contracts.find() {it.request.path == "/entity/1"}
         then:
             contract.request.method == GET
-            contract.request.path == "/entity/1"
             contract.request.headers["key"] == "value"
             contract.response.status == '200'
             contract.response.body == "hello world"
@@ -71,15 +69,39 @@ class LocalConfigurationSourceSpec extends Specification {
 
 	def "tags should be generated correctly based on directory structure" () {
 		given:
-			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/")
+			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts")
 		when:
 			List<Contract> contracts = source.load()
-			contracts = contracts.sort()
-			Contract contract = first(contracts)
+			Contract contract = contracts.find() {it.readTags().size() > 0 }
 			Set tags = contract.info['tags']
 		then:
-			tags.size() == 2
-			tags.contains('contracts')
+			tags.size() == 1
 			tags.contains('simpleloadtest')
 	}
+
+    def 'no arg constructor should work correctly' () {
+        given:
+            def source = new LocalConfigurationSource();
+        expect:
+            source != null
+    }
+
+    def 'ignored directories should be ignored' () {
+        given:
+            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts")
+        when:
+            List<Contract> contracts = source.load()
+            Contract contract = contracts.find() {it.request.path == "/entity/15"}
+        then:
+            contract == null
+    }
+
+    def 'contracts with mismatched body types will throw an exception' () {
+        given:
+            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/invalid_contracts")
+        when:
+            source.load()
+        then:
+            thrown(IllegalStateException)
+    }
 }
