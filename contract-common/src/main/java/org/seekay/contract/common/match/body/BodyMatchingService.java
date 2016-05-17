@@ -73,20 +73,14 @@ public class BodyMatchingService {
 
   private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
     log.info("Checking {} against {} using {}", contractBody, actualBody, bodyMatcher);
-    if(contractBody == null && actualBody == null) {
+    if(contractBody == null) {
       return true;
     }
-    if(contractIsNullResponseIsEmpty(contractBody, actualBody)) {
-      return true;
-    }
-    if(contractBody == null ^ actualBody == null) {
+    if(actualBody != null && actualBody.trim().isEmpty()) {
       return false;
     }
-    return bodyMatcher.isMatch(contractBody, actualBody);
-  }
 
-  private boolean contractIsNullResponseIsEmpty(String contractBody, String actualBody) {
-    return contractBody == null && actualBody.trim().isEmpty();
+    return bodyMatcher.isMatch(contractBody, actualBody);
   }
 
 

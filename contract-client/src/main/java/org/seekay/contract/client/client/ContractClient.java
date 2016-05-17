@@ -7,6 +7,7 @@ import org.seekay.contract.common.Http;
 import org.seekay.contract.common.builder.ContractFailedExceptionBuilder;
 import org.seekay.contract.common.enrich.EnricherService;
 import org.seekay.contract.common.match.body.BodyMatchingService;
+import org.seekay.contract.common.match.common.ExpressionMatcher;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.configuration.GitConfigurationSource;
@@ -33,6 +34,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
   private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
   private ObjectMapper objectMapper = ApplicationContext.objectMapper();
   private EnricherService enricherService = ApplicationContext.enricherService();
+  private ExpressionMatcher expressionMatcher = ApplicationContext.expressionMatcher();
 
   private ContractClient() {
     contracts = new ArrayList<Contract>();
@@ -173,7 +175,9 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   private void assertStatusCodesMatch(Contract contract, ContractResponse actualResponse) {
-    if(!actualResponse.getStatus().equals(contract.getResponse().getStatus())) {
+    Object actualStatus = actualResponse.getStatus();
+    Object expectedStatus = contract.getResponse().getStatus();
+    if(!actualStatus.equals(expectedStatus) && !expressionMatcher.isMatch(actualStatus.toString(), expectedStatus.toString())) {
       throw ContractFailedExceptionBuilder
           .expectedContract(contract)
           .actualResponse(actualResponse)

@@ -15,7 +15,7 @@ public class ParameterExpander {
 
   public  Collection<Contract> expandParameters(Contract sourceContract) {
     List<Contract> result = new ArrayList<Contract>();
-    for (Map<String, String> parameterMap : sourceContract.getParameters()) {
+    for (Map<String, Object> parameterMap : sourceContract.getParameters()) {
       Contract destinationContract = new Contract();
       ContractRequest destinationRequest = expandForContractRequest(sourceContract.getRequest(), parameterMap);
       ContractResponse destinationResponse = expandForContractResponse(sourceContract.getResponse(), parameterMap);
@@ -26,9 +26,9 @@ public class ParameterExpander {
     return result;
   }
 
-  private ContractResponse expandForContractResponse(ContractResponse sourceResponse, Map<String, String> parameterMap) {
+  private ContractResponse expandForContractResponse(ContractResponse sourceResponse, Map<String, Object> parameterMap) {
     ContractResponse targetResponse = CloneTools.cloneResponse(sourceResponse);
-    for(Map.Entry<String, String> entry: parameterMap.entrySet()) {
+    for(Map.Entry<String, Object> entry: parameterMap.entrySet()) {
       targetResponse.setBody(expandString(targetResponse.getBody(), entry.getKey(), entry.getValue()));
       targetResponse.setStatus(expandString(targetResponse.getStatus(), entry.getKey(), entry.getValue()));
       targetResponse.setHeaders(expandHeaders(targetResponse.getHeaders(), entry.getKey(), entry.getValue()));
@@ -36,9 +36,9 @@ public class ParameterExpander {
     return targetResponse;
   }
 
-  private ContractRequest expandForContractRequest(ContractRequest sourceRequest, Map<String, String> parameterMap) {
+  private ContractRequest expandForContractRequest(ContractRequest sourceRequest, Map<String, Object> parameterMap) {
     ContractRequest targetRequest = CloneTools.cloneRequest(sourceRequest);
-    for(Map.Entry<String, String> entry: parameterMap.entrySet()) {
+    for(Map.Entry<String, Object> entry: parameterMap.entrySet()) {
       targetRequest.setBody(expandString(targetRequest.getBody(), entry.getKey(), entry.getValue()));
       targetRequest.setPath(expandString(targetRequest.getPath(), entry.getKey(), entry.getValue()));
       targetRequest.setHeaders(expandHeaders(targetRequest.getHeaders(), entry.getKey(), entry.getValue()));
@@ -46,11 +46,14 @@ public class ParameterExpander {
     return targetRequest;
   }
 
-  private String expandString(String text, String key, String value) {
-    return text.replaceAll("\\$\\{contract.parameter."+ key +"\\}", value);
+  private String expandString(String text, String key, Object value) {
+    if(text == null) {
+      return null;
+    }
+    return text.replaceAll("\\$\\{contract.parameter."+ key +"\\}", value.toString());
   }
 
-  private Map<String, String> expandHeaders(Map<String, String> headers, String key, String value) {
+  private Map<String, String> expandHeaders(Map<String, String> headers, String key, Object value) {
     if(headers == null) {
       return null;
     }

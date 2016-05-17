@@ -77,15 +77,15 @@ class BodyMatchingServiceSpec extends Specification {
             matches.size() == 0
     }
 
-    def 'a null contract and an empty body should match without calling matchers' () {
+    def 'a contract and an empty body should not match without calling matchers' () {
         given:
-            def contracts = [defaultPostContract().requestBody(null).build()] as Set
+            def contracts = [defaultPostContract().requestBody("expected text").build()] as Set
         when:
             def matches = service.findMatches(contracts, defaultGetContract().requestBody(" ").build().request)
         then:
             0 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String)
             0 * jsonBodyMatcher.isMatch(_ as String, _ as String)
-            matches.size() == 1
+            matches.size() == 0
     }
 
     def 'for two bodies, if a whitespace match is found, no other matcher is called'() {

@@ -22,10 +22,12 @@ import static org.seekay.contract.model.tools.SetTools.intersectingElements;
 public class MatchingService {
   
   private ContractService contractService;
+
   private MethodMatcher methodMatcher;
   private PathMatchingService pathMatchingService;
   private HeaderMatcher headerMatcher;
   private BodyMatchingService bodyMatchingService;
+
   private ObjectMapper objectMapper;
   
   public Contract matchGetRequest(ContractRequest contractRequest) {

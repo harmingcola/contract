@@ -1,0 +1,18 @@
+{
+  "info" : {
+    "details": "The server should return a key-value pair for a valid get request, even with parameters"
+  },
+  "parameters" : [
+    {
+      "key" : "15",
+      "expectedStatus": 200
+    }
+  ],
+  "request" : {
+    "method" : "GET",
+    "path" : "/entity/${contract.parameters.key}"
+  },
+  "response" : {
+    "status" : "${contract.parameters.expectedStatus}"
+  }
+}

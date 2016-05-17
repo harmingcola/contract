@@ -9,11 +9,11 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def "contracts in a local directory should be loadable" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/simpleLoadTest")
+            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/")
         when:
             List<Contract> contracts = source.load()
         then:
-            contracts.size() == 8
+            contracts.size() == 13
     }
 
     def "contracts should be loaded correctly" () {

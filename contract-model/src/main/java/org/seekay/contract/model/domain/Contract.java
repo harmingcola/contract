@@ -9,7 +9,7 @@ public class Contract implements Comparable<Contract> {
 
   private Map<String, Object> info;
 
-  private List<Map<String, String>> parameters;
+  private List<Map<String, Object>> parameters;
 
   private ContractRequest request;
 
