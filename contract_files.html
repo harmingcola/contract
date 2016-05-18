@@ -87,13 +87,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wildcards">Wildcards</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#info">Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tagging.html">Tagging and Filtering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contract_repository.html">Contract Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building the library from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -314,6 +315,56 @@ For more detail on wildcards, see <a class="reference external" href="http://har
 </ul>
 </dd>
 </dl>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>The parameters block allows for a single contract to be expanded into multiple. The example below shows an example from our kvServer project.
+This contract specifies a list of 4 maps of key value pairs. We will search for each key in the contract and replace it with the specified value.
+A key with the name <em>age</em> will match ${contract.parameter.age}.
+Any values can be used in the parameters block, <a class="reference external" href="http://harmingcola.github.io/contract/matching.html#expressions">expressions</a> can also be used.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;info&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;details&quot;</span><span class="o">:</span> <span class="s2">&quot;The server should accept and store multiple create key/value requests and respond correctly&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;parameters&quot;</span> <span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;first&quot;</span> <span class="o">:</span> <span class="s2">&quot;iron&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;last&quot;</span><span class="o">:</span> <span class="s2">&quot;man&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;first&quot;</span> <span class="o">:</span> <span class="s2">&quot;captain&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;last&quot;</span><span class="o">:</span> <span class="s2">&quot;america&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;first&quot;</span> <span class="o">:</span> <span class="s2">&quot;incredible&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;last&quot;</span><span class="o">:</span> <span class="s2">&quot;hulk&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;first&quot;</span> <span class="o">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;last&quot;</span><span class="o">:</span> <span class="s2">&quot;widow&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/kv/pair&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;content-type&quot;</span> <span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;${contract.parameter.first}&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;${contract.parameter.last}&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">201</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span><span class="o">:</span> <span class="s2">&quot;${contract.parameter.first}&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;value&quot;</span><span class="o">:</span> <span class="s2">&quot;${contract.parameter.last}&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 

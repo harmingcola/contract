@@ -2,6 +2,14 @@
 Release Notes
 =============
 
+0.0.5
+-----
+* Feature     : Support for `parameters <http://harmingcola.github.io/contract/parameters.html>`_ block, expands single contracts into multiple contracts
+* Feature     : Support for expressions in the response.status field
+* Bug fix     : Manually configuring native json on the server throws exceptions
+* Bug fix     : No logging when server was started from command line
+* Bug fix     : Tomcat error handling
+
 0.0.4
 -----
 * Feature     : Contract filtering by tag for ContractClient and ContractServer
