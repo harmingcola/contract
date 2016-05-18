@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>contract-parent</artifactId>
     <groupId>org.seekay</groupId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <modelVersion>4.0.0</modelVersion>
     <name>Contract</name>
     <description>Contract, a JVM http contract testing tool</description>
