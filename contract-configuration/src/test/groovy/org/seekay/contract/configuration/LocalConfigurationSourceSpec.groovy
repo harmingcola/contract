@@ -104,4 +104,16 @@ class LocalConfigurationSourceSpec extends Specification {
         then:
             thrown(IllegalStateException)
     }
+
+    def "an IOException thrown during reading a file should be rethrown as an illegal state" () {
+        given:
+            ConfigurationSource source = new LocalConfigurationSource()
+            File file = Mock(File)
+        when:
+            source.loadFromFile(file)
+        then:
+            thrown(IllegalStateException)
+            1 * file.getName() >> {return "sample.contract.json"}
+            1 * file.getAbsolutePath() >> {throw new IOException("")}
+    }
 }

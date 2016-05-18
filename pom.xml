@@ -26,6 +26,7 @@
         <jackson.version>2.4.4</jackson.version>
         <jgit.version>4.0.1.201506240215-r</jgit.version>
         <lombok.version>1.16.4</lombok.version>
+        <objenesis.version>2.1</objenesis.version>
         <slf4j.version>1.7.12</slf4j.version>
         <spock.version>1.0-groovy-2.0</spock.version>
         <spring.test.version>4.2.1.RELEASE</spring.test.version>
@@ -154,6 +155,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>${objenesis.version}</version>
         </dependency>
 
 

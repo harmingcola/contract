@@ -24,7 +24,7 @@ class QueryParamPathMatcherSpec extends Specification {
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
-            !isMatch
+            isMatch
     }
 
     def "two paths with the same params in different order should match" () {
@@ -57,13 +57,13 @@ class QueryParamPathMatcherSpec extends Specification {
             !isMatch
     }
 
-    def "two paths without params should not match, another classes responsibility" () {
+    def "two paths without params should match" () {
         given:
             String contractPath = "/index"
             String actualPath = "/index"
         when:
             boolean isMatch = matcher.isMatch(contractPath, actualPath)
         then:
-            !isMatch
+            isMatch
     }
 }

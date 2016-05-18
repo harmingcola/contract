@@ -42,6 +42,27 @@ public class LocalConfigurationSource implements ConfigurationSource {
     return contracts;
   }
 
+  public Contract loadFromFile(File file) {
+    if (file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
+      log.info("Loading config file : " + file.getPath());
+
+      try {
+        byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+        String fileContents = new String(encoded, Charset.defaultCharset());
+        return loadFromString(fileContents);
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+    } else {
+      log.info("Skipping {} filename doesnt end in expected suffix");
+    }
+    return null;
+  }
+
+  public Contract loadFromString(String contractDefinition) {
+    return contractFileLoaderFactory(contractDefinition).load();
+  }
+
   protected void loadFromDirectory(File directory, List<Contract> contracts) {
     if (IGNORED_DIRECTORIES.contains(directory.getName())) {
       return;
@@ -64,8 +85,6 @@ public class LocalConfigurationSource implements ConfigurationSource {
     }
   }
 
-
-
   private void buildTagsFromDirectoryStructure(Contract contract, File directory, File file) {
     String fileAbsolutePath = file.getAbsolutePath();
     String fileName = file.getName();
@@ -73,25 +92,6 @@ public class LocalConfigurationSource implements ConfigurationSource {
     String directoriesOnly = relativeLocation.replace(fileName, "");
     String[] tags = directoriesOnly.split("/");
     contract.addTags(tags);
-  }
-
-  private Contract loadFromFile(File file) {
-    if (file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
-      log.info("Loading config file : " + file.getAbsolutePath());
-
-      try {
-        byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-        String fileContents = new String(encoded, Charset.defaultCharset());
-        return loadFromString(fileContents);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    return null;
-  }
-
-  public Contract loadFromString(String contractDefinition) {
-    return contractFileLoaderFactory(contractDefinition).load();
   }
 
   private ContractFileLoader contractFileLoaderFactory(String contractDefinition) {
