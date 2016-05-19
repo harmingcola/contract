@@ -1,12 +1,15 @@
 package org.seekay.contract.server
+
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.catalina.LifecycleException
 import org.apache.catalina.startup.Tomcat
-import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.common.Http
+import org.seekay.contract.model.ContractTestFixtures
+import org.seekay.contract.model.domain.Contract
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
+import static org.seekay.contract.model.ContractTestFixtures.getContractWithSetupBlock
 
 class ContractServerSpec extends ClientFacingTest {
 
@@ -134,5 +137,18 @@ class ContractServerSpec extends ClientFacingTest {
             contractServer.tags(["delete"] as Set, ["one", "three"] as Set)
         then:
             contractServer.contracts.size() == 1
+    }
+
+    def 'a server configured with a single contract with a single setup step should have 2 contracts' () {
+        given:
+            def contracts = [
+                    getContractWithSetupBlock().build()
+            ]
+            def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
+        when:
+            String body = Http.get().toPath(contractServer.path() + "/__configure").execute().getBody()
+            List<Contract> retrievedContracts = new ObjectMapper().readValue(body, List.class)
+        then:
+            retrievedContracts.size() == 2
     }
 }

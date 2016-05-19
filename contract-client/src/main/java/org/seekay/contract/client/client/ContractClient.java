@@ -28,6 +28,7 @@ import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
 public class ContractClient implements ContractOperator<ContractClient> {
 
   private List<Contract> contracts;
+
   private String path;
 
   private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
@@ -74,19 +75,28 @@ public class ContractClient implements ContractOperator<ContractClient> {
    */
   public void runTests() {
     for (Contract contract : contracts) {
-      log.info("Executing test contract " + prettyPrint(contract, objectMapper));
-
-      contract = enricherService.enrichRequest(contract);
-      ContractRequest request = contract.getRequest();
-
-      ContractResponse response = Http.method(request.getMethod())
-          .toPath(path + request.getPath())
-          .withHeaders(request.getHeaders())
-          .withBody(request.getBody())
-          .execute()
-          .toResponse();
-      assertResponseIsValid(contract, response);
+      if(contract.getSetup() != null) {
+        for (Contract setupContract : contract.getSetup()) {
+          executeContract(setupContract);
+        }
+      }
+      executeContract(contract);
     }
+  }
+
+  private void executeContract(Contract contract) {
+    log.info("Executing test contract " + prettyPrint(contract, objectMapper));
+
+    contract = enricherService.enrichRequest(contract);
+    ContractRequest request = contract.getRequest();
+
+    ContractResponse response = Http.method(request.getMethod())
+        .toPath(path + request.getPath())
+        .withHeaders(request.getHeaders())
+        .withBody(request.getBody())
+        .execute()
+        .toResponse();
+    assertResponseIsValid(contract, response);
   }
 
   /**
@@ -109,10 +119,9 @@ public class ContractClient implements ContractOperator<ContractClient> {
     return this;
   }
 
-
   public ContractClient withLocalConfig(String localSource) {
-    LocalConfigurationSource source = new LocalConfigurationSource(localSource);
-    contracts.addAll(source.load());
+    LocalConfigurationSource source = new LocalConfigurationSource();
+    contracts.addAll(source.loadFromDirectory(localSource));
     return this;
   }
 
@@ -125,8 +134,9 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   public ContractClient withLocalConfig(String... configLocations) {
+    LocalConfigurationSource localSource = new LocalConfigurationSource();
     for (String localConfigLocation : configLocations) {
-      contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
+      contracts.addAll(localSource.loadFromDirectory(localConfigLocation));
     }
     return this;
   }

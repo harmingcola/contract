@@ -1,9 +1,9 @@
 package org.seekay.contract.model
 
-import org.seekay.contract.model.domain.Method
 import org.seekay.contract.model.domain.Contract
 import org.seekay.contract.model.domain.ContractRequest
 import org.seekay.contract.model.domain.ContractResponse
+import org.seekay.contract.model.domain.Method
 
 import static org.seekay.contract.model.domain.Method.*
 
@@ -21,6 +21,7 @@ class ContractTestBuilder {
 	Map<String, Object> info = [] as HashMap
 	Set<String> tags = []
     List<Map<String, String>> parameters
+    List<Contract> setup
 
 
 	private ContractTestBuilder(Method method) {
@@ -95,6 +96,14 @@ class ContractTestBuilder {
         return this
     }
 
+    ContractTestBuilder setup(Contract setupContract) {
+        if(setup == null) {
+            setup = new LinkedList<>()
+        }
+        setup.add(setupContract)
+        return this
+    }
+
 
     /*
      * Builder
@@ -115,7 +124,8 @@ class ContractTestBuilder {
                         body: responseBody,
                         headers: responseHeaders
                 ),
-                parameters: parameters
+                parameters: parameters,
+                setup: setup
         )
     }
 

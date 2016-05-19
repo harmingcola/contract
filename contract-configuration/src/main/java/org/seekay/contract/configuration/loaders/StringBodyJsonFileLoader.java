@@ -5,17 +5,13 @@ import org.seekay.contract.model.domain.Contract;
 
 import java.io.IOException;
 
-public class StringBodyJsonFileLoader implements ContractFileLoader {
+public class StringBodyJsonFileLoader {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	private String contractDefinition;
 
-	public StringBodyJsonFileLoader(String contractDefinition) {
-		this.contractDefinition = contractDefinition;
-	}
-
-	public Contract load() {
+	public Contract load(String contractDefinition) {
 		try{
 			Contract contract = objectMapper.readValue(contractDefinition, Contract.class);
 			return contract;

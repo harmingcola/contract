@@ -4,7 +4,7 @@ import org.seekay.contract.model.domain.Contract
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static org.seekay.contract.model.ContractTestFixtures.postContractWithOneParameterBlock
+import static org.seekay.contract.model.ContractTestFixtures.*
 import static org.seekay.contract.model.tools.ListTools.first
 
 class ParameterExpanderSpec extends Specification {
@@ -46,5 +46,16 @@ class ParameterExpanderSpec extends Specification {
     def 'response bodies should be expanded correctly' () {
         expect:
             result.response.body == 'Im huuuuuuge'
+    }
+
+    def 'a setup block will also have parameters expanded' () {
+        given:
+            Contract contract = postContractWithOneParameterBlockAndASetupBlock().build()
+        when:
+            List contracts = expander.expandParameters(contract)
+            Contract setupContract = first(first(contracts).getSetup())
+        then:
+            setupContract.request.body == 'This body also has a parameter red'
+
     }
 }

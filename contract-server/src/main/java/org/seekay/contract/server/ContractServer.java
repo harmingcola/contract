@@ -28,19 +28,19 @@ import static org.seekay.contract.model.tools.SleepTools.sleep;
 @Slf4j
 public class ContractServer implements ContractOperator<ContractServer> {
 
-	private Tomcat tomcat;
+  private Tomcat tomcat;
 
-	private Integer port;
+  private Integer port;
 
   private List<Contract> contracts;
 
-	private ObjectMapper objectMapper;
+  private ObjectMapper objectMapper;
 
-	private ContractServer() {
+  private ContractServer() {
     this.contracts = new ArrayList<Contract>();
-		this.objectMapper = new ObjectMapper();
-		this.tomcat = new Tomcat();
-	}
+    this.objectMapper = new ObjectMapper();
+    this.tomcat = new Tomcat();
+  }
 
   private ContractServer(List<Contract> contracts) {
     this.contracts = contracts;
@@ -48,32 +48,32 @@ public class ContractServer implements ContractOperator<ContractServer> {
     this.tomcat = new Tomcat();
   }
 
-	/**
-	 * Creates a new ContractServer
-	 * @return
-	 */
-	public static ContractServer newServer() {
-		return new ContractServer();
-	}
+  /**
+   * Creates a new ContractServer
+   * @return
+   */
+  public static ContractServer newServer() {
+    return new ContractServer();
+  }
 
-	/**
-	 * Sets the port on which the server is to start.
-	 * @param port
-	 * @return
-	 */
-	public ContractServer onPort(Integer port) {
-		this.port = port;
-		return this;
-	}
+  /**
+   * Sets the port on which the server is to start.
+   * @param port
+   * @return
+   */
+  public ContractServer onPort(Integer port) {
+    this.port = port;
+    return this;
+  }
 
-	/**
-	 * Sets the port on which the server is to start somewhere between 9000 and 9999
-	 * @return
-	 */
-	public ContractServer onRandomPort() {
-		this.port = new Random().nextInt(999) + 9000;
-		return this;
-	}
+  /**
+   * Sets the port on which the server is to start somewhere between 9000 and 9999
+   * @return
+   */
+  public ContractServer onRandomPort() {
+    this.port = new Random().nextInt(999) + 9000;
+    return this;
+  }
 
   /**
    * Starts the server and populates it with loaded contracts.
@@ -85,7 +85,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
     configureServer();
     try {
       tomcat.start();
-			waitForServerToStart();
+      waitForServerToStart();
     } catch (LifecycleException e) {
       throw new IllegalStateException("Problem occurred starting tomcat", e);
     }
@@ -94,7 +94,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
     return this;
   }
 
-	/**
+  /**
    * Returns the path of the current server. Useful when using the randomPort() method.
    * @return
    */
@@ -123,9 +123,15 @@ public class ContractServer implements ContractOperator<ContractServer> {
    */
   public void pushContractsToServer() {
     for (Contract contract : contracts) {
+      if(contract.getSetup() != null) {
+        for (Contract setupContract : contract.getSetup()) {
+          addContract(setupContract);
+        }
+      }
+      contract.setSetup(null);
       addContract(contract);
     }
-		log.info("Uploaded {} contracts to server", contracts.size());
+    log.info("Uploaded {} contracts to server", contracts.size());
   }
 
   /**
@@ -137,22 +143,23 @@ public class ContractServer implements ContractOperator<ContractServer> {
     return new ContractServer(contracts);
   }
 
-	public ContractServer withLocalConfig(String... configLocations) {
-		for (String localConfigLocation : configLocations) {
-			contracts.addAll(new LocalConfigurationSource(localConfigLocation).load());
-		}
-		return this;
-	}
+  public ContractServer withLocalConfig(String... configLocations) {
+    LocalConfigurationSource localSource = new LocalConfigurationSource();
+    for (String localConfigLocation : configLocations) {
+      contracts.addAll(localSource.loadFromDirectory(localConfigLocation));
+    }
+    return this;
+  }
 
-	public ContractServer withGitConfig(String repositoryUrl, String username, String password) {
-		contracts.addAll(new GitConfigurationSource(repositoryUrl, username, password).load());
-		return this;
-	}
+  public ContractServer withGitConfig(String repositoryUrl, String username, String password) {
+    contracts.addAll(new GitConfigurationSource(repositoryUrl, username, password).load());
+    return this;
+  }
 
-	public ContractServer withGitConfig(String repositoryUrl) {
+  public ContractServer withGitConfig(String repositoryUrl) {
     contracts.addAll(new GitConfigurationSource(repositoryUrl).load());
-		return this;
-	}
+    return this;
+  }
 
 
   public void addContract(Contract contract) {
@@ -165,48 +172,48 @@ public class ContractServer implements ContractOperator<ContractServer> {
     }
   }
 
-	public ContractServer retainTags(String... tagsToRetain) {
-		this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
-		return this;
-	}
+  public ContractServer retainTags(String... tagsToRetain) {
+    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
+    return this;
+  }
 
-	public ContractServer excludeTags(String... tagsToExclude) {
-		this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
-		return this;
-	}
+  public ContractServer excludeTags(String... tagsToExclude) {
+    this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
+    return this;
+  }
 
-	public ContractServer tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-		this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
-		return this;
-	}
+  public ContractServer tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
+    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    return this;
+  }
 
-	private void waitForServerToStart() {
-		String healthUrl = path() + "/__health";
-		Http http = Http.get().fromPath(healthUrl);
-		while (http.execute().status() != 200) {
-			sleep(100);
-		}
-	}
+  private void waitForServerToStart() {
+    String healthUrl = path() + "/__health";
+    Http http = Http.get().fromPath(healthUrl);
+    while (http.execute().status() != 200) {
+      sleep(100);
+    }
+  }
 
-	private String toJson(Contract contract) {
-		try {
-			return objectMapper.writeValueAsString(contract);
-		} catch (JsonProcessingException e) {
-			log.error("Error configuring server with contract ["+ contract +"]", e);
-			throw new IllegalStateException(e);
-		}
-	}
+  private String toJson(Contract contract) {
+    try {
+      return objectMapper.writeValueAsString(contract);
+    } catch (JsonProcessingException e) {
+      log.error("Error configuring server with contract [" + contract + "]", e);
+      throw new IllegalStateException(e);
+    }
+  }
 
-	private void configureServer() {
-		Context context = tomcat.addContext("/", new File(".").getAbsolutePath());
+  private void configureServer() {
+    Context context = tomcat.addContext("/", new File(".").getAbsolutePath());
 
-		addServlet(context, "healthEndpoint", new HealthServlet());
-		context.addServletMapping("/__health", "healthEndpoint");
+    addServlet(context, "healthEndpoint", new HealthServlet());
+    context.addServletMapping("/__health", "healthEndpoint");
 
-		addServlet(context, "configurationHandler", new ConfigurationServlet());
-		context.addServletMapping("/__configure", "configurationHandler");
+    addServlet(context, "configurationHandler", new ConfigurationServlet());
+    context.addServletMapping("/__configure", "configurationHandler");
 
-		addServlet(context, "requestHandler", new RequestHandlerServlet());
-		context.addServletMapping("/*", "requestHandler");
-	}
+    addServlet(context, "requestHandler", new RequestHandlerServlet());
+    context.addServletMapping("/*", "requestHandler");
+  }
 }

@@ -11,6 +11,8 @@ public class Contract implements Comparable<Contract> {
 
   private List<Map<String, Object>> parameters;
 
+  private LinkedList<Contract> setup;
+
   private ContractRequest request;
 
   private ContractResponse response;
@@ -39,10 +41,6 @@ public class Contract implements Comparable<Contract> {
       info = new HashMap();
     }
     return info;
-  }
-
-  public void addInfo(String key, String value) {
-    readInfo().put(key, value);
   }
 
   public int compareTo(Contract otherContract) {

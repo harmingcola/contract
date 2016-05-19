@@ -9,29 +9,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JsonBodyFileLoader implements ContractFileLoader {
-
-  private Map<String, Object> contents;
+public class JsonBodyFileLoader {
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public JsonBodyFileLoader(HashMap contents) {
-    this.contents = contents;
+  public JsonBodyFileLoader() {
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  public Contract load() {
-
+  public Contract load(HashMap contents) {
     try {
-      Map<String, Object> request = (Map<String, Object>) contents.get("request");
-      Map<String, Object> response = (Map<String, Object>) contents.get("response");
-
-      String requestBodyString = objectMapper.writeValueAsString(request.get("body"));
-      String responseBodyString = objectMapper.writeValueAsString(response.get("body"));
-
-      request.put("body", requestBodyString);
-      response.put("body", responseBodyString);
-
+      rewriteBodiesAsStrings(contents);
       String payload = objectMapper.writeValueAsString(contents);
       Contract contract = objectMapper.readValue(payload, Contract.class);
       return contract;
@@ -40,6 +28,18 @@ public class JsonBodyFileLoader implements ContractFileLoader {
     } catch (IOException e) {
       throw new IllegalStateException("Problem occurred creating contract from json", e);
     }
-
   }
+
+  private void rewriteBodiesAsStrings(HashMap<String, Object> contents) throws JsonProcessingException {
+    for(Map.Entry<String, Object> entry: contents.entrySet()) {
+      if(entry.getValue() instanceof Map) {
+        rewriteBodiesAsStrings((HashMap<String, Object>) entry.getValue());
+      }
+      if(entry.getKey() == "body") {
+        entry.setValue(objectMapper.writeValueAsString(entry.getValue()));
+      }
+    }
+  }
+
+
 }

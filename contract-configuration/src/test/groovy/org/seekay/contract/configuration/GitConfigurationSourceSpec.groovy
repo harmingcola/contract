@@ -16,7 +16,7 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "contract files can be downloaded from a public git repo and unmarshalled into contract objects" () {
         given:
-            ConfigurationSource source = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
+            GitConfigurationSource source = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
         when:
             List<Contract> contracts = source.load()
             Contract contract = first(contracts)
@@ -28,7 +28,7 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "contract files can be downloaded from a private git repo and unmarshalled into contract objects" () {
         given:
-            ConfigurationSource source = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-private.git", 'seekay_test', 'seekay_test_password')
+            GitConfigurationSource source = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-private.git", 'seekay_test', 'seekay_test_password')
         when:
             List<Contract> contracts = source.load()
             Contract contract = first(contracts)
@@ -40,9 +40,9 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "the config source should delete an old source files before continuing" () {
         given:
-            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
+            GitConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
             oldConfigurationSource.load()
-            ConfigurationSource newConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
+            GitConfigurationSource newConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
         when:
             List<Contract> contracts = newConfigurationSource.load()
             Contract contract = first(contracts)
@@ -54,7 +54,7 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "a problem during cloning the repository should be thrown as an illegal state" () {
         given:
-            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://bitbucket.org/harmingcola/contract-test-public.git"])
+            GitConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://bitbucket.org/harmingcola/contract-test-public.git"])
             1 * source.clonePublicRepository(_ as File) >> {throw new CheckoutConflictException("Its broken yo")}
         when:
             source.load()
@@ -64,9 +64,9 @@ class GitConfigurationSourceSpec extends Specification {
 
     def "a problem during deleting existing contracts should be thrown as an illegal state" () {
         given:
-            ConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
+            GitConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
             oldConfigurationSource.load()
-            ConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://bitbucket.org/harmingcola/contract-test-public.git"])
+            GitConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://bitbucket.org/harmingcola/contract-test-public.git"])
             source.deleteDirectory(_ as File) >> {throw new IOException("Its broken yo")}
         when:
             source.load()
@@ -76,7 +76,7 @@ class GitConfigurationSourceSpec extends Specification {
 
 	def "contract files can be downloaded from our acceptance github repo and unmarshalled into contract objects" () {
 		given:
-			ConfigurationSource source = new GitConfigurationSource("https://github.com/harmingcola/kvServerContracts.git")
+            GitConfigurationSource source = new GitConfigurationSource("https://github.com/harmingcola/kvServerContracts.git")
 		when:
 			source.load()
 		then:

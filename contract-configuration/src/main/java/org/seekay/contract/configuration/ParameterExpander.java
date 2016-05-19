@@ -16,14 +16,29 @@ public class ParameterExpander {
   public  Collection<Contract> expandParameters(Contract sourceContract) {
     List<Contract> result = new ArrayList<Contract>();
     for (Map<String, Object> parameterMap : sourceContract.getParameters()) {
-      Contract destinationContract = new Contract();
-      ContractRequest destinationRequest = expandForContractRequest(sourceContract.getRequest(), parameterMap);
-      ContractResponse destinationResponse = expandForContractResponse(sourceContract.getResponse(), parameterMap);
-      destinationContract.setRequest(destinationRequest);
-      destinationContract.setResponse(destinationResponse);
-      result.add(destinationContract);
+      result.add(expandForContract(sourceContract, parameterMap));
     }
     return result;
+  }
+
+  public Contract expandForContract(Contract sourceContract, Map<String, Object> parameterMap) {
+    Contract destinationContract = new Contract();
+    expandSetupBlock(sourceContract, parameterMap, destinationContract);
+    ContractRequest destinationRequest = expandForContractRequest(sourceContract.getRequest(), parameterMap);
+    ContractResponse destinationResponse = expandForContractResponse(sourceContract.getResponse(), parameterMap);
+    destinationContract.setRequest(destinationRequest);
+    destinationContract.setResponse(destinationResponse);
+    return destinationContract;
+  }
+
+  private void expandSetupBlock(Contract sourceContract, Map<String, Object> parameterMap, Contract destinationContract) {
+    if(sourceContract.getSetup() != null) {
+      LinkedList<Contract> destinationSetupContracts = new LinkedList<Contract>();
+      for(Contract sourceSetupContract : sourceContract.getSetup()) {
+        destinationSetupContracts.add(expandForContract(sourceSetupContract, parameterMap));
+      }
+      destinationContract.setSetup(destinationSetupContracts);
+    }
   }
 
   private ContractResponse expandForContractResponse(ContractResponse sourceResponse, Map<String, Object> parameterMap) {

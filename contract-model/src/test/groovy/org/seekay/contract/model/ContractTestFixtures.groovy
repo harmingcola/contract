@@ -30,7 +30,6 @@ class ContractTestFixtures {
         ]
     }
 
-
     static ContractTestBuilder defaultGetContract() {
         return ContractTestBuilder.get()
                 .path('/builder/2')
@@ -67,9 +66,40 @@ class ContractTestFixtures {
                 .status('204')
     }
 
+    static ContractTestBuilder getContractWithSetupBlock() {
+        return ContractTestBuilder.get()
+                .setup(defaultPostContract().build())
+                .path('/builder/2')
+                .requestHeaders(['captain':'america'])
+                .responseHeaders(['captain':'america'])
+                .status('200')
+                .responseBody('hello world')
+    }
+
     static ContractTestBuilder postContractWithOneParameterBlock() {
         return ContractTestBuilder.post()
                 .path('/builder/${contract.parameter.door}')
+                .requestBody('This body contains a parameter ${contract.parameter.window}')
+                .requestHeaders(['captain':'a${contract.parameter.hero}'])
+                .status('${contract.parameter.status}')
+                .responseHeaders(['incredible':'${contract.parameter.nameExpression}'])
+                .responseBody('${contract.parameter.responseBody}')
+                .parameters([
+                    [
+                        'door':'blue',
+                        'window': 'red',
+                        'hero': 'merica',
+                        'status': "200",
+                        'nameExpression': '\\$\\{contract.anyString\\}',
+                        'responseBody': 'Im huuuuuuge'
+                    ] as Map
+                ] as List)
+    }
+
+    static ContractTestBuilder postContractWithOneParameterBlockAndASetupBlock() {
+        return ContractTestBuilder.post()
+                .path('/builder/${contract.parameter.door}')
+                .setup(defaultGetContract().requestBody('This body also has a parameter ${contract.parameter.window}').build())
                 .requestBody('This body contains a parameter ${contract.parameter.window}')
                 .requestHeaders(['captain':'a${contract.parameter.hero}'])
                 .status('${contract.parameter.status}')

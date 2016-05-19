@@ -12,13 +12,15 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
-public class GitConfigurationSource implements ConfigurationSource {
+public class GitConfigurationSource {
 
     public static final String DOWNLOAD_LOCATION = "target/git-contract-source/";
 
     private final String repositoryUrl;
     private final String username;
     private final String password;
+
+    private LocalConfigurationSource localSource = new LocalConfigurationSource();
 
     public GitConfigurationSource(String repositoryUrl, String username, String password) {
         this.repositoryUrl = repositoryUrl;
@@ -37,8 +39,7 @@ public class GitConfigurationSource implements ConfigurationSource {
         //clone if doesnt
         //pull if does
         cloneFromGit();
-        ConfigurationSource localSource = new LocalConfigurationSource(DOWNLOAD_LOCATION);
-        return localSource.load();
+        return localSource.loadFromDirectory(DOWNLOAD_LOCATION);
     }
 
     private void cloneFromGit() {

@@ -9,18 +9,18 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def "contracts in a local directory should be loadable" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            List<Contract> contracts = source.load()
+            List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts/")
         then:
-            contracts.size() == 13
+            contracts.size() == 14
     }
 
     def "contracts should be loaded correctly" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/simpleLoadTest")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            List<Contract> contracts = source.load()
+            List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts/simpleLoadTest")
             Contract contract = contracts.find() {it.request.path == "/entity/1"}
         then:
             contract.request.method == GET
@@ -31,9 +31,9 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def "multiple contracts can be loaded from a single directory" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/multipleGetContracts")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            List<Contract> contracts = source.load()
+            List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts/multipleGetContracts")
         then:
             contracts.size() == 2
             contracts.collect { contract ->
@@ -44,9 +44,9 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def "multiple contracts can be loaded from arbitrary folder depths" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/crazyFolderLayout")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            List<Contract> contracts = source.load()
+            List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts/crazyFolderLayout")
         then:
             contracts.size() == 2
             contracts.collect { contract ->
@@ -57,27 +57,27 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def "when an exception is thrown loading a contract, it should be logged" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/crazyFolderLayout")
+            LocalConfigurationSource source = new LocalConfigurationSource()
             ObjectMapper objectMapper = Mock(ObjectMapper)
             source.objectMapper = objectMapper
         when:
-            source.load()
+            source.loadFromDirectory("src/test/resources/contracts/crazyFolderLayout")
         then:
             objectMapper.readValue(_, HashMap.class) >> {throw new IOException()}
 			thrown(IllegalStateException)
     }
 
-//	def "tags should be generated correctly based on directory structure" () {
-//		given:
-//			ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts/simpleLoadTest")
-//		when:
-//			List<Contract> contracts = source.load()
-//			Contract contract = contracts.find() {it.readTags().size() > 0 }
-//			Set tags = contract.info['tags']
-//		then:
-//			tags.size() == 1
-//			tags.contains('simpleloadtest')
-//	}
+	def "tags should be generated correctly based on directory structure" () {
+		given:
+            LocalConfigurationSource source = new LocalConfigurationSource()
+		when:
+			List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts")
+			Contract contract = contracts.find() {it.readTags().size() > 0 }
+			Set tags = contract.info['tags']
+		then:
+			tags.size() == 1
+			tags.contains('simpleloadtest')
+	}
 
     def 'no arg constructor should work correctly' () {
         given:
@@ -88,9 +88,9 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def 'ignored directories should be ignored' () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/contracts")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            List<Contract> contracts = source.load()
+            List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts")
             Contract contract = contracts.find() {it.request.path == "/entity/15"}
         then:
             contract == null
@@ -98,16 +98,26 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def 'contracts with mismatched body types will throw an exception' () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource("src/test/resources/invalid_contracts")
+            LocalConfigurationSource source = new LocalConfigurationSource()
         when:
-            source.load()
+            source.loadFromDirectory("src/test/resources/invalid_contracts")
         then:
             thrown(IllegalStateException)
     }
 
+    def 'contracts containing a setup block will load correctly' () {
+        given:
+           LocalConfigurationSource source = new LocalConfigurationSource()
+        when:
+            def contracts = source.loadFromDirectory("src/test/resources/contracts/setupBlock")
+            Contract contract = contracts.find() {it.request.path == "/entity/16"}
+        then:
+            contract.setup.size() == 1
+    }
+
     def "an IOException thrown during reading a file should be rethrown as an illegal state" () {
         given:
-            ConfigurationSource source = new LocalConfigurationSource()
+            LocalConfigurationSource source = new LocalConfigurationSource()
             File file = Mock(File)
         when:
             source.loadFromFile(file)

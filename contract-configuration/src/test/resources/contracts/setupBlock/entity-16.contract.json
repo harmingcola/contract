@@ -1,0 +1,31 @@
+{
+  "info" : {
+    "details": "The server should accept and store a key for a valid post request, the key should then be read back "
+  },
+  "setup": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/entity/16",
+        "body": "Hi there"
+      },
+      "response": {
+        "status": 201,
+        "body": "Hi there"
+      }
+    }
+  ],
+  "request": {
+    "method": "GET",
+    "path": "/entity/16"
+  },
+  "response": {
+    "status": 200,
+    "body": "Hi there"
+  }
+}
+
+
+
+
+

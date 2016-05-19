@@ -22,11 +22,11 @@ class JsonBodyFileLoaderSpec extends Specification {
 		]
 	]
 
-	JsonBodyFileLoader loader = new JsonBodyFileLoader(contents)
+	JsonBodyFileLoader loader = new JsonBodyFileLoader()
 
 	def 'the contents hashmap should convert into a contract correctly' () {
 		when:
-			def contract = loader.load()
+			def contract = loader.load(contents)
 		then:
 			contract.request.path == '/context/resource'
 			contract.request.method == Method.PUT
@@ -40,7 +40,7 @@ class JsonBodyFileLoaderSpec extends Specification {
 			ObjectMapper objectMapper = Mock(ObjectMapper)
 			loader.objectMapper = objectMapper
 		when:
-			loader.load()
+			loader.load(contents)
 		then:
 			1 * objectMapper.writeValueAsString(_) >> {throw new JsonParseException('Boom, broke', null)}
 			thrown(IllegalStateException)
@@ -51,7 +51,7 @@ class JsonBodyFileLoaderSpec extends Specification {
 			ObjectMapper objectMapper = Mock(ObjectMapper)
 			loader.objectMapper = objectMapper
 		when:
-			loader.load()
+			loader.load(contents)
 		then:
 			1 * objectMapper.writeValueAsString(_) >> {throw new IOException()}
 			thrown(IllegalStateException)
