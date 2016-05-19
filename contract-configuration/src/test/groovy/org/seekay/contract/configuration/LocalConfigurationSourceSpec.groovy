@@ -1,6 +1,7 @@
 package org.seekay.contract.configuration
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.model.domain.Contract
+import org.seekay.contract.model.domain.ContractMap
 import spock.lang.Specification
 
 import static org.seekay.contract.model.domain.Method.GET
@@ -63,7 +64,7 @@ class LocalConfigurationSourceSpec extends Specification {
         when:
             source.loadFromDirectory("src/test/resources/contracts/crazyFolderLayout")
         then:
-            objectMapper.readValue(_, HashMap.class) >> {throw new IOException()}
+            objectMapper.readValue(_, ContractMap.class) >> {throw new IOException()}
 			thrown(IllegalStateException)
     }
 

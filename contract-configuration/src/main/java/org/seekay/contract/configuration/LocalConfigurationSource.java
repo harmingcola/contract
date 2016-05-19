@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.configuration.loaders.JsonBodyFileLoader;
 import org.seekay.contract.configuration.loaders.StringBodyJsonFileLoader;
 import org.seekay.contract.model.domain.Contract;
+import org.seekay.contract.model.domain.ContractMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.seekay.contract.configuration.ParameterExpander.*;
+import static org.seekay.contract.configuration.ParameterExpander.containsParameters;
 
 
 @Slf4j
@@ -84,16 +85,16 @@ public class LocalConfigurationSource {
 
   private Contract contractFileLoaderFactory(String contractDefinition) {
     try {
-      HashMap contents = objectMapper.readValue(contractDefinition, HashMap.class);
+      ContractMap contents = objectMapper.readValue(contractDefinition, ContractMap.class);
       return checkPayloadType(contractDefinition, contents);
     } catch (IOException e) {
       throw new IllegalStateException("Problem occurred converting json to contract", e);
     }
   }
 
-  private Contract checkPayloadType(String contractDefinition, HashMap contents) {
-    Map<String, Object> request = (Map<String, Object>) contents.get("request");
-    Map<String, Object> response = (Map<String, Object>) contents.get("response");
+  private Contract checkPayloadType(String contractDefinition, ContractMap contents) {
+    Map<String, Object> request = contents.getRequest();
+    Map<String, Object> response = contents.getResponse();
 
     if (request.get("body") instanceof String || response.get("body") instanceof String) {
       return new StringBodyJsonFileLoader().load(contractDefinition);
