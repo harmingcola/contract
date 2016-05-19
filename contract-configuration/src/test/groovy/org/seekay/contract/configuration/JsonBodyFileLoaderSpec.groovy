@@ -1,4 +1,4 @@
-package org.seekay.contract.configuration.loaders
+package org.seekay.contract.configuration
 
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.ObjectMapper

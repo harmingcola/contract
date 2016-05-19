@@ -97,15 +97,6 @@ class LocalConfigurationSourceSpec extends Specification {
             contract == null
     }
 
-    def 'contracts with mismatched body types will throw an exception' () {
-        given:
-            LocalConfigurationSource source = new LocalConfigurationSource()
-        when:
-            source.loadFromDirectory("src/test/resources/invalid_contracts")
-        then:
-            thrown(IllegalStateException)
-    }
-
     def 'contracts containing a setup block will load correctly' () {
         given:
            LocalConfigurationSource source = new LocalConfigurationSource()

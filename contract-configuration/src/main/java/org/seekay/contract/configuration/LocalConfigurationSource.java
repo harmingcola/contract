@@ -2,8 +2,6 @@ package org.seekay.contract.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.configuration.loaders.JsonBodyFileLoader;
-import org.seekay.contract.configuration.loaders.StringBodyJsonFileLoader;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractMap;
 
@@ -21,7 +19,7 @@ import static org.seekay.contract.configuration.ParameterExpander.containsParame
 public class LocalConfigurationSource {
 
   private static final List<String> IGNORED_DIRECTORIES = Arrays.asList(".git", "__ignored");
-  public static final String CONTRACT_FILE_SUFFIX = ".contract.json";
+  public static final String JSON_CONTRACT_FILE_SUFFIX = ".contract.json";
 
   private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -33,7 +31,7 @@ public class LocalConfigurationSource {
   }
 
   public Contract loadFromFile(File file) {
-    if (file.getName().endsWith(CONTRACT_FILE_SUFFIX)) {
+    if (file.getName().endsWith(JSON_CONTRACT_FILE_SUFFIX)) {
       log.info("Loading config file : " + file.getPath());
       try {
         byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
@@ -49,7 +47,12 @@ public class LocalConfigurationSource {
   }
 
   public Contract loadFromString(String contractDefinition) {
-    return contractFileLoaderFactory(contractDefinition);
+    try {
+      ContractMap contents = objectMapper.readValue(contractDefinition, ContractMap.class);
+      return new JsonBodyFileLoader().load(contents);
+    } catch (IOException e) {
+      throw new IllegalStateException("Problem occurred converting json to contract", e);
+    }
   }
 
   protected void loadFromDirectory(File directory, File baseDirectory, List<Contract> contracts) {
@@ -81,30 +84,6 @@ public class LocalConfigurationSource {
     String directoriesOnly = relativeLocation.replace(fileName, "");
     String[] tags = directoriesOnly.split("/");
     contract.addTags(tags);
-  }
-
-  private Contract contractFileLoaderFactory(String contractDefinition) {
-    try {
-      ContractMap contents = objectMapper.readValue(contractDefinition, ContractMap.class);
-      return checkPayloadType(contractDefinition, contents);
-    } catch (IOException e) {
-      throw new IllegalStateException("Problem occurred converting json to contract", e);
-    }
-  }
-
-  private Contract checkPayloadType(String contractDefinition, ContractMap contents) {
-    Map<String, Object> request = contents.getRequest();
-    Map<String, Object> response = contents.getResponse();
-
-    if (request.get("body") instanceof String || response.get("body") instanceof String) {
-      return new StringBodyJsonFileLoader().load(contractDefinition);
-    } else if (request.get("body") instanceof Map || response.get("body") instanceof Map) {
-      return new JsonBodyFileLoader().load(contents);
-    } else if (request.get("body") instanceof Map || response.get("body") instanceof List) {
-      return new JsonBodyFileLoader().load(contents);
-    } else{
-      return new StringBodyJsonFileLoader().load(contractDefinition);
-    }
   }
 
 }

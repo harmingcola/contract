@@ -1,4 +1,4 @@
-package org.seekay.contract.configuration.loaders;
+package org.seekay.contract.configuration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -8,6 +8,7 @@ import org.seekay.contract.model.domain.ContractMap;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonBodyFileLoader {
@@ -58,7 +59,7 @@ public class JsonBodyFileLoader {
       if(entry.getValue() instanceof Map) {
         rewriteBodiesAsStrings((HashMap<String, Object>) entry.getValue());
       }
-      if(entry.getKey() == "body") {
+      if(entry.getKey() == "body" && (entry.getValue() instanceof Map || entry.getValue() instanceof List)) {
         entry.setValue(objectMapper.writeValueAsString(entry.getValue()));
       }
     }
