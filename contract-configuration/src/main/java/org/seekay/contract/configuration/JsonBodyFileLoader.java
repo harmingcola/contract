@@ -54,6 +54,12 @@ public class JsonBodyFileLoader {
     }
   }
 
+  /*
+   * The application internally treats every body like a string.
+   * We want people to be able to configure contracts with native JSON. So
+   * we cant directly convert from JSON to a Contract, we need to
+   * convert the bodies to strings before conversion.
+   */
   private void rewriteBodiesAsStrings(Map<String, Object> contents) throws IOException {
     for(Map.Entry<String, Object> entry: contents.entrySet()) {
       if(entry.getValue() instanceof Map) {
