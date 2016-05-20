@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.seekay.contract.common.enrich.Dictionary.*;
 import static org.seekay.contract.model.expression.Expressions.*;
 import static org.seekay.contract.model.tools.CloneTools.cloneContract;
 
@@ -24,6 +25,8 @@ public class EnricherService {
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
   private static Pattern numberVariablePattern = Pattern.compile(NUMBER_VARIABLE);
   private static Pattern positiveNumberVariablePattern = Pattern.compile(POSITIVE_NUMBER_VARIABLE);
+  private static Pattern stringVariablePattern = Pattern.compile(STRING_VARIABLE);
+
 
   private VariableStore variableStore;
 
@@ -73,6 +76,7 @@ public class EnricherService {
       output = replaceNumber(output);
       output = replaceNumberVariable(output);
       output = replacePositiveNumberVariable(output);
+      output = replaceStringVariable(output);
     }
     return output;
   }
@@ -94,7 +98,7 @@ public class EnricherService {
 
   private String replaceAnyString(String output) {
     while(anyStringPattern.matcher(output).find()) {
-      output = anyStringPattern.matcher(output).replaceFirst(Dictionary.randomWord());
+      output = anyStringPattern.matcher(output).replaceFirst(randomWord());
     }
     return output;
   }
@@ -129,6 +133,24 @@ public class EnricherService {
         Integer randomValue = Math.abs(new Random().nextInt());
         output = matcher.replaceFirst(randomValue.toString());
         matcher = positiveNumberVariablePattern.matcher(output);
+        variableStore.put(variableKey, randomValue);
+      }
+    }
+    return output;
+  }
+
+  private String replaceStringVariable(String output) {
+    Matcher matcher = stringVariablePattern.matcher(output);
+    while(matcher.find()) {
+      String variableKey = matcher.group(2);
+      Object variableValue = variableStore.get(variableKey);
+      if(variableValue != null) {
+        output = matcher.replaceFirst(variableValue.toString());
+        matcher = stringVariablePattern.matcher(output);
+      } else {
+        String randomValue = randomWord();
+        output = matcher.replaceFirst(randomValue);
+        matcher = stringVariablePattern.matcher(output);
         variableStore.put(variableKey, randomValue);
       }
     }

@@ -16,4 +16,5 @@ public class Expressions {
 
   public static final String POSITIVE_NUMBER_VARIABLE = "(\\$\\{contract\\.var\\.positiveNumber\\.)(.*?)(\\})";
 
+  public static final String STRING_VARIABLE = "(\\$\\{contract\\.var\\.string\\.)(.*?)(\\})";
 }

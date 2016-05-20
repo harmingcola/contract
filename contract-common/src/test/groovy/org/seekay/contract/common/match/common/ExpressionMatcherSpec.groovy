@@ -30,6 +30,11 @@ class ExpressionMatcherSpec extends Specification {
             !matcher.isMatch('/index/${contract.var.positiveNumber.gibberish}', '/index/-55')
     }
 
+    def 'a string variable expression should match' () {
+        expect:
+            matcher.isMatch('/index/${contract.var.string.name}', '/index/bob')
+    }
+
     def 'a contract string multiple expressions should match' () {
         expect:
             matcher.isMatch(

@@ -18,6 +18,7 @@ public class ExpressionMatcher {
   private static Pattern timeStampPattern = compile(TIMESTAMP);
   private static Pattern numberVariablePattern = compile(NUMBER_VARIABLE);
   private static Pattern positiveNumberVariablePattern = compile(POSITIVE_NUMBER_VARIABLE);
+  private static Pattern stringVariablePattern = compile(STRING_VARIABLE);
 
 
   public boolean isMatch(String contractString, String actualString) {
@@ -38,6 +39,9 @@ public class ExpressionMatcher {
       }
       if (positiveNumberVariablePattern.matcher(oneTimeStringRegex).find()) {
         oneTimeStringRegex = positiveNumberVariablePattern.matcher(oneTimeStringRegex).replaceAll("?[0-9]+(\\\\.[0-9]+)?");
+      }
+      if (stringVariablePattern.matcher(oneTimeStringRegex).find()) {
+        oneTimeStringRegex = stringVariablePattern.matcher(oneTimeStringRegex).replaceAll(".*?");
       }
 
       try {
