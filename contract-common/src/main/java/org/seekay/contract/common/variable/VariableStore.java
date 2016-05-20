@@ -6,6 +6,7 @@ import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractResponse;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Setter
 public class VariableStore extends HashMap<String, Object> {
@@ -15,12 +16,23 @@ public class VariableStore extends HashMap<String, Object> {
   private StringVariableExtractor stringVariableExtractor;
 
   public void updateForResponse(Contract contract, ContractResponse actualResponse) {
-    String contractResponseBody = contract.getResponse().getBody();
-    String actualResponseBody = actualResponse.getBody();
+    updateFromHeaders(contract.getResponse().getHeaders(), actualResponse.getHeaders());
+    updateFromStrings(contract.getResponse().getBody(), actualResponse.getBody());
+  }
 
-    if(contractResponseBody != null && actualResponseBody != null) {
-      if (expressionMatcher.isMatch(contractResponseBody, actualResponseBody)) {
-        this.putAll(stringVariableExtractor.extract(contractResponseBody, actualResponseBody));
+  private void updateFromHeaders(Map<String, String> contractHeaders, Map<String, String> actualHeaders) {
+    if(contractHeaders != null && actualHeaders!=null) {
+      for(Entry<String, String> entry : contractHeaders.entrySet()) {
+        String actualHeader = actualHeaders.get(entry.getKey());
+        updateFromStrings(entry.getValue(), actualHeader);
+      }
+    }
+  }
+
+  private void updateFromStrings(String contractText, String actualText) {
+    if(contractText != null && actualText != null) {
+      if (expressionMatcher.isMatch(contractText, actualText)) {
+        this.putAll(stringVariableExtractor.extract(contractText, actualText));
       }
     }
   }

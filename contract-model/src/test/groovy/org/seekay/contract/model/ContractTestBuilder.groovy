@@ -66,6 +66,12 @@ class ContractTestBuilder {
         return this
     }
 
+    def noHeaders() {
+        this.responseHeaders = null
+        this.requestHeaders = null
+        return this
+    }
+
     ContractTestBuilder responseHeaders(Map<String, String> responseHeaders) {
         this.responseHeaders = responseHeaders
         return this
@@ -128,6 +134,5 @@ class ContractTestBuilder {
                 setup: setup
         )
     }
-
 
 }
