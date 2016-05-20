@@ -17,10 +17,17 @@ class ExpressionMatcherSpec extends Specification {
             matcher.isMatch('/${contract.anyString}', '/index')
     }
 
-    def 'a variable expression should match' () {
+    def 'a number variable expression should match' () {
         expect:
-            matcher.isMatch('/${contract.var.repoId}', '/index')
-            matcher.isMatch('/${contract.var.gibberish}', '/index')
+            matcher.isMatch('/index/${contract.var.number.repoId}', '/index/45')
+            matcher.isMatch('/index/${contract.var.number.gibberish}', '/index/106')
+    }
+
+    def 'a positive number expression should match' () {
+        expect:
+            matcher.isMatch('/index/${contract.var.positiveNumber.repoId}', '/index/45')
+            matcher.isMatch('/index/${contract.var.positiveNumber.gibberish}', '/index/106')
+            !matcher.isMatch('/index/${contract.var.positiveNumber.gibberish}', '/index/-55')
     }
 
     def 'a contract string multiple expressions should match' () {

@@ -71,7 +71,8 @@ class ApplicationContext {
                     pathMatchingService: pathMatchingService(),
                     headerMatcher: headerMatcher(),
                     bodyMatchingService: bodyMatchingService(),
-                    objectMapper: objectMapper()
+                    objectMapper: objectMapper(),
+                    variableStore: variableStore()
             )
         }
         return matchingService

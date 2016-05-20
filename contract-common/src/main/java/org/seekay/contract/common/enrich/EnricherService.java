@@ -22,7 +22,8 @@ public class EnricherService {
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
   private static Pattern anyNumberPattern = Pattern.compile(ANY_NUMBER);
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
-  private static Pattern variablePattern = Pattern.compile(VARIABLE);
+  private static Pattern numberVariablePattern = Pattern.compile(NUMBER_VARIABLE);
+  private static Pattern positiveNumberVariablePattern = Pattern.compile(POSITIVE_NUMBER_VARIABLE);
 
   private VariableStore variableStore;
 
@@ -70,7 +71,8 @@ public class EnricherService {
       output = replaceAnyString(output);
       output = replaceTimestamp(output);
       output = replaceNumber(output);
-      output = replaceVariable(output);
+      output = replaceNumberVariable(output);
+      output = replacePositiveNumberVariable(output);
     }
     return output;
   }
@@ -97,14 +99,37 @@ public class EnricherService {
     return output;
   }
 
-  private String replaceVariable(String output) {
-    Matcher matcher = variablePattern.matcher(output);
+  private String replaceNumberVariable(String output) {
+    Matcher matcher = numberVariablePattern.matcher(output);
     while(matcher.find()) {
       String variableKey = matcher.group(2);
       Object variableValue = variableStore.get(variableKey);
       if(variableValue != null) {
         output = matcher.replaceFirst(variableValue.toString());
-        matcher = variablePattern.matcher(output);
+        matcher = numberVariablePattern.matcher(output);
+      } else {
+        Integer randomValue = new Random().nextInt();
+        output = matcher.replaceFirst(randomValue.toString());
+        matcher = numberVariablePattern.matcher(output);
+        variableStore.put(variableKey, randomValue);
+      }
+    }
+    return output;
+  }
+
+  private String replacePositiveNumberVariable(String output) {
+    Matcher matcher = positiveNumberVariablePattern.matcher(output);
+    while(matcher.find()) {
+      String variableKey = matcher.group(2);
+      Object variableValue = variableStore.get(variableKey);
+      if(variableValue != null) {
+        output = matcher.replaceFirst(variableValue.toString());
+        matcher = positiveNumberVariablePattern.matcher(output);
+      } else {
+        Integer randomValue = Math.abs(new Random().nextInt());
+        output = matcher.replaceFirst(randomValue.toString());
+        matcher = positiveNumberVariablePattern.matcher(output);
+        variableStore.put(variableKey, randomValue);
       }
     }
     return output;

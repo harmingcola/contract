@@ -121,17 +121,27 @@ class EnricherServiceSpec extends Specification {
 
     def 'a request path nothing but a variable should be enriched correctly ' () {
         given:
-            Contract contract = ContractTestFixtures.defaultGetContract().path('${contract.var.id}').build()
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.number.id}').build()
         when:
             contract = service.enrichRequest(contract)
         then:
-            contract.request.path.matches('45505')
+            contract.request.path.matches('/home/45505')
             1 * variableStore.get('id') >> {return 45505}
     }
 
-    def 'a request path containing a variable should be enriched correctly ' () {
+    def 'a request path containing a number variable should be enriched correctly ' () {
         given:
-            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.id}').build()
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.number.id}').build()
+        when:
+            contract = service.enrichRequest(contract)
+        then:
+            contract.request.path.matches('/home/45505')
+            1 * variableStore.get('id') >> {return 45505}
+    }
+
+    def 'a request path containing a positive number variable should be enriched correctly ' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.positiveNumber.id}').build()
         when:
             contract = service.enrichRequest(contract)
         then:
@@ -141,12 +151,34 @@ class EnricherServiceSpec extends Specification {
 
     def 'a request path containing a multiple variables should be enriched correctly ' () {
         given:
-            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.eventid}/${contract.var.marketid}').build()
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.number.eventid}/${contract.var.number.marketid}').build()
         when:
             contract = service.enrichRequest(contract)
         then:
             contract.request.path.matches('/home/45505/11011')
             1 * variableStore.get('eventid') >> {return 45505}
             1 * variableStore.get('marketid') >> {return 11011}
+    }
+
+    def 'if a number variable doesnt exist, one will be generated' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('${contract.var.number.eventid}').build()
+        when:
+            contract = service.enrichRequest(contract)
+            String eventid = contract.request.path
+        then:
+            eventid != null
+            1 * variableStore.get('eventid') >> {return null}
+    }
+
+    def 'if a positive number variable doesnt exist, one will be generated' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('${contract.var.positiveNumber.eventid}').build()
+        when:
+            contract = service.enrichRequest(contract)
+            String eventid = contract.request.path
+        then:
+            eventid != null
+            1 * variableStore.get('eventid') >> {return null}
     }
 }

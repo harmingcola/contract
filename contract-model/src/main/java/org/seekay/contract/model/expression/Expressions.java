@@ -10,6 +10,10 @@ public class Expressions {
 
   public static final String TIMESTAMP = "\\$\\{contract.timestamp\\}";
 
-  public static final String VARIABLE = "(\\$\\{contract\\.var\\.)(.*?)(\\})";
+  public static final String VARIABLE = "(\\$\\{contract\\.var\\..*?\\.)(.*?)(\\})";
+
+  public static final String NUMBER_VARIABLE = "(\\$\\{contract\\.var\\.number\\.)(.*?)(\\})";
+
+  public static final String POSITIVE_NUMBER_VARIABLE = "(\\$\\{contract\\.var\\.positiveNumber\\.)(.*?)(\\})";
 
 }

@@ -8,6 +8,7 @@ import org.seekay.contract.common.match.path.PathMatchingService;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.common.matchers.MethodMatcher;
 import org.seekay.contract.common.service.ContractService;
+import org.seekay.contract.common.variable.VariableStore;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.Method;
@@ -27,6 +28,7 @@ public class MatchingService {
   private PathMatchingService pathMatchingService;
   private HeaderMatcher headerMatcher;
   private BodyMatchingService bodyMatchingService;
+  private VariableStore variableStore;
 
   private ObjectMapper objectMapper;
   
@@ -35,7 +37,11 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
-    return getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
+    }
+    return match;
   }
   
   public Contract matchPostRequest(ContractRequest contractRequest) {
@@ -44,7 +50,11 @@ public class MatchingService {
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
-    return getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
+    }
+    return match;
   }
 
   public Contract matchPutRequest(ContractRequest contractRequest) {
@@ -53,12 +63,11 @@ public class MatchingService {
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
-    Contract result = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
-    if(result == null) {
-      log.info("No matching contracts found, partial matches Method: {}, Path: {}, Headers: {}, Body: {} ",
-              matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
     }
-    return result;
+    return match;
   }
 
   public Contract matchDeleteRequest(ContractRequest contractRequest) {
@@ -66,7 +75,11 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
-    return getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
+    }
+    return match;
   }
 
   private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
