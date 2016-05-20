@@ -8,6 +8,7 @@ import org.seekay.contract.common.match.path.PathMatchingService
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.common.variable.VariableStore
 import spock.lang.Specification
 
 class ApplicationContextSpec extends Specification {
@@ -90,6 +91,14 @@ class ApplicationContextSpec extends Specification {
             expressionMatcher == ApplicationContext.expressionMatcher()
     }
 
+    def "a single variable store should be created" () {
+        when:
+            VariableStore variableStore = ApplicationContext.variableStore()
+        then:
+            variableStore != null
+            variableStore == ApplicationContext.variableStore()
+    }
+
     def "a context can be cleared and all singletons will be nullified" () {
         given:
             ApplicationContext.contractService()
@@ -102,6 +111,7 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.enricherService()
             ApplicationContext.expressionMatcher()
             ApplicationContext.localConfigurationSource()
+            ApplicationContext.variableStore()
         when:
             ApplicationContext.clear()
         then:
@@ -115,5 +125,6 @@ class ApplicationContextSpec extends Specification {
             ApplicationContext.enricherService == null
             ApplicationContext.expressionMatcher == null
             ApplicationContext.localConfigurationSource == null
+            ApplicationContext.variableStore == null
     }
 }

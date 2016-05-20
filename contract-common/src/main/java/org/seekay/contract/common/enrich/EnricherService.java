@@ -1,6 +1,7 @@
 package org.seekay.contract.common.enrich;
 
 import lombok.Setter;
+import org.seekay.contract.common.variable.VariableStore;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
@@ -8,6 +9,7 @@ import org.seekay.contract.model.domain.ContractResponse;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.seekay.contract.model.expression.Expressions.*;
@@ -20,6 +22,9 @@ public class EnricherService {
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
   private static Pattern anyNumberPattern = Pattern.compile(ANY_NUMBER);
   private static Pattern currentTimeStampPattern = Pattern.compile(TIMESTAMP);
+  private static Pattern variablePattern = Pattern.compile(VARIABLE);
+
+  private VariableStore variableStore;
 
   public Contract enrichRequest(Contract contract) {
     if (contract != null && contract.getRequest() != null) {
@@ -65,6 +70,7 @@ public class EnricherService {
       output = replaceAnyString(output);
       output = replaceTimestamp(output);
       output = replaceNumber(output);
+      output = replaceVariable(output);
     }
     return output;
   }
@@ -87,6 +93,19 @@ public class EnricherService {
   private String replaceAnyString(String output) {
     while(anyStringPattern.matcher(output).find()) {
       output = anyStringPattern.matcher(output).replaceFirst(Dictionary.randomWord());
+    }
+    return output;
+  }
+
+  private String replaceVariable(String output) {
+    Matcher matcher = variablePattern.matcher(output);
+    while(matcher.find()) {
+      String variableKey = matcher.group(2);
+      Object variableValue = variableStore.get(variableKey);
+      if(variableValue != null) {
+        output = matcher.replaceFirst(variableValue.toString());
+        matcher = variablePattern.matcher(output);
+      }
     }
     return output;
   }

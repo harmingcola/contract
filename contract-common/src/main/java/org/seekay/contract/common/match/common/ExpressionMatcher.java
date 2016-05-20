@@ -15,18 +15,23 @@ public class ExpressionMatcher {
   private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
   private static Pattern anyNumberPattern = Pattern.compile(ANY_NUMBER);
   private static Pattern timeStampPattern = Pattern.compile(TIMESTAMP);
+  private static Pattern variablePattern = Pattern.compile(VARIABLE);
 
   public boolean isMatch(String contractString, String actualString) {
+
     if(containsAnExpression(contractString)) {
       String oneTimeStringRegex = contractString;
       if (anyStringPattern.matcher(oneTimeStringRegex).find()) {
-        oneTimeStringRegex = anyStringPattern.matcher(oneTimeStringRegex).replaceAll(".*");
+        oneTimeStringRegex = anyStringPattern.matcher(oneTimeStringRegex).replaceAll(".*?");
       }
       if (anyNumberPattern.matcher(oneTimeStringRegex).find()) {
         oneTimeStringRegex = anyNumberPattern.matcher(oneTimeStringRegex).replaceAll("-?[0-9]+(\\\\.[0-9]+)?");
       }
       if (timeStampPattern.matcher(oneTimeStringRegex).find()) {
         oneTimeStringRegex = timeStampPattern.matcher(oneTimeStringRegex).replaceAll(buildTimestampPattern());
+      }
+      if (variablePattern.matcher(oneTimeStringRegex).find()) {
+        oneTimeStringRegex = variablePattern.matcher(oneTimeStringRegex).replaceAll(".*?");
       }
 
       try {

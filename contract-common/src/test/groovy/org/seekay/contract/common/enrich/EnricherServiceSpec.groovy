@@ -1,13 +1,19 @@
 package org.seekay.contract.common.enrich
 
+import org.seekay.contract.common.variable.VariableStore
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract
-import spock.lang.Shared
 import spock.lang.Specification
 
 class EnricherServiceSpec extends Specification {
 
-    @Shared EnricherService service = new EnricherService()
+    EnricherService service = new EnricherService()
+
+    VariableStore variableStore = Mock(VariableStore)
+
+    def setup() {
+        service.variableStore = variableStore
+    }
 
     def 'a request path containing a timestamp should be enriched correctly ' () {
         given:
@@ -111,5 +117,26 @@ class EnricherServiceSpec extends Specification {
         then:
             chunks[0] != chunks[1]
             chunks[1] != chunks[2]
+    }
+
+    def 'a request path containing a variable should be enriched correctly ' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.id}').build()
+        when:
+            contract = service.enrichRequest(contract)
+        then:
+            contract.request.path.matches('/home/45505')
+            1 * variableStore.get('id') >> {return 45505}
+    }
+
+    def 'a request path containing a multiple variables should be enriched correctly ' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.eventid}/${contract.var.marketid}').build()
+        when:
+            contract = service.enrichRequest(contract)
+        then:
+            contract.request.path.matches('/home/45505/11011')
+            1 * variableStore.get('eventid') >> {return 45505}
+            1 * variableStore.get('marketid') >> {return 11011}
     }
 }

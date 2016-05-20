@@ -12,6 +12,7 @@ import org.seekay.contract.common.match.path.*
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.common.variable.VariableStore
 import org.seekay.contract.configuration.LocalConfigurationSource
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include
@@ -29,6 +30,7 @@ class ApplicationContext {
     static EnricherService enricherService
     static ExpressionMatcher expressionMatcher
     static LocalConfigurationSource localConfigurationSource
+    static VariableStore variableStore
 
     public static void clear() {
         contractService = null
@@ -41,6 +43,7 @@ class ApplicationContext {
         enricherService = null
         expressionMatcher = null
         localConfigurationSource = null
+        variableStore = null
     }
 
     public static ContractService contractService() {
@@ -123,7 +126,9 @@ class ApplicationContext {
 
     public static EnricherService enricherService() {
         if (enricherService == null) {
-            enricherService = new EnricherService()
+            enricherService = new EnricherService(
+                variableStore: variableStore()
+            )
         }
         return enricherService
     }
@@ -140,5 +145,12 @@ class ApplicationContext {
             localConfigurationSource = new LocalConfigurationSource()
         }
         return localConfigurationSource
+    }
+
+    public static VariableStore variableStore() {
+        if(variableStore == null) {
+            variableStore = new VariableStore()
+        }
+        return variableStore
     }
 }
