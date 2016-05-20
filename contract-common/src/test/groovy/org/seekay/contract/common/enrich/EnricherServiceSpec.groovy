@@ -119,6 +119,16 @@ class EnricherServiceSpec extends Specification {
             chunks[1] != chunks[2]
     }
 
+    def 'a request path nothing but a variable should be enriched correctly ' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().path('${contract.var.id}').build()
+        when:
+            contract = service.enrichRequest(contract)
+        then:
+            contract.request.path.matches('45505')
+            1 * variableStore.get('id') >> {return 45505}
+    }
+
     def 'a request path containing a variable should be enriched correctly ' () {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().path('/home/${contract.var.id}').build()

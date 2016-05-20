@@ -12,6 +12,7 @@ import org.seekay.contract.common.match.path.*
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.common.variable.StringVariableExtractor
 import org.seekay.contract.common.variable.VariableStore
 import org.seekay.contract.configuration.LocalConfigurationSource
 
@@ -149,7 +150,10 @@ class ApplicationContext {
 
     public static VariableStore variableStore() {
         if(variableStore == null) {
-            variableStore = new VariableStore()
+            variableStore = new VariableStore(
+                expressionMatcher: expressionMatcher(),
+                stringVariableExtractor: new StringVariableExtractor()
+            )
         }
         return variableStore
     }

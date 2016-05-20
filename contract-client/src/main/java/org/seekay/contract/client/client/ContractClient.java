@@ -9,6 +9,7 @@ import org.seekay.contract.common.enrich.EnricherService;
 import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.match.common.ExpressionMatcher;
 import org.seekay.contract.common.matchers.HeaderMatcher;
+import org.seekay.contract.common.variable.VariableStore;
 import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
@@ -36,6 +37,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
   private ObjectMapper objectMapper = ApplicationContext.objectMapper();
   private EnricherService enricherService = ApplicationContext.enricherService();
   private ExpressionMatcher expressionMatcher = ApplicationContext.expressionMatcher();
+  private VariableStore variableStore = ApplicationContext.variableStore();
 
   private ContractClient() {
     contracts = new ArrayList<Contract>();
@@ -160,6 +162,11 @@ public class ContractClient implements ContractOperator<ContractClient> {
     assertStatusCodesMatch(contract, actualResponse);
     assertBodiesMatch(contract, actualResponse);
     assertHeadersContained(contract, actualResponse);
+    updateVariableStore(contract, actualResponse);
+  }
+
+  private void updateVariableStore(Contract contract, ContractResponse actualResponse) {
+    variableStore.updateForResponse(contract, actualResponse);
   }
 
   private void assertHeadersContained(Contract contract, ContractResponse actualResponse) {

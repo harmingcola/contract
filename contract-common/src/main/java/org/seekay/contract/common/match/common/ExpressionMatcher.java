@@ -6,16 +6,17 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static java.util.regex.Pattern.*;
 import static org.seekay.contract.model.expression.Expressions.*;
 
 @Slf4j
 public class ExpressionMatcher {
 
-  private static Pattern contractExpressionPattern = Pattern.compile(CONTRACT_EXPRESSION);
-  private static Pattern anyStringPattern = Pattern.compile(ANY_STRING);
-  private static Pattern anyNumberPattern = Pattern.compile(ANY_NUMBER);
-  private static Pattern timeStampPattern = Pattern.compile(TIMESTAMP);
-  private static Pattern variablePattern = Pattern.compile(VARIABLE);
+  private static Pattern contractExpressionPattern = compile(CONTRACT_EXPRESSION);
+  private static Pattern anyStringPattern = compile(ANY_STRING);
+  private static Pattern anyNumberPattern = compile(ANY_NUMBER);
+  private static Pattern timeStampPattern = compile(TIMESTAMP);
+  private static Pattern variablePattern = compile(VARIABLE);
 
   public boolean isMatch(String contractString, String actualString) {
 
