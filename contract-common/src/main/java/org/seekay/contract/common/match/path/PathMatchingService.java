@@ -36,7 +36,6 @@ public class PathMatchingService {
         results.add(contract);
       }
     }
-    log.info("Exact Path matches " + results.size());
 
     // Find matches using expressions
     if(results.isEmpty()) {
@@ -46,7 +45,6 @@ public class PathMatchingService {
         }
       }
     }
-    log.info("Expressions Path matches " + results.size());
 
     // Find matches with query params out of order
     if(results.isEmpty()) {
@@ -56,7 +54,6 @@ public class PathMatchingService {
         }
       }
     }
-    log.info("Query param Path matches " + results.size());
 
     // Find matches with query params out of order using expressions
     if(results.isEmpty()) {
@@ -66,7 +63,6 @@ public class PathMatchingService {
         }
       }
     }
-    log.info("Expression query param Path matches " + results.size());
 
 
     return results;

@@ -33,7 +33,7 @@ public class MatchingService {
   private ObjectMapper objectMapper;
   
   public Contract matchGetRequest(ContractRequest contractRequest) {
-    logRequestAgainstContracts(contractRequest, contractService.read());
+    logRequest(contractRequest);
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
@@ -41,11 +41,12 @@ public class MatchingService {
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
     }
+    logResponse(match);
     return match;
   }
   
   public Contract matchPostRequest(ContractRequest contractRequest) {
-    logRequestAgainstContracts(contractRequest, contractService.read());
+    logRequest(contractRequest);
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
@@ -54,11 +55,12 @@ public class MatchingService {
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
     }
+    logResponse(match);
     return match;
   }
 
   public Contract matchPutRequest(ContractRequest contractRequest) {
-    logRequestAgainstContracts(contractRequest, contractService.read());
+    logRequest(contractRequest);
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
@@ -67,11 +69,12 @@ public class MatchingService {
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
     }
+    logResponse(match);
     return match;
   }
 
   public Contract matchDeleteRequest(ContractRequest contractRequest) {
-    logRequestAgainstContracts(contractRequest, contractService.read());
+    logRequest(contractRequest);
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
@@ -79,35 +82,35 @@ public class MatchingService {
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
     }
+    logResponse(match);
     return match;
   }
 
-  private void logRequestAgainstContracts(ContractRequest contractRequest, Set<Contract> contracts) {
+  private void logRequest(ContractRequest contractRequest) {
     log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
-    log.info("Available contracts : \n{}", prettyPrint(contracts, objectMapper));
+  }
+
+  private void logResponse(Contract contract) {
+    log.info("Returning response {}", prettyPrint(contract, objectMapper));
   }
   
   private Set<Contract> matchByMethod(Method method) {
     Set<Contract> matches =  methodMatcher.findMatches(contractService.read(), method);
-    log.info("Matched {} contracts by method", matches.size());
     return matches;
   }
   
   private Set<Contract> matchByPath(ContractRequest contractRequest) {
     Set<Contract> matches = pathMatchingService.findMatches(contractService.read(), contractRequest.getPath());
-    log.info("Matched {} contracts by path", matches.size());
     return matches;
   }
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
     Set<Contract> matches = headerMatcher.isMatch(contractService.read(), contractRequest.getHeaders());
-    log.info("Matched {} contracts by headers", matches.size());
     return matches;
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
     Set<Contract> matches = bodyMatchingService.findMatches(contractService.read(), contractRequest);
-    log.info("Matched {} contracts by body", matches.size());
     return matches;
   }
   

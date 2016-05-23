@@ -27,6 +27,16 @@ class QueryParamPathMatcherSpec extends Specification {
             isMatch
     }
 
+    def "contracts with different base urls shouldnt match" () {
+        given:
+            String contractPath = "/index?page=hello"
+            String actualPath = "/home?page=hello"
+        when:
+            boolean isMatch = matcher.isMatch(contractPath, actualPath)
+        then:
+            !isMatch
+    }
+
     def "two paths with the same params in different order should match" () {
         given:
             String contractPath = "/index?entry=allowed&page=hello"
