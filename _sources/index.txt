@@ -11,7 +11,7 @@ driven contracts* and you're left with just contracts. By favouring neither side
 The project is available from maven central, see the `quick start <http://harmingcola.github.io/contract/quick_start.html>`_ page for more details
 Check out the code on `github <https://github.com/harmingcola/contract>`_
 
-The latest released version is ${release.version}
+The latest released version is 0.0.5
 
 
 The problem of testing a client server relationship
