@@ -24,9 +24,9 @@ class PathMatchingServiceSpec extends Specification {
             def matches = service.findMatches(contracts, "/index")
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * queryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
-            1 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String) >> { return false }
-            1 * expressionPathMatcher.isMatch(_ as String, _ as String) >> { return true }
+            1 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String) >> { return true }
             matches.size() == 1
     }
 
@@ -63,9 +63,9 @@ class PathMatchingServiceSpec extends Specification {
             def matches = service.findMatches(contracts, "/index")
         then:
             1 * exactPathMatcher.isMatch(_ as String, _ as String) >> { return false }
+            1 * expressionPathMatcher.isMatch(_ as String, _ as String) >> { return false }
             1 * queryParamPathMatcher.isMatch(_ as String, _ as String) >> {return true}
             0 * expressionQueryParamPathMatcher.isMatch(_ as String, _ as String)
-            0 * expressionPathMatcher.isMatch(_ as String, _ as String)
             matches.size() == 1
     }
 

@@ -36,24 +36,7 @@ public class PathMatchingService {
         results.add(contract);
       }
     }
-
-    // Find matches with query params out of order
-    if(results.isEmpty()) {
-      for(Contract contract : contracts) {
-        if(isMatch(queryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
-          results.add(contract);
-        }
-      }
-    }
-
-    // Find matches with query params out of order using expressions
-    if(results.isEmpty()) {
-      for(Contract contract : contracts) {
-        if(isMatch(expressionQueryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
-          results.add(contract);
-        }
-      }
-    }
+    log.info("Exact Path matches " + results.size());
 
     // Find matches using expressions
     if(results.isEmpty()) {
@@ -63,6 +46,28 @@ public class PathMatchingService {
         }
       }
     }
+    log.info("Expressions Path matches " + results.size());
+
+    // Find matches with query params out of order
+    if(results.isEmpty()) {
+      for(Contract contract : contracts) {
+        if(isMatch(queryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
+          results.add(contract);
+        }
+      }
+    }
+    log.info("Query param Path matches " + results.size());
+
+    // Find matches with query params out of order using expressions
+    if(results.isEmpty()) {
+      for(Contract contract : contracts) {
+        if(isMatch(expressionQueryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
+          results.add(contract);
+        }
+      }
+    }
+    log.info("Expression query param Path matches " + results.size());
+
 
     return results;
   }

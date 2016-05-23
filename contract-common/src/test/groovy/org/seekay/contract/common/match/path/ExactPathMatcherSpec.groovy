@@ -13,6 +13,16 @@ class ExactPathMatcherSpec extends Specification {
             matcher.isMatch("/index", "/index")
     }
 
+    def 'two exactly matching paths, one with a slash should match, A' () {
+        expect:
+            matcher.isMatch("/index/", "/index")
+    }
+
+    def 'two exactly matching paths, one with a slash should match, B' () {
+        expect:
+            matcher.isMatch("/index", "/index/")
+    }
+
     def 'two different paths should match' () {
         expect:
             !matcher.isMatch("/index", "/welcome")

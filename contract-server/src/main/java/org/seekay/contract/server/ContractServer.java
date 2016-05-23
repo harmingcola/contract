@@ -123,11 +123,6 @@ public class ContractServer implements ContractOperator<ContractServer> {
    */
   public void pushContractsToServer() {
     for (Contract contract : contracts) {
-      if(contract.getSetup() != null) {
-        for (Contract setupContract : contract.getSetup()) {
-          addContract(setupContract);
-        }
-      }
       contract.setSetup(null);
       addContract(contract);
     }

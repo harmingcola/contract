@@ -139,7 +139,7 @@ class ContractServerSpec extends ClientFacingTest {
             contractServer.contracts.size() == 1
     }
 
-    def 'a server configured with a single contract with a single setup step should have 2 contracts' () {
+    def 'a server configured with a single contract with a single setup step should only have 1 contracts' () {
         given:
             def contracts = [
                     getContractWithSetupBlock().build()
@@ -149,6 +149,6 @@ class ContractServerSpec extends ClientFacingTest {
             String body = Http.get().toPath(contractServer.path() + "/__configure").execute().getBody()
             List<Contract> retrievedContracts = new ObjectMapper().readValue(body, List.class)
         then:
-            retrievedContracts.size() == 2
+            retrievedContracts.size() == 1
     }
 }
