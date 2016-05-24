@@ -117,7 +117,7 @@ class BodyMatchingServiceSpec extends Specification {
 
     def 'if both the contract and actual bodies are null, they match' () {
         expect:
-            service.isMatch(jsonBodyMatcher, null, null)
+            !service.isMatch(jsonBodyMatcher, null, null)
     }
 
 

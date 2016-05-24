@@ -32,6 +32,7 @@ class ApplicationContext {
     static ExpressionMatcher expressionMatcher
     static LocalConfigurationSource localConfigurationSource
     static VariableStore variableStore
+    static JsonBodyMatcher jsonBodyMatcher
 
     public static void clear() {
         contractService = null
@@ -45,6 +46,7 @@ class ApplicationContext {
         expressionMatcher = null
         localConfigurationSource = null
         variableStore = null
+        jsonBodyMatcher = null
     }
 
     public static ContractService contractService() {
@@ -117,13 +119,19 @@ class ApplicationContext {
                     expressionBodyMatcher: new ExpressionBodyMatcher(
                             expressionMatcher: expressionMatcher()
                     ),
-                    jsonBodyMatcher : new JsonBodyMatcher(
-                            objectMapper: objectMapper(),
-                            expressionMatcher: expressionMatcher()
-                    )
+                    jsonBodyMatcher : jsonBodyMatcher()
             )
         }
         return bodyMatchService
+    }
+
+    public static JsonBodyMatcher jsonBodyMatcher() {
+        if(jsonBodyMatcher == null) {}
+            jsonBodyMatcher = new JsonBodyMatcher(
+                objectMapper: objectMapper(),
+                expressionMatcher: expressionMatcher()
+        )
+        return jsonBodyMatcher
     }
 
     public static EnricherService enricherService() {

@@ -37,7 +37,9 @@ public class BodyMatchingService {
       }
     }
 
-    // Find text matches ignoring whitespace
+    log.info("Is results empty {}", results.isEmpty());
+
+    // Find text matches using expressions
     if(results.isEmpty()) {
       for (Contract contract : contracts) {
         if (isMatch(expressionBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
@@ -58,6 +60,18 @@ public class BodyMatchingService {
     return results;
   }
 
+  private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
+    log.debug("Checking {} against contract {} using {}", actualBody, contractBody, bodyMatcher);
+    if(contractBody == null) {
+      return false;
+    }
+    if(actualBody != null && actualBody.trim().isEmpty()) {
+      return false;
+    }
+    Boolean result = bodyMatcher.isMatch(contractBody, actualBody);
+    return result;
+  }
+
   public boolean isMatch(String contractBody, String actualBody) {
     if(isMatch(whiteSpaceIgnoringBodyMatcher, contractBody, actualBody)) {
       return true;
@@ -70,17 +84,4 @@ public class BodyMatchingService {
     }
     return false;
   }
-
-  private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
-    if(contractBody == null) {
-      return true;
-    }
-    if(actualBody != null && actualBody.trim().isEmpty()) {
-      return false;
-    }
-
-    return bodyMatcher.isMatch(contractBody, actualBody);
-  }
-
-
 }

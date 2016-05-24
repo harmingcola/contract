@@ -1,5 +1,6 @@
 package org.seekay.contract.common.match.body
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.seekay.contract.common.ApplicationContext
 import org.seekay.contract.common.match.common.ExpressionMatcher
 import org.seekay.contract.model.domain.Experiment
 import spock.lang.Specification
@@ -149,6 +150,17 @@ class JsonBodyMatcherSpec extends Specification {
             expressionMatcher.containsAnExpression(_ as String) >> {return true}
             expressionMatcher.isMatch(_ as String, _ as String) >> {return true}
             isMatch
+    }
+
+    def 'out of order elements should match' () {
+        given:
+            BodyMatchingService jsonBodyMatcher = ApplicationContext.bodyMatchingService()
+            String contract = '''{"url":"https://github.com/harmingcola/kvServerContracts.git","name":"kvServerContracts"}'''
+            String actual = '''{"name":"kvServerContracts","url":"https://github.com/harmingcola/kvServerContracts.git"}'''
+        when:
+            def match = jsonBodyMatcher.isMatch(contract, actual)
+        then:
+            match
     }
 
     def 'checking' () {
