@@ -7,6 +7,7 @@ Features
 * Filtering of contracts by tags
 * Out of order JSON body `matching <http://harmingcola.github.io/contract/matching.html>`_.
 * String, number and timestamp wildcard matching for paths, headers, and bodies
+* Variable matching and substitution, see `expressions <http://harmingcola.github.io/contract/matching.html#expressions>`_ for more details
 * Expand single contracts out to multiple using `parameters <http://harmingcola.github.io/contract/parameters.html>`_.
 
 Server Features

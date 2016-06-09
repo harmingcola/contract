@@ -1,0 +1,22 @@
+<contract>
+    <info>
+        <details>The server should return a key-value pair for a valid xml request</details>
+    </info>
+    <request>
+        <method>GET</method>
+        <path>/entity/17</path>
+    </request>
+    <response>
+        <status>200</status>
+        <body>
+            <pair>
+                <key>message</key>
+                <value>hi there</value>
+            </pair>
+        </body>
+    </response>
+</contract>
+
+
+
+
