@@ -74,7 +74,6 @@ However, all a service provider need do is publish their contracts, and any clie
     tagging
     parameters
     contract_repository
-    examples
     building
     contributing
     support

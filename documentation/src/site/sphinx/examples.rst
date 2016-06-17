@@ -1,8 +1,8 @@
-Examples
-========
+Contract Examples
+=================
 
 GET an entity, verify status code and text body
-------
+-----------------------------------------------
 
 .. code-block:: javascript
 
@@ -18,7 +18,7 @@ GET an entity, verify status code and text body
     }
 
 GET an entity, verify status code and JSON body
-------
+-----------------------------------------------
 
 .. code-block:: javascript
 
