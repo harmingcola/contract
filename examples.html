@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Features &mdash; Python  documentation</title>
+  <title>Contract Examples &mdash; Python  documentation</title>
   
 
   
@@ -32,9 +32,7 @@
   
 
   
-    <link rel="top" title="Python  documentation" href="index.html"/>
-        <link rel="next" title="Contract Files" href="contract_files.html"/>
-        <link rel="prev" title="Quick Start" href="quick_start.html"/> 
+    <link rel="top" title="Python  documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -80,13 +78,9 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#server-features">Server Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#client-features">Client Features</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contract_files.html">Contract Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_server.html">Server facing example : Key Value Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kv_client.html">Client facing example : Key Value Client</a></li>
@@ -127,11 +121,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Features</li>
+    <li>Contract Examples</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="_sources/features.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/examples.txt" rel="nofollow"> View page source</a>
         
       
     </li>
@@ -141,38 +135,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="features">
-<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference external" href="http://harmingcola.github.io/contract/contract_files.html">JSON DSL</a> for specifying client / server interaction.</li>
-<li>DSL supports both json objects and text for specifying bodies.</li>
-<li>Share contracts via GIT or local storage.</li>
-<li>Auto and manual <a class="reference external" href="http://harmingcola.github.io/contract/tagging.html">tagging</a> of contracts.</li>
-<li>Filtering of contracts by tags</li>
-<li>Out of order JSON body <a class="reference external" href="http://harmingcola.github.io/contract/matching.html">matching</a>.</li>
-<li>String, number and timestamp wildcard matching for paths, headers, and bodies</li>
-<li>Variable matching and substitution, see <a class="reference external" href="http://harmingcola.github.io/contract/matching.html#expressions">expressions</a> for more details</li>
-<li>Expand single contracts out to multiple using <a class="reference external" href="http://harmingcola.github.io/contract/parameters.html">parameters</a>.</li>
-</ul>
-<div class="section" id="server-features">
-<h2>Server Features<a class="headerlink" href="#server-features" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>A test server to run client tests against.</li>
-<li>Hard coded server responses for POST, GET, PUT &amp; DELETE requests.</li>
-<li>Specified headers will be expected &amp; returned by the server.</li>
-<li>Support for current timestamp included in response bodies.</li>
-<li>Out of order query params will be recognised.</li>
-</ul>
+  <div class="section" id="contract-examples">
+<h1>Contract Examples<a class="headerlink" href="#contract-examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-an-entity-verify-status-code-and-text-body">
+<h2>GET an entity, verify status code and text body<a class="headerlink" href="#get-an-entity-verify-status-code-and-text-body" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/example/url&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="s2">&quot;Valid example response&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="client-features">
-<h2>Client Features<a class="headerlink" href="#client-features" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>A test client to verify server responses.</li>
-<li>Verification of responses to POST, GET, PUT &amp; DELETE requests.</li>
-<li>Specified headers will be sent &amp; expected by the client.</li>
-<li>Support for current timestamp in request bodies.</li>
-<li>Filtering of contracts to be executed based on tags.</li>
-</ul>
+</div>
+<div class="section" id="get-an-entity-verify-status-code-and-json-body">
+<h2>GET an entity, verify status code and JSON body<a class="headerlink" href="#get-an-entity-verify-status-code-and-json-body" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;method&quot;</span> <span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;path&quot;</span> <span class="o">:</span> <span class="s2">&quot;/example/url&quot;</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;response&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;status&quot;</span> <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">&quot;body&quot;</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;text&quot;</span><span class="o">:</span> <span class="s2">&quot;Valid example response&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -180,15 +175,6 @@
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="contract_files.html" class="btn btn-neutral float-right" title="Contract Files" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="quick_start.html" class="btn btn-neutral" title="Quick Start" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

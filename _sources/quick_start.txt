@@ -11,7 +11,7 @@ Include our contract-server dependency in your project.
     <dependency>
         <groupId>org.seekay</groupId>
         <artifactId>contract-server</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
         <scope>test</scope>
     </dependency>
 
@@ -26,7 +26,7 @@ Include our contract-client dependency in your project.
     <dependency>
         <groupId>org.seekay</groupId>
         <artifactId>contract-client</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
         <scope>test</scope>
     </dependency>
 
@@ -40,13 +40,13 @@ To run the server:
 
 .. code-block:: bash
 
-     mvn org.seekay:contract-maven-plugin:0.0.5:run-server -Dport=8091 -DgitSource=https://github.com/harmingcola/kvServerContracts.git -Dusername=seekay_test -Dpassword=seekay_test_password
+     mvn org.seekay:contract-maven-plugin:0.0.6:run-server -Dport=8091 -DgitSource=https://github.com/harmingcola/kvServerContracts.git -Dusername=seekay_test -Dpassword=seekay_test_password
 
 To run the client
 
 .. code-block:: bash
 
-    mvn org.seekay:contract-maven-plugin:0.0.5:run-client -Dtarget=http://localhost:8091 -DgitSource=https://github.com/harmingcola/kvServerContracts.git -Dusername=seekay_test -Dpassword=seekay_test_password
+    mvn org.seekay:contract-maven-plugin:0.0.6:run-client -Dtarget=http://localhost:8091 -DgitSource=https://github.com/harmingcola/kvServerContracts.git -Dusername=seekay_test -Dpassword=seekay_test_password
 
 
 I want to start a client / server from the command line
@@ -59,15 +59,15 @@ To run a server:
 
 .. code-block:: bash
 
-    java -jar contract-all-0.0.5.jar run-server 8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
-    java -jar contract-all-0.0.5.jar run-server <port> <local or git repo URI> <git username, optional> <git password, optional>
+    java -jar contract-all-0.0.6.jar run-server 8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+    java -jar contract-all-0.0.6.jar run-server <port> <local or git repo URI> <git username, optional> <git password, optional>
 
 To run a client:
 
 .. code-block:: bash
 
-    java -jar contract-all-0.0.5.jar run-client http://localhost:8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
-    java -jar contract-all-0.0.5.jar run-client <target url> <local or git repo URI> <git username, optional> <git password, optional>
+    java -jar contract-all-0.0.6.jar run-client http://localhost:8091 https://bitbucket.org/harmingcola/contract-test-private.git seekay_test seekay_test_password
+    java -jar contract-all-0.0.6.jar run-client <target url> <local or git repo URI> <git username, optional> <git password, optional>
 
 
 Usernames / passwords can be omitted for publicly accessible repositories

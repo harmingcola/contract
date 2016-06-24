@@ -19,7 +19,7 @@ To test the client, we require our contract server.
     <dependency>
         <groupId>org.seekay</groupId>
         <artifactId>contract-server</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
         <scope>test</scope>
     </dependency>
 

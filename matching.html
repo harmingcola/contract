@@ -260,6 +260,34 @@ clients and servers to develop independently.</p>
 </dd>
 </dl>
 </li>
+<li><dl class="first docutils">
+<dt>${contract.var.number.**variableName**}</dt>
+<dd><ul class="first last simple">
+<li>Will match any JSON number</li>
+<li>Will be replaced with a random integer for testing</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>${contract.var.positiveNumber.**variableName**}</dt>
+<dd><ul class="first last simple">
+<li>Will match any positve JSON number</li>
+<li>Will be replaced with a random positive integer for testing</li>
+<li>Should be used to represent generated IDs in a system backed by a database.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>${contract.var.string.**variableName**}</dt>
+<dd><ul class="first last simple">
+<li>Will match any JSON string</li>
+<li>Will be replaced with a random word for testing</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>

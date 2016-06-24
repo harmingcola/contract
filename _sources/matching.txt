@@ -85,6 +85,16 @@ We support matching based on expressions, they can be put in the path, headers, 
         * Currently only operates inside a string
     * ${contract.timestamp}
         * Will match the current time. It will give 10 milliseconds of leeway when matching the value.
+    * ${contract.var.number.**variableName**}
+        * Will match any JSON number
+        * Will be replaced with a random integer for testing
+    * ${contract.var.positiveNumber.**variableName**}
+        * Will match any positve JSON number
+        * Will be replaced with a random positive integer for testing
+        * Should be used to represent generated IDs in a system backed by a database.
+    * ${contract.var.string.**variableName**}
+        * Will match any JSON string
+        * Will be replaced with a random word for testing
 Expressions can be contained within other strings, they are not exclusive to a field. for example:
 
 .. code-block:: bash

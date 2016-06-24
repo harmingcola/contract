@@ -43,6 +43,8 @@ Fields
             * List of string tags referring to the contract.
         * *anything else*
             * *Any other information can be put in the info block as long as it is valid JSON*
+    * setup
+        * The setup block is a list of request response pairs allowing for multiple setup calls to be made before the contract is validated
     * request
         * method
             * HTTP method to be used for and responded to for requests
