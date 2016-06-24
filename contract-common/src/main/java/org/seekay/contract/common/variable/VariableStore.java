@@ -29,7 +29,7 @@ public class VariableStore extends HashMap<String, Object> {
 
   private void updateFromHeaders(Map<String, String> contractHeaders, Map<String, String> actualHeaders) {
     if(contractHeaders != null && actualHeaders!=null) {
-      for(Entry<String, String> entry : contractHeaders.entrySet()) {
+      for(Map.Entry<String, String> entry : contractHeaders.entrySet()) {
         String actualHeader = actualHeaders.get(entry.getKey());
         updateFromStrings(entry.getValue(), actualHeader);
       }

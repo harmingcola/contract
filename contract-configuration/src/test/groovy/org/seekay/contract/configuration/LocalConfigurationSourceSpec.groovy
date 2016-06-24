@@ -73,8 +73,9 @@ class LocalConfigurationSourceSpec extends Specification {
             LocalConfigurationSource source = new LocalConfigurationSource()
 		when:
 			List<Contract> contracts = source.loadFromDirectory("src/test/resources/contracts")
-			Contract contract = contracts.find() {it.readTags().size() > 0 }
+			Contract contract = contracts.sort().find() {it.readTags().size() > 0 }
 			Set tags = contract.info['tags']
+			tags.sort()
 		then:
 			tags.size() == 1
 			tags.contains('simpleloadtest')
