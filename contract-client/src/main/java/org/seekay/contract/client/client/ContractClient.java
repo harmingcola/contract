@@ -144,17 +144,17 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   public ContractClient retainTags(String... tagsToRetain) {
-    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
+    ContractTools.retainTags(this.contracts, tagsToRetain);
     return this;
   }
 
   public ContractClient excludeTags(String... tagsToExclude) {
-    this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
+    ContractTools.excludeTags(this.contracts, tagsToExclude);
     return this;
   }
 
   public ContractClient tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;
   }
 

@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static org.apache.catalina.startup.Tomcat.addServlet;
+import static org.seekay.contract.common.ApplicationContext.objectMapper;
 import static org.seekay.contract.model.tools.SleepTools.sleep;
 
 @Slf4j
@@ -37,14 +38,14 @@ public class ContractServer implements ContractOperator<ContractServer> {
   private ObjectMapper objectMapper;
 
   private ContractServer() {
-    this.contracts = new ArrayList<Contract>();
-    this.objectMapper = new ObjectMapper();
+    this.contracts = new ArrayList<>();
+    this.objectMapper = objectMapper();
     this.tomcat = new Tomcat();
   }
 
   private ContractServer(List<Contract> contracts) {
     this.contracts = contracts;
-    this.objectMapper = new ObjectMapper();
+    this.objectMapper = objectMapper();
     this.tomcat = new Tomcat();
   }
 
@@ -115,7 +116,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
    */
   public void reset() {
     Http.delete().toPath(configurePath()).execute();
-    contracts = new ArrayList<Contract>();
+    contracts = new ArrayList<>();
   }
 
   /**
@@ -168,17 +169,17 @@ public class ContractServer implements ContractOperator<ContractServer> {
   }
 
   public ContractServer retainTags(String... tagsToRetain) {
-    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
+    ContractTools.retainTags(this.contracts, tagsToRetain);
     return this;
   }
 
   public ContractServer excludeTags(String... tagsToExclude) {
-    this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
+    ContractTools.excludeTags(this.contracts, tagsToExclude);
     return this;
   }
 
   public ContractServer tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;
   }
 

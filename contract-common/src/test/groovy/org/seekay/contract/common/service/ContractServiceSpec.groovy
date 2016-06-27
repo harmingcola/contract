@@ -13,7 +13,7 @@ class ContractServiceSpec extends Specification {
 
 	def "a newly created service should contain no contracts" () {
 		expect:
-			contractService.read().size() == 0
+			contractService.readEnabled().size() == 0
 	}
 
 	def "when contracts are added they should be stored" () {
@@ -22,7 +22,8 @@ class ContractServiceSpec extends Specification {
 		when:
 			contractService.create(contract)
 		then:
-			contractService.read().size() == 1
+			contractService.readEnabled().size() == 1
+			contractService.readAll().size() == 1
 	}
 
 	def 'all contracts can be removed from the service' () {
@@ -31,10 +32,10 @@ class ContractServiceSpec extends Specification {
 			for(Contract contract : oneDefaultContractOfEachMethod()) {
 				service.create(contract)
 			}
-			assert service.read().size() == 4
+			assert service.readEnabled().size() == 4
 		when:
 			service.deleteContracts()
 		then:
-			service.read().size() == 0
+			service.readEnabled().size() == 0
 	}
 }

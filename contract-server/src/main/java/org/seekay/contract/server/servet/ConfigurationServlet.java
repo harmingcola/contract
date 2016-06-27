@@ -37,7 +37,7 @@ public class ConfigurationServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-		Set<Contract> contracts = contractService.read();
+		Set<Contract> contracts = contractService.readAll();
 		if (!contracts.isEmpty()) {
 			String responseBody = objectMapper.writeValueAsString(contracts);
 			to(httpResponse).ok().write(responseBody);

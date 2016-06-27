@@ -17,6 +17,8 @@ public class Contract implements Comparable<Contract> {
 
   private ContractResponse response;
 
+  private Boolean enabled = true;
+
   public Set<String> readTags() {
     List<String> arrayListTags = (ArrayList<String>) readInfo().get("tags");
     if (arrayListTags == null) {

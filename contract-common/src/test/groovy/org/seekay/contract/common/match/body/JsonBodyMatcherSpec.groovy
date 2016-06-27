@@ -167,7 +167,7 @@ class JsonBodyMatcherSpec extends Specification {
         given:
             ObjectMapper objectMapper = new ObjectMapper()
             JsonBodyMatcher matcher = new JsonBodyMatcher()
-            ExpressionMatcher expressionMatcher = new ExpressionMatcher();
+            ExpressionMatcher expressionMatcher = new ExpressionMatcher()
             matcher.objectMapper = objectMapper
             matcher.expressionMatcher = expressionMatcher
             String contract = '''{"value" : "${contract.anyNumber}" }'''

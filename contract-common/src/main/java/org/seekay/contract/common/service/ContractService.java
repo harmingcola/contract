@@ -13,9 +13,19 @@ public class ContractService {
         contracts.add(contract);
     }
 
-    public Set<Contract> read() {
-        return contracts;
+    public Set<Contract> readEnabled() {
+      Set<Contract> enabledContracts = new HashSet<>();
+      for(Contract contract: contracts) {
+        if(contract.getEnabled()) {
+          enabledContracts.add(contract);
+        }
+      }
+      return contracts;
     }
+
+  public Set<Contract> readAll() {
+    return contracts;
+  }
 
     public void deleteContracts() {
         contracts = new HashSet<Contract>();

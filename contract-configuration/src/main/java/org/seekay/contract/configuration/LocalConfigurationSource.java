@@ -1,5 +1,6 @@
 package org.seekay.contract.configuration;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.model.domain.Contract;
@@ -12,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.seekay.contract.configuration.ParameterExpander.containsParameters;
 
 
@@ -22,6 +24,11 @@ public class LocalConfigurationSource {
   public static final String JSON_CONTRACT_FILE_SUFFIX = ".contract.json";
 
   private ObjectMapper objectMapper = new ObjectMapper();
+
+  public LocalConfigurationSource() {
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+  }
 
   public List<Contract> loadFromDirectory(String directoryPath) {
     List<Contract> contracts = new ArrayList<Contract>();

@@ -3,6 +3,7 @@ package org.seekay.contract.model.tools
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
+import static org.seekay.contract.model.tools.ContractTools.*
 
 class ContractToolsSpec extends Specification {
 
@@ -22,9 +23,9 @@ class ContractToolsSpec extends Specification {
                 defaultGetContract().tags("three", "delete").build()
             ]
         when:
-            contracts = ContractTools.retainTags(contracts, "three")
+            retainTags(contracts, "three")
         then:
-            contracts.size() == 1
+            enabledCount(contracts) == 1
     }
 
     def "a server should not run contracts with certain tags" () {
@@ -35,9 +36,9 @@ class ContractToolsSpec extends Specification {
                 defaultGetContract().tags("three", "delete").build()
             ]
         when:
-            contracts = ContractTools.excludeTags(contracts, "two")
+            excludeTags(contracts, "two")
         then:
-            contracts.size() == 2
+            enabledCount(contracts) == 2
     }
 
     def "a server should be able to both include and exclude features with one call" () {
@@ -49,8 +50,10 @@ class ContractToolsSpec extends Specification {
                 defaultGetContract().tags("four", "get").build()
             ]
         when:
-            contracts = ContractTools.tags(contracts, ["delete"] as Set, ["one", "three"] as Set)
+            tags(contracts, ["delete"] as Set, ["one", "three"] as Set)
         then:
-            contracts.size() == 1
+            enabledCount(contracts) == 1
     }
+
+
 }

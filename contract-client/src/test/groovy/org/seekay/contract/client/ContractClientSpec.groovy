@@ -1,10 +1,12 @@
 package org.seekay.contract.client
+
 import org.seekay.contract.client.client.ContractClient
 import org.seekay.contract.model.domain.Contract
 import org.seekay.contract.model.exception.ContractFailedException
 import org.seekay.contract.server.ClientFacingTest
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
+import static org.seekay.contract.model.tools.ContractTools.enabledCount
 
 class ContractClientSpec extends ClientFacingTest {
 
@@ -102,7 +104,7 @@ class ContractClientSpec extends ClientFacingTest {
 		when:
 			contractClient.retainTags("three")
 		then:
-			contractClient.contracts.size() == 1
+			enabledCount(contractClient.contracts) == 1
 	}
 
 	def "a client should not run contracts with certain tags" () {
@@ -116,7 +118,7 @@ class ContractClientSpec extends ClientFacingTest {
 		when:
 			contractClient.excludeTags("two")
 		then:
-			contractClient.contracts.size() == 2
+            enabledCount(contractClient.contracts) == 2
 	}
 
     def "a client should be able to both include and exclude features with one call" () {
@@ -131,7 +133,7 @@ class ContractClientSpec extends ClientFacingTest {
         when:
             contractClient.tags(["delete"] as Set, ["one", "three"] as Set)
         then:
-            contractClient.contracts.size() == 1
+            enabledCount(contractClient.contracts) == 1
     }
 
     def "Multiple contracts should be addable with a single call" () {

@@ -37,7 +37,7 @@ class MatchingServiceSpec extends Specification{
         service.variableStore = variableStore
         service.objectMapper = new ObjectMapper()
 
-        contractService.read() >> {[ContractTestFixtures.oneDefaultContractOfEachMethod()] as Set}
+        contractService.readEnabled() >> {[ContractTestFixtures.oneDefaultContractOfEachMethod()] as Set}
     }
 
     def "a get contract matching all parameters should return correctly"() {

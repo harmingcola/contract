@@ -83,7 +83,7 @@ class LocalConfigurationSourceSpec extends Specification {
 
     def 'no arg constructor should work correctly' () {
         given:
-            def source = new LocalConfigurationSource();
+            def source = new LocalConfigurationSource()
         expect:
             source != null
     }

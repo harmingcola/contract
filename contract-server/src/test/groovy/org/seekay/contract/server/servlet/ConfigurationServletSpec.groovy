@@ -40,7 +40,7 @@ class ConfigurationServletSpec extends Specification {
         given:
             MockHttpServletRequest request = new MockHttpServletRequest()
             MockHttpServletResponse response = new MockHttpServletResponse()
-            1 * contractService.read() >> {oneDefaultContractOfEachMethod()}
+            1 * contractService.readAll() >> {oneDefaultContractOfEachMethod()}
         when:
             servlet.doGet(request, response)
         then:
@@ -53,7 +53,7 @@ class ConfigurationServletSpec extends Specification {
         given:
             MockHttpServletRequest request = new MockHttpServletRequest()
             MockHttpServletResponse response = new MockHttpServletResponse()
-            1 * contractService.read() >> {[]}
+            1 * contractService.readAll() >> {[]}
         when:
             servlet.doGet(request, response)
         then:

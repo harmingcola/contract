@@ -59,8 +59,8 @@ class ApplicationContext {
     public static ObjectMapper objectMapper() {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper()
-            objectMapper.setSerializationInclusion(Include.NON_NULL);
-            objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.setSerializationInclusion(Include.NON_NULL)
+            objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
         }
         return objectMapper
     }
