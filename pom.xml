@@ -101,13 +101,14 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <scope>test</scope>
             <version>${spock.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -126,6 +127,7 @@
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -138,6 +140,7 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>${cglib.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -157,9 +160,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-
-
-        <!-- Test dependencies -->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -211,6 +211,8 @@
                 <version>2.18.1</version>
                 <configuration>
                     <useFile>false</useFile>
+                    <forkCount>20</forkCount>
+                    <reuseForks>true</reuseForks>
                     <includes>
                         <include>**/*Spec.java</include>
                     </includes>

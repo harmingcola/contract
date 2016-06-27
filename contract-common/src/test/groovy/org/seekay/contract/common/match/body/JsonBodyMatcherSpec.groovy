@@ -1,8 +1,8 @@
 package org.seekay.contract.common.match.body
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.seekay.contract.common.ApplicationContext
 import org.seekay.contract.common.match.common.ExpressionMatcher
-import org.seekay.contract.model.domain.Experiment
 import spock.lang.Specification
 
 import static org.seekay.contract.model.ContractTestFixtures.*
@@ -44,14 +44,14 @@ class JsonBodyMatcherSpec extends Specification {
             matcher.isMatch(contractBody, actualBody)
     }
 
-    def 'a json body that is a subset of another should not match' () {
+    def 'a json body that is a subset of another should match' () {
         given:
             def contract = ["one":"two"]
             def actual = ["one":"two", "three":"four"]
             String contractBody = objectMapper.writeValueAsString(contract)
             String actualBody = objectMapper.writeValueAsString(actual)
         expect:
-            !matcher.isMatch(contractBody, actualBody)
+            matcher.isMatch(contractBody, actualBody)
     }
 
     def 'a json body where keys have the same name but different types should not match' () {
@@ -179,14 +179,13 @@ class JsonBodyMatcherSpec extends Specification {
     }
 
 
-    def 'experiment' () {
+    def 'From failed test 001' () {
         given:
-            String json = '''{"count":5,"result":"true"}'''
-        when:
-            Experiment ex = objectMapper.readValue(json, Experiment.class);
-        then:
-            ex.count == 5
-            ex.result == true
+            JsonBodyMatcher jsonBodyMatcher = ApplicationContext.jsonBodyMatcher()
+            String contract = '''{"id":"${contract.var.string.repoId}","name":"kvServerContracts","url":"https://github.com/harmingcola/kvServerContracts.git"}'''
+            String actual = '''{"id":"b03da0f8-e98e-4c9e-a609-d5d1fb2eb6d5","url":"https://github.com/harmingcola/kvServerContracts.git","name":"kvServerContracts","username":null,"password":null}'''
+        expect:
+            jsonBodyMatcher.isMatch(contract, actual)
     }
 
 
