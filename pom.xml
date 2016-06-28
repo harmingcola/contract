@@ -247,6 +247,8 @@
                             <exclude>org/seekay/contract/common/enrich/Dictionary*</exclude>
                             <exclude>**/JenkinsPipeline*</exclude>
                             <exclude>**/RunServerMojo*</exclude>
+                            <exclude>**/StartServerMojo*</exclude>
+                            <exclude>**/ServerThread*</exclude>
                             <exclude>**/RunClientMojo*</exclude>
                             <exclude>**/CommandLineInterface*</exclude>
                         </excludes>

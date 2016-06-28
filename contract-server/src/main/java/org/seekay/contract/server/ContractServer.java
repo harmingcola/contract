@@ -178,6 +178,13 @@ public class ContractServer implements ContractOperator<ContractServer> {
     return this;
   }
 
+  public ContractServer clearAndReFilter(Set<String> tagsToRetain, Set<String> tagsToExclude) {
+    reset();
+    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    pushContractsToServer();
+    return this;
+  }
+
   public ContractServer tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
     ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;

@@ -152,4 +152,20 @@ class ContractServerSpec extends ClientFacingTest {
         then:
             retrievedContracts.size() == 1
     }
+
+    def "enabled / disabled tags should be updatable while the server is running" () {
+        given:
+            def contracts = [
+                    defaultGetContract().tags("one", "delete").build(),
+                    defaultGetContract().tags("two", "delete").build(),
+                    defaultGetContract().tags("three", "delete").build()
+            ]
+            def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
+            contractServer.retainTags("three")
+            assert enabledCount(contractServer.contracts) == 1
+        when:
+            contractServer.clearAndReFilter(null, ["delete"] as Set)
+        then:
+            enabledCount(contractServer.contracts) == 0
+    }
 }

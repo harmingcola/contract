@@ -63,4 +63,10 @@ public class ContractTools {
     }
     return count;
   }
+
+  public static void enableAll(List<Contract> contracts) {
+    for(Contract contract : contracts) {
+      contract.setEnabled(true);
+    }
+  }
 }
