@@ -20,7 +20,6 @@ public class JsonBodyVariableExtractor {
   private JsonBodyMatcher jsonBodyMatcher;
 
   public Map<String,Object> extract(String contractBody, String actualBody) {
-    log.info("MK1 -> Extracting variables from json body");
     try {
       Object contractObject = objectMapper.readValue(contractBody, Object.class);
       Object actualObject = objectMapper.readValue(actualBody, Object.class);
