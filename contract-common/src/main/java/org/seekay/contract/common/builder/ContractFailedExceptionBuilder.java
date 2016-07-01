@@ -1,6 +1,7 @@
 package org.seekay.contract.common.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.seekay.contract.common.variable.VariableStore;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractResponse;
 import org.seekay.contract.model.exception.ContractFailedException;
@@ -15,6 +16,7 @@ public class ContractFailedExceptionBuilder extends RuntimeException {
   private String actualResponseText = "";
   private String statusCodeText = "";
   private String errorMessage = "";
+  private String variableStoreValues;
 
 
   private ContractFailedExceptionBuilder(String contractText) {
@@ -33,6 +35,8 @@ public class ContractFailedExceptionBuilder extends RuntimeException {
     builder.append(contractText);
     builder.append("\nActual response :\n");
     builder.append(actualResponseText);
+    builder.append("\nVariable store :\n");
+    builder.append(variableStoreValues);
     return new ContractFailedException(builder.toString());
   }
 
@@ -53,6 +57,11 @@ public class ContractFailedExceptionBuilder extends RuntimeException {
 
   public ContractFailedExceptionBuilder errorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
+    return this;
+  }
+
+  public ContractFailedExceptionBuilder variableStore(VariableStore variableStore) {
+    this.variableStoreValues = prettyPrint(variableStore, objectMapper);
     return this;
   }
 }

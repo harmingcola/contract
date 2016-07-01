@@ -26,7 +26,7 @@ public class JsonBodyMatcher implements BodyMatcher {
     }
   }
 
-  private boolean doObjectsMatch(Object contractObject, Object actualObject) {
+  public boolean doObjectsMatch(Object contractObject, Object actualObject) {
     if (contractObject == null && actualObject == null) {
       return true;
     } else if (contractObject == null || actualObject == null) {

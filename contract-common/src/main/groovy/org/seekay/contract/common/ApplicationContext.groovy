@@ -12,6 +12,7 @@ import org.seekay.contract.common.match.path.*
 import org.seekay.contract.common.matchers.HeaderMatcher
 import org.seekay.contract.common.matchers.MethodMatcher
 import org.seekay.contract.common.service.ContractService
+import org.seekay.contract.common.variable.JsonBodyVariableExtractor
 import org.seekay.contract.common.variable.StringVariableExtractor
 import org.seekay.contract.common.variable.VariableStore
 import org.seekay.contract.configuration.LocalConfigurationSource
@@ -33,6 +34,7 @@ class ApplicationContext {
     static LocalConfigurationSource localConfigurationSource
     static VariableStore variableStore
     static JsonBodyMatcher jsonBodyMatcher
+    static JsonBodyVariableExtractor jsonBodyVariableExtractor
 
     public static void clear() {
         contractService = null
@@ -47,6 +49,7 @@ class ApplicationContext {
         localConfigurationSource = null
         variableStore = null
         jsonBodyMatcher = null
+        jsonBodyVariableExtractor = null
     }
 
     public static ContractService contractService() {
@@ -161,9 +164,21 @@ class ApplicationContext {
         if(variableStore == null) {
             variableStore = new VariableStore(
                 expressionMatcher: expressionMatcher(),
-                stringVariableExtractor: new StringVariableExtractor()
+                stringVariableExtractor: new StringVariableExtractor(),
+                jsonBodyVariableExtractor: jsonBodyVariableExtractor()
             )
         }
         return variableStore
+    }
+
+    public static JsonBodyVariableExtractor jsonBodyVariableExtractor() {
+        if (jsonBodyVariableExtractor == null) {
+            jsonBodyVariableExtractor = new JsonBodyVariableExtractor(
+                    objectMapper: objectMapper(),
+                    stringVariableExtractor: new StringVariableExtractor(),
+                    jsonBodyMatcher: jsonBodyMatcher()
+            )
+        }
+        return jsonBodyVariableExtractor
     }
 }

@@ -2,7 +2,6 @@ package org.seekay.contract.client.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.seekay.contract.common.ApplicationContext;
 import org.seekay.contract.common.Http;
 import org.seekay.contract.common.builder.ContractFailedExceptionBuilder;
 import org.seekay.contract.common.enrich.EnricherService;
@@ -10,19 +9,20 @@ import org.seekay.contract.common.match.body.BodyMatchingService;
 import org.seekay.contract.common.match.common.ExpressionMatcher;
 import org.seekay.contract.common.matchers.HeaderMatcher;
 import org.seekay.contract.common.variable.VariableStore;
-import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.configuration.GitConfigurationSource;
 import org.seekay.contract.configuration.LocalConfigurationSource;
 import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.domain.ContractRequest;
 import org.seekay.contract.model.domain.ContractResponse;
+import org.seekay.contract.model.tools.ContractTools;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
+import static org.seekay.contract.common.ApplicationContext.*;
 import static org.seekay.contract.model.tools.PrintTools.prettyPrint;
 
 @Slf4j
@@ -32,15 +32,15 @@ public class ContractClient implements ContractOperator<ContractClient> {
 
   private String path;
 
-  private HeaderMatcher headerMatcher = ApplicationContext.headerMatcher();
-  private BodyMatchingService bodyMatchingService = ApplicationContext.bodyMatchingService();
-  private ObjectMapper objectMapper = ApplicationContext.objectMapper();
-  private EnricherService enricherService = ApplicationContext.enricherService();
-  private ExpressionMatcher expressionMatcher = ApplicationContext.expressionMatcher();
-  private VariableStore variableStore = ApplicationContext.variableStore();
+  private HeaderMatcher headerMatcher = headerMatcher();
+  private BodyMatchingService bodyMatchingService = bodyMatchingService();
+  private ObjectMapper objectMapper = objectMapper();
+  private EnricherService enricherService = enricherService();
+  private ExpressionMatcher expressionMatcher = expressionMatcher();
+  private VariableStore variableStore = variableStore();
 
   private ContractClient() {
-    contracts = new ArrayList<Contract>();
+    contracts = new ArrayList<>();
   }
 
   /**
@@ -76,6 +76,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
    * Executes all loaded contracts against the specified path.
    */
   public void runTests() {
+    log.info("Running tests against : {}", this.path);
     for (Contract contract : contracts) {
       if(contract.getSetup() != null) {
         for (Contract setupContract : contract.getSetup()) {
@@ -87,10 +88,11 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   private void executeContract(Contract contract) {
-    log.info("Executing test contract " + prettyPrint(contract, objectMapper));
+    log.info("Executing contract {}", prettyPrint(contract, objectMapper));
 
     contract = enricherService.enrichRequest(contract);
     ContractRequest request = contract.getRequest();
+    log.info("Actual request {}", prettyPrint(request, objectMapper));
 
     ContractResponse response = Http.method(request.getMethod())
         .toPath(path + request.getPath())
@@ -98,7 +100,10 @@ public class ContractClient implements ContractOperator<ContractClient> {
         .withBody(request.getBody())
         .execute()
         .toResponse();
+
+    log.info("Actual response {}", prettyPrint(response, objectMapper));
     assertResponseIsValid(contract, response);
+    updateVariableStore(contract, response);
   }
 
   /**
@@ -144,17 +149,17 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   public ContractClient retainTags(String... tagsToRetain) {
-    ContractTools.retainTags(this.contracts, tagsToRetain);
+    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
     return this;
   }
 
   public ContractClient excludeTags(String... tagsToExclude) {
-    ContractTools.excludeTags(this.contracts, tagsToExclude);
+    this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
     return this;
   }
 
   public ContractClient tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;
   }
 
@@ -162,10 +167,10 @@ public class ContractClient implements ContractOperator<ContractClient> {
     assertStatusCodesMatch(contract, actualResponse);
     assertBodiesMatch(contract, actualResponse);
     assertHeadersContained(contract, actualResponse);
-    updateVariableStore(contract, actualResponse);
   }
 
   private void updateVariableStore(Contract contract, ContractResponse actualResponse) {
+    log.info("Updating variable store");
     variableStore.updateForResponse(contract, actualResponse);
   }
 
@@ -187,6 +192,7 @@ public class ContractClient implements ContractOperator<ContractClient> {
           .expectedContract(contract)
           .actualResponse(actualResponse)
           .errorMessage("Bodies are expected to match")
+          .variableStore(variableStore)
           .build();
     }
   }

@@ -2,11 +2,22 @@
 Release Notes
 =============
 
+0.0.7
+-----
+* Bug fix     : Expression variables weren't being extracted correctly from complex JSON bodies
+* Feature     : Added ability to enable/disable tags on contract server to change behaviour during test run
+* Feature     : Added 'start-server' goal to maven plugin. Allow server to remain active during test runs.
+
+0.0.6
+-----
+* Feature     : Added setup block to contract definition, allows for multiple setup calls to be made by a client before verifying the actual contract
+* Feature     : Support for variable names in expressions, variables can be stored for later use in a contract
+
 0.0.5
 -----
 * Feature     : Support for `parameters <http://harmingcola.github.io/contract/parameters.html>`_ block, expands single contracts into multiple contracts
 * Feature     : Support for expressions in the response.status field
-* Bug fix     : Manually configuring native json on the server throws exceptions
+* Bug fix     : Manually configuring native JSON on the server throws exceptions
 * Bug fix     : No logging when server was started from command line
 * Bug fix     : Tomcat error handling
 
@@ -30,7 +41,7 @@ Release Notes
 * Feature     : Support for ${contract.timestamp} in response bodies
 * Feature     : Contracts support an info block for documentation and reporting purposes
 * Feature     : Auto tagging of contracts based on directory structure.
-* Improvement : Request & response bodies can now be written in json and escaped text.
+* Improvement : Request & response bodies can now be written in JSON and escaped text.
 * Bug fix     : When a contract doesn't load correctly, no error is thrown.
 * Feature     : Matching support for paths with query parameters.
 

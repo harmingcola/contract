@@ -13,6 +13,7 @@ import org.seekay.contract.model.builder.ContractOperator;
 import org.seekay.contract.model.domain.Contract;
 import org.seekay.contract.model.tools.ContractTools;
 import org.seekay.contract.server.servet.ConfigurationServlet;
+import org.seekay.contract.server.servet.FilterServlet;
 import org.seekay.contract.server.servet.HealthServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
@@ -157,7 +158,6 @@ public class ContractServer implements ContractOperator<ContractServer> {
     return this;
   }
 
-
   public void addContract(Contract contract) {
     Http.post().toPath(configurePath()).withBody(toJson(contract)).execute();
   }
@@ -169,24 +169,36 @@ public class ContractServer implements ContractOperator<ContractServer> {
   }
 
   public ContractServer retainTags(String... tagsToRetain) {
-    ContractTools.retainTags(this.contracts, tagsToRetain);
+    this.contracts = ContractTools.retainTags(this.contracts, tagsToRetain);
     return this;
   }
 
   public ContractServer excludeTags(String... tagsToExclude) {
-    ContractTools.excludeTags(this.contracts, tagsToExclude);
+    this.contracts = ContractTools.excludeTags(this.contracts, tagsToExclude);
     return this;
   }
 
-  public ContractServer clearAndReFilter(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-    reset();
-    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
-    pushContractsToServer();
-    return this;
+  public void setFilters(String... tags) {
+    try {
+      String payload = objectMapper.writeValueAsString(tags);
+      Http http = Http.post().toPath(path() + "/__filter").withBody(payload).execute();
+      if(http.status() != 200) {
+        throw new IllegalStateException("Unable to set filter, tests will not function correctly");
+      }
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void clearFilters() {
+    Http http = Http.delete().toPath(path() + "/__filter").execute();
+    if(http.status() != 200) {
+      throw new IllegalStateException("Unable to clear filter, tests will not function correctly ");
+    }
   }
 
   public ContractServer tags(Set<String> tagsToRetain, Set<String> tagsToExclude) {
-    ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
+    this.contracts = ContractTools.tags(this.contracts, tagsToRetain, tagsToExclude);
     return this;
   }
 
@@ -215,6 +227,9 @@ public class ContractServer implements ContractOperator<ContractServer> {
 
     addServlet(context, "configurationHandler", new ConfigurationServlet());
     context.addServletMapping("/__configure", "configurationHandler");
+
+    addServlet(context, "filterHandler", new FilterServlet());
+    context.addServletMapping("/__filter", "filterHandler");
 
     addServlet(context, "requestHandler", new RequestHandlerServlet());
     context.addServletMapping("/*", "requestHandler");

@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ContractService {
 
-    private Set<Contract> contracts = new HashSet<Contract>();
+    private Set<Contract> contracts = new HashSet<>();
 
     public void create(Contract contract) {
         contracts.add(contract);
@@ -20,7 +20,7 @@ public class ContractService {
           enabledContracts.add(contract);
         }
       }
-      return contracts;
+      return enabledContracts;
     }
 
   public Set<Contract> readAll() {
@@ -28,6 +28,6 @@ public class ContractService {
   }
 
     public void deleteContracts() {
-        contracts = new HashSet<Contract>();
+        contracts = new HashSet<>();
     }
 }

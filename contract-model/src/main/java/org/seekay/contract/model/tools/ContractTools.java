@@ -2,10 +2,12 @@ package org.seekay.contract.model.tools;
 
 import org.seekay.contract.model.domain.Contract;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.seekay.contract.model.tools.SetTools.toArray;
+import static org.seekay.contract.model.tools.SetTools.*;
 
 public class ContractTools {
 
@@ -16,57 +18,48 @@ public class ContractTools {
     throw new IllegalStateException("Utility classes should never be constructed");
   }
 
-  public static void retainTags(List<Contract> contracts, String... tagsToRetain) {
+  public static List<Contract> retainTags(List<Contract> contracts, String... tagsToRetain) {
     if(tagsToRetain.length == 0) {
-      return;
+      return contracts;
     }
+    Set<Contract> contractsToRetain = new HashSet<>();
     for(Contract contract : contracts) {
-      contract.setEnabled(false);
       Set<String> contractTags = contract.readTags();
       for(String tagToRetain : tagsToRetain) {
         if(contractTags.contains(tagToRetain)) {
-          contract.setEnabled(true);
+          contractsToRetain.add(contract);
+          continue;
         }
       }
     }
+    return new ArrayList<>(contractsToRetain);
   }
 
-  public static void excludeTags(List<Contract> contracts, String... tagsToExclude) {
+  public static List<Contract> excludeTags(List<Contract> contracts, String... tagsToExclude) {
     if(tagsToExclude.length != 0) {
+      Set<Contract> contractsToExclude = new HashSet<>();
       for (Contract contract : contracts) {
         Set<String> contractTags = contract.readTags();
         for (String tagToExclude : tagsToExclude) {
           if (contractTags.contains(tagToExclude)) {
-            contract.setEnabled(false);
+
+            contractsToExclude.add(contract);
             continue;
           }
         }
       }
+      contracts.removeAll(contractsToExclude);
     }
+    return contracts;
   }
 
-  public static void tags(List<Contract> contracts, Set<String> tagsToRetain, Set<String> tagsToExclude) {
+  public static List<Contract> tags(List<Contract> contracts, Set<String> tagsToRetain, Set<String> tagsToExclude) {
     if(tagsToRetain != null) {
-      retainTags(contracts, toArray(tagsToRetain));
+      contracts = retainTags(contracts, toArray(tagsToRetain));
     }
     if(tagsToExclude != null) {
-      excludeTags(contracts, toArray(tagsToExclude));
+      contracts = excludeTags(contracts, toArray(tagsToExclude));
     }
-  }
-
-  public static int enabledCount(List<Contract> contracts) {
-    int count = 0;
-    for(Contract contract : contracts) {
-      if(contract.getEnabled()) {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  public static void enableAll(List<Contract> contracts) {
-    for(Contract contract : contracts) {
-      contract.setEnabled(true);
-    }
+    return contracts;
   }
 }

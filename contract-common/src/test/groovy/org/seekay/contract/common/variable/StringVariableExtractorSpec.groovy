@@ -28,4 +28,13 @@ class StringVariableExtractorSpec extends Specification {
             result['commitCount'] == '163'
     }
 
+    def 'Errors when processing a json list should be handled gracefully'() {
+        given:
+            def contractString = '[{"id":"${contract.var.string.repoId}","name":"kvServerContracts","url":"https://github.com/harmingcola/kvServerContracts.git"}]'
+            def actualString = '[{"id":"8feb069d-a68e-4a2d-8f8d-cc01925988e2","url":"https://github.com/harmingcola/kvServerContracts.git","name":"kvServerContracts","username":null,"password":null}]'
+        when:
+            extractor.extract(contractString, actualString)
+        then:
+            notThrown(IndexOutOfBoundsException)
+    }
 }

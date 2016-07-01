@@ -10,7 +10,6 @@ import org.seekay.contract.model.domain.Contract
 
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.getContractWithSetupBlock
-import static org.seekay.contract.model.tools.ContractTools.enabledCount
 
 class ContractServerSpec extends ClientFacingTest {
 
@@ -108,7 +107,7 @@ class ContractServerSpec extends ClientFacingTest {
         when:
             contractServer.retainTags("three")
         then:
-            enabledCount(contractServer.contracts) == 1
+            contractServer.contracts.size() == 1
     }
 
     def "a client should not run contracts with certain tags" () {
@@ -122,7 +121,7 @@ class ContractServerSpec extends ClientFacingTest {
         when:
             contractServer.excludeTags("two")
         then:
-            enabledCount(contractServer.contracts) == 2
+            contractServer.contracts.size() == 2
     }
 
     def "a client should be able to both include and exclude features with one call" () {
@@ -137,7 +136,7 @@ class ContractServerSpec extends ClientFacingTest {
         when:
             contractServer.tags(["delete"] as Set, ["one", "three"] as Set)
         then:
-            enabledCount(contractServer.contracts) == 1
+            contractServer.contracts.size() == 1
     }
 
     def 'a server configured with a single contract with a single setup step should only have 1 contracts' () {
@@ -151,21 +150,5 @@ class ContractServerSpec extends ClientFacingTest {
             List<Contract> retrievedContracts = new ObjectMapper().readValue(body, List.class)
         then:
             retrievedContracts.size() == 1
-    }
-
-    def "enabled / disabled tags should be updatable while the server is running" () {
-        given:
-            def contracts = [
-                    defaultGetContract().tags("one", "delete").build(),
-                    defaultGetContract().tags("two", "delete").build(),
-                    defaultGetContract().tags("three", "delete").build()
-            ]
-            def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
-            contractServer.retainTags("three")
-            assert enabledCount(contractServer.contracts) == 1
-        when:
-            contractServer.clearAndReFilter(null, ["delete"] as Set)
-        then:
-            enabledCount(contractServer.contracts) == 0
     }
 }

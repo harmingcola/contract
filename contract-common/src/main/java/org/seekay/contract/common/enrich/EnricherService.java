@@ -27,7 +27,6 @@ public class EnricherService {
   private static Pattern positiveNumberVariablePattern = Pattern.compile(POSITIVE_NUMBER_VARIABLE);
   private static Pattern stringVariablePattern = Pattern.compile(STRING_VARIABLE);
 
-
   private VariableStore variableStore;
 
   public Contract enrichRequest(Contract contract) {
