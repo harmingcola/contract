@@ -61,4 +61,21 @@ And contracts with any of these tags will be executed. The Opposite is also poss
         .runTests()
 
 This will exclude every contract with the tag 'core'. Retain and exclude can be used in conjunction with one another.
-However, their ordering will need to be taken into account by the user.
+However, their ordering will need to be taken into account by the user. This filtering prevents contracts from being
+loaded by the client or server. They will not be loaded until the configuration is changed and the client or server
+restarted. It is completely separate from the in running filtering explained below.
+
+
+Filtering on a running server
+-----------------------------
+
+Once a server is up and running, we may want to filter what contracts are active in order to customize behaviour to the
+test case currently running. This can be done 2 ways :
+
+1. Sending requests to the server
+* Send a post request to the '/__filter' endpoint of the server. The payload should be a JSON list of strings, contracts containing any of the filter parameters will remain active.
+* To clear the filters, send a delete request to the '/__filter' endpoint.
+
+2. Use the ContractServer object
+* Use the 'setFilters' to set an array of strings to filter on.
+* To clear the filters, call the 'clearFilters' method.

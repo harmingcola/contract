@@ -17,6 +17,7 @@ Server Features
 * Specified headers will be expected & returned by the server.
 * Support for current timestamp included in response bodies.
 * Out of order query params will be recognised.
+* Filters can be set on contracts on a running server to change behaviour for test cases.
 
 Client Features
 ---------------

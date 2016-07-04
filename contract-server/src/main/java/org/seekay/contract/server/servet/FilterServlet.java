@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static java.util.Arrays.asList;
 import static org.seekay.contract.common.ApplicationContext.contractService;
 import static org.seekay.contract.common.ApplicationContext.objectMapper;
 import static org.seekay.contract.server.util.RequestReader.from;
@@ -37,8 +36,9 @@ public class FilterServlet extends HttpServlet {
     log.info("Disabling contracts not matching {}", filters);
 		for(String tag : filters) {
 			for(Contract contract : contractService.readAll()) {
-				if(!contract.readTags().containsAll(asList(tag))) {
-					contract.setEnabled(false);
+				contract.setEnabled(false);
+				if(contract.readTags().contains(tag)) {
+					contract.setEnabled(true);
 				}
 			}
 		}
