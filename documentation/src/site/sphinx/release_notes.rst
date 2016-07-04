@@ -7,6 +7,7 @@ Release Notes
 * Bug fix     : Expression variables weren't being extracted correctly from complex JSON bodies
 * Feature     : Added ability to enable/disable tags on contract server to change behaviour during test run
 * Feature     : Added 'start-server' goal to maven plugin. Allow server to remain active during test runs.
+* Improvement : Upped our internal tomcat to 8.5.3
 
 0.0.6
 -----
