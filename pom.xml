@@ -224,38 +224,38 @@
                 To generate report when coverage fails
                 mvn clean cobertura:cobertura -Dcobertura.report.format=html
             -->
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>cobertura-maven-plugin</artifactId>-->
-                <!--<version>2.7</version>-->
-                <!--<configuration>-->
-                    <!--<check>-->
-                        <!--<lineRate>95</lineRate>-->
-                        <!--<totalLineRate>95</totalLineRate>-->
-                    <!--</check>-->
-                    <!--<instrumentation>-->
-                        <!--<excludes>-->
-                            <!--<exclude>org/seekay/contract/model/**/**/*.class</exclude>-->
-                            <!--<exclude>org/seekay/contract/model/exception/**/*.class</exclude>-->
-                            <!--<exclude>org/seekay/contract/common/enrich/Dictionary*</exclude>-->
-                            <!--<exclude>**/JenkinsPipeline*</exclude>-->
-                            <!--<exclude>**/RunServerMojo*</exclude>-->
-                            <!--<exclude>**/StartServerMojo*</exclude>-->
-                            <!--<exclude>**/ServerThread*</exclude>-->
-                            <!--<exclude>**/RunClientMojo*</exclude>-->
-                            <!--<exclude>**/CommandLineInterface*</exclude>-->
-                        <!--</excludes>-->
-                    <!--</instrumentation>-->
-                    <!--<skip>${skipTests}</skip>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>check</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <check>
+                        <lineRate>92</lineRate>
+                        <totalLineRate>92</totalLineRate>
+                    </check>
+                    <instrumentation>
+                        <excludes>
+                            <exclude>org/seekay/contract/model/**/**/*.class</exclude>
+                            <exclude>org/seekay/contract/model/exception/**/*.class</exclude>
+                            <exclude>org/seekay/contract/common/enrich/Dictionary*</exclude>
+                            <exclude>**/JenkinsPipeline*</exclude>
+                            <exclude>**/RunServerMojo*</exclude>
+                            <exclude>**/StartServerMojo*</exclude>
+                            <exclude>**/ServerThread*</exclude>
+                            <exclude>**/RunClientMojo*</exclude>
+                            <exclude>**/CommandLineInterface*</exclude>
+                        </excludes>
+                    </instrumentation>
+                    <skip>${skipTests}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- Sources for release -->
             <plugin>

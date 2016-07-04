@@ -18,6 +18,7 @@ import org.seekay.contract.server.servet.HealthServlet;
 import org.seekay.contract.server.servet.RequestHandlerServlet;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -138,6 +139,15 @@ public class ContractServer implements ContractOperator<ContractServer> {
    */
   public static ContractServer fromContracts(List<Contract> contracts) {
     return new ContractServer(contracts);
+  }
+
+  public List<Contract> readContracts() {
+    String body = Http.get().toPath(path() + "/__configure").execute().getBody();
+    try {
+      return objectMapper.readValue(body, List.class);
+    } catch (IOException e) {
+      return new ArrayList<>();
+    }
   }
 
   public ContractServer withLocalConfig(String... configLocations) {

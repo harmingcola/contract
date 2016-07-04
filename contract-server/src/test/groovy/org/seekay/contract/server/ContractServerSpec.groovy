@@ -146,9 +146,52 @@ class ContractServerSpec extends ClientFacingTest {
             ]
             def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
         when:
-            String body = Http.get().toPath(contractServer.path() + "/__configure").execute().getBody()
-            List<Contract> retrievedContracts = new ObjectMapper().readValue(body, List.class)
+            List<Contract> retrievedContracts = contractServer.readContracts()
         then:
             retrievedContracts.size() == 1
+    }
+
+    def "contracts should be filterable while the server is running" () {
+        given:
+            def contracts = [
+                defaultGetContract().tags("one", "delete").build(),
+                defaultGetContract().tags("two", "delete").build(),
+                defaultGetContract().tags("three", "delete").build(),
+                defaultGetContract().tags("four", "get").build()
+            ]
+            def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
+        when:
+            contractServer.setFilters("one", "two")
+        then:
+            enabledContracts(contractServer.readContracts()) == 2
+    }
+
+    def "contracts should be filterable while the server is running, clearing filters should re-enable all contracts" () {
+        given:
+            def contracts = [
+                    defaultGetContract().tags("one", "delete").build(),
+                    defaultGetContract().tags("two", "delete").build(),
+                    defaultGetContract().tags("three", "delete").build(),
+                    defaultGetContract().tags("four", "get").build()
+            ]
+            def contractServer = ContractServer.fromContracts(contracts).onRandomPort().startServer()
+        when:
+            contractServer.setFilters("one", "two")
+            List<Contract> retrievedContracts = contractServer.readContracts()
+            assert enabledContracts(retrievedContracts) == 2
+            contractServer.clearFilters()
+            retrievedContracts = contractServer.readContracts()
+        then:
+            enabledContracts(retrievedContracts) == 4
+    }
+
+    int enabledContracts(List<Contract> contracts) {
+        int enabledCount = 0;
+        for(Contract contract : contracts) {
+            if(contract.enabled) {
+                enabledCount++
+            }
+        }
+        return enabledCount;
     }
 }

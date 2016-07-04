@@ -20,6 +20,10 @@ public class JsonBodyVariableExtractor {
   private JsonBodyMatcher jsonBodyMatcher;
 
   public Map<String,Object> extract(String contractBody, String actualBody) {
+    if(!valid(contractBody, actualBody)){
+      return new HashMap<>();
+    }
+
     try {
       Object contractObject = objectMapper.readValue(contractBody, Object.class);
       Object actualObject = objectMapper.readValue(actualBody, Object.class);
@@ -29,14 +33,18 @@ public class JsonBodyVariableExtractor {
     }
   }
 
+  private boolean valid(String contractBody, String actualBody) {
+    if(contractBody == null && actualBody == null) {
+      return false;
+    }
+    else if(contractBody == null || actualBody == null) {
+      return false;
+    }
+    return true;
+  }
+
   private Map<String, Object> extractFromObject(Object contractObject, Object actualObject, HashMap<String, Object> variables) {
-    if (contractObject == null && actualObject == null) {
-      return variables;
-    }
-    else if (contractObject == null || actualObject == null) {
-      return variables;
-    }
-    else if (contractObject instanceof Map) {
+    if (contractObject instanceof Map) {
       return extractFromMap((Map<String, Object>) contractObject, (Map<String, Object>) actualObject, variables);
     }
     else if (contractObject instanceof List) {
@@ -62,11 +70,18 @@ public class JsonBodyVariableExtractor {
 
   private Map<String, Object> extractFromList(List contractList, List actualList, HashMap<String, Object> variables) {
     List<Object> poolToMatchFrom = new ArrayList<>(actualList);
+    Object objectToBeRemovedFromPool = null;
     for(Object contractObject : contractList) {
       for(Object actualObject : poolToMatchFrom) {
         if(jsonBodyMatcher.doObjectsMatch(contractObject, actualObject)) {
           extractFromObject(contractObject, actualObject, variables);
+          objectToBeRemovedFromPool = actualObject;
+          break;
         }
+      }
+      if(objectToBeRemovedFromPool != null) {
+        poolToMatchFrom.remove(objectToBeRemovedFromPool);
+        objectToBeRemovedFromPool = null;
       }
     }
     return variables;

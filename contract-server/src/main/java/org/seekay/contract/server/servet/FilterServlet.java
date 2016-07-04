@@ -19,36 +19,36 @@ import static org.seekay.contract.server.util.RequestReader.from;
 @Slf4j
 public class FilterServlet extends HttpServlet {
 
-	private ContractService contractService;
-	private ObjectMapper objectMapper;
+  private ContractService contractService;
+  private ObjectMapper objectMapper;
 
-	@Override
-	public void init() throws ServletException {
-		contractService = contractService();
-		objectMapper = objectMapper();
-	}
+  @Override
+  public void init() throws ServletException {
+    contractService = contractService();
+    objectMapper = objectMapper();
+  }
 
 
-	@Override
-	protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-		String filterDefinition = from(httpRequest).readBody();
-		String[] filters = objectMapper.readValue(filterDefinition, String[].class);
+  @Override
+  protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+    String filterDefinition = from(httpRequest).readBody();
+    String[] filters = objectMapper.readValue(filterDefinition, String[].class);
     log.info("Disabling contracts not matching {}", filters);
-		for(String tag : filters) {
-			for(Contract contract : contractService.readAll()) {
-				contract.setEnabled(false);
-				if(contract.readTags().contains(tag)) {
-					contract.setEnabled(true);
-				}
-			}
-		}
-	}
+    for (Contract contract : contractService.readAll()) {
+      contract.setEnabled(false);
+      for (String tag : filters) {
+        if (contract.readTags().contains(tag)) {
+          contract.setEnabled(true);
+        }
+      }
+    }
+  }
 
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  @Override
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     log.info("Enabling all contracts");
-		for(Contract contract : contractService.readAll()) {
-			contract.setEnabled(true);
-		}
-	}
+    for (Contract contract : contractService.readAll()) {
+      contract.setEnabled(true);
+    }
+  }
 }

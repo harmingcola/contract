@@ -1,5 +1,6 @@
 package org.seekay.contract.common.builder
 
+import org.seekay.contract.common.variable.VariableStore
 import org.seekay.contract.model.ContractTestFixtures
 import org.seekay.contract.model.domain.Contract
 import org.seekay.contract.model.domain.ContractResponse
@@ -31,6 +32,21 @@ class ContractFailedExceptionBuilderSpec extends Specification {
                     .build()
         then:
             exception.message.contains('I like cheese')
+    }
 
+    def 'variable store info should be included in the error report' () {
+        given:
+            Contract contract = ContractTestFixtures.defaultGetContract().build()
+            ContractResponse response = ContractTestFixtures.defaultGetContract().build().response
+            VariableStore variableStore = new VariableStore()
+            variableStore.put("Victor","alpha")
+        when:
+            def exception = ContractFailedExceptionBuilder.expectedContract(contract)
+                    .actualResponse(response)
+                    .errorMessage("I like cheese")
+                    .variableStore(variableStore)
+                    .build()
+        then:
+            exception.message.contains('''"Victor" : "alpha"''')
     }
 }
