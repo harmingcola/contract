@@ -170,7 +170,6 @@ public class ContractClient implements ContractOperator<ContractClient> {
   }
 
   private void updateVariableStore(Contract contract, ContractResponse actualResponse) {
-    log.info("Updating variable store");
     variableStore.updateForResponse(contract, actualResponse);
   }
 
