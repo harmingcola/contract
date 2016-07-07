@@ -73,6 +73,9 @@ public class BodyMatchingService {
   }
 
   public boolean isMatch(String contractBody, String actualBody) {
+    if(contractBody == null && actualBody == null) {
+      return true;
+    }
     if(isMatch(whiteSpaceIgnoringBodyMatcher, contractBody, actualBody)) {
       return true;
     }

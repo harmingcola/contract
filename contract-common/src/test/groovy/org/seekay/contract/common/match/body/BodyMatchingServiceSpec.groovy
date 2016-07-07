@@ -120,5 +120,8 @@ class BodyMatchingServiceSpec extends Specification {
             !service.isMatch(jsonBodyMatcher, null, null)
     }
 
-
+    def 'two null bodies should match' () {
+        expect:
+            service.isMatch(null, null)
+    }
 }
