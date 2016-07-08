@@ -65,7 +65,7 @@ public class JsonBodyFileLoader {
       if(entry.getValue() instanceof Map) {
         rewriteBodiesAsStrings((HashMap<String, Object>) entry.getValue());
       }
-      if(entry.getKey() == "body" && (entry.getValue() instanceof Map || entry.getValue() instanceof List)) {
+      if(entry.getKey().equals("body") && (entry.getValue() instanceof Map || entry.getValue() instanceof List)) {
         entry.setValue(objectMapper.writeValueAsString(entry.getValue()));
       }
     }

@@ -66,18 +66,21 @@ public class LocalConfigurationSource {
     if (IGNORED_DIRECTORIES.contains(directory.getName())) {
       return;
     }
-    for (File file : directory.listFiles()) { //NOSONAR
-      if (file.isDirectory()) {
-        loadFromDirectory(file, baseDirectory, contracts);
-      } else {
-        Contract contract = loadFromFile(file);
-        if (contract != null) {
-          buildTagsFromDirectoryStructure(contract, baseDirectory, file);
-          if(containsParameters(contract)) {
-            ParameterExpander expander = new ParameterExpander();
-            contracts.addAll(expander.expandParameters(contract));
-          } else {
-            contracts.add(contract);
+    File[] files = directory.listFiles();
+    if(files != null) {
+      for (File file : files) {
+        if (file.isDirectory()) {
+          loadFromDirectory(file, baseDirectory, contracts);
+        } else {
+          Contract contract = loadFromFile(file);
+          if (contract != null) {
+            buildTagsFromDirectoryStructure(contract, baseDirectory, file);
+            if (containsParameters(contract)) {
+              ParameterExpander expander = new ParameterExpander();
+              contracts.addAll(expander.expandParameters(contract));
+            } else {
+              contracts.add(contract);
+            }
           }
         }
       }

@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.util.*;
 
+import static java.util.Locale.*;
+
 @Data
 public class Contract implements Comparable<Contract> {
 
@@ -32,7 +34,7 @@ public class Contract implements Comparable<Contract> {
     Set<String> tags = readTags();
     for (String newTag : newTags) {
       if (!newTag.trim().isEmpty()) {
-        tags.add(newTag.toLowerCase());
+        tags.add(newTag.toLowerCase(ENGLISH));
       }
     }
     info.put("tags", new ArrayList<String>(tags));

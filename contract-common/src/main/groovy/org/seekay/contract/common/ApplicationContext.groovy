@@ -36,22 +36,6 @@ class ApplicationContext {
     static JsonBodyMatcher jsonBodyMatcher
     static JsonBodyVariableExtractor jsonBodyVariableExtractor
 
-    public static void clear() {
-        contractService = null
-        objectMapper = null
-        matchingService = null
-        pathMatchingService = null
-        methodMatcher = null
-        headerMatcher = null
-        bodyMatchService = null
-        enricherService = null
-        expressionMatcher = null
-        localConfigurationSource = null
-        variableStore = null
-        jsonBodyMatcher = null
-        jsonBodyVariableExtractor = null
-    }
-
     public static ContractService contractService() {
         if (contractService == null) {
             contractService = new ContractService()

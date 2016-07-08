@@ -98,33 +98,4 @@ class ApplicationContextSpec extends Specification {
             variableStore != null
             variableStore == ApplicationContext.variableStore()
     }
-
-    def "a context can be cleared and all singletons will be nullified" () {
-        given:
-            ApplicationContext.contractService()
-            ApplicationContext.objectMapper()
-            ApplicationContext.matchingService()
-            ApplicationContext.pathMatchingService()
-            ApplicationContext.methodMatcher()
-            ApplicationContext.headerMatcher()
-            ApplicationContext.bodyMatchingService()
-            ApplicationContext.enricherService()
-            ApplicationContext.expressionMatcher()
-            ApplicationContext.localConfigurationSource()
-            ApplicationContext.variableStore()
-        when:
-            ApplicationContext.clear()
-        then:
-            ApplicationContext.contractService == null
-            ApplicationContext.objectMapper == null
-            ApplicationContext.matchingService == null
-            ApplicationContext.pathMatchingService == null
-            ApplicationContext.methodMatcher == null
-            ApplicationContext.headerMatcher == null
-            ApplicationContext.bodyMatchService == null
-            ApplicationContext.enricherService == null
-            ApplicationContext.expressionMatcher == null
-            ApplicationContext.localConfigurationSource == null
-            ApplicationContext.variableStore == null
-    }
 }
