@@ -42,13 +42,11 @@ public class ContractServer implements ContractOperator<ContractServer> {
   private ContractServer() {
     this.contracts = new ArrayList<>();
     this.objectMapper = objectMapper();
-    this.tomcat = new Tomcat();
   }
 
   private ContractServer(List<Contract> contracts) {
     this.contracts = contracts;
     this.objectMapper = objectMapper();
-    this.tomcat = new Tomcat();
   }
 
   /**
@@ -83,6 +81,7 @@ public class ContractServer implements ContractOperator<ContractServer> {
    * @return
    */
   public ContractServer startServer() {
+    tomcat = new Tomcat();
     tomcat.setPort(this.port);
     tomcat.setBaseDir("target/tomcat/");
     configureServer();
@@ -95,6 +94,15 @@ public class ContractServer implements ContractOperator<ContractServer> {
     log.info("Tomcat server started on port " + this.port);
     pushContractsToServer();
     return this;
+  }
+
+  public void stopServer() {
+    try {
+      tomcat.stop();
+      tomcat.destroy();
+    } catch (LifecycleException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   /**
