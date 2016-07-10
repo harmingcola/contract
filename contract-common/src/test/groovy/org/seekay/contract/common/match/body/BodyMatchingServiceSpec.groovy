@@ -124,4 +124,9 @@ class BodyMatchingServiceSpec extends Specification {
         expect:
             service.isMatch(null, null)
     }
+
+    def 'two empty string bodies should match' () {
+        expect:
+            service.isMatch("", "")
+    }
 }

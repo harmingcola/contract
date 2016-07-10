@@ -76,6 +76,10 @@ public class BodyMatchingService {
     if(contractBody == null && actualBody == null) {
       return true;
     }
+    if(contractBody.isEmpty() && actualBody.isEmpty()) {
+      return true;
+    }
+
     if(isMatch(whiteSpaceIgnoringBodyMatcher, contractBody, actualBody)) {
       return true;
     }
