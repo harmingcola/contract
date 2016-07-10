@@ -60,9 +60,7 @@ public class GitConfigurationSource {
   private File setupDownloadLocation() {
     File downloadLocation = new File(DOWNLOAD_LOCATION);
     deleteExistingCheckout(downloadLocation);
-    if (!downloadLocation.mkdir()) {
-      throw new IllegalStateException("Unable to create download directory");
-    }
+    downloadLocation.mkdir();
     return downloadLocation;
   }
 

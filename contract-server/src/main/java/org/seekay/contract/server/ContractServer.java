@@ -40,11 +40,13 @@ public class ContractServer implements ContractOperator<ContractServer> {
   private ObjectMapper objectMapper;
 
   private ContractServer() {
+    this.tomcat = new Tomcat();
     this.contracts = new ArrayList<>();
     this.objectMapper = objectMapper();
   }
 
   private ContractServer(List<Contract> contracts) {
+    this.tomcat = new Tomcat();
     this.contracts = contracts;
     this.objectMapper = objectMapper();
   }
@@ -81,7 +83,6 @@ public class ContractServer implements ContractOperator<ContractServer> {
    * @return
    */
   public ContractServer startServer() {
-    tomcat = new Tomcat();
     tomcat.setPort(this.port);
     tomcat.setBaseDir("target/tomcat/");
     configureServer();
