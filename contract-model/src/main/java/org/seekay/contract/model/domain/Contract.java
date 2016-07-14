@@ -21,13 +21,15 @@ public class Contract implements Comparable<Contract> {
 
   private Boolean enabled = true;
 
+  private String[] filters;
+
   public Set<String> readTags() {
     List<String> arrayListTags = (ArrayList<String>) readInfo().get("tags");
     if (arrayListTags == null) {
-      arrayListTags = new ArrayList<String>();
+      arrayListTags = new ArrayList<>();
       info.put("tags", arrayListTags);
     }
-    return new HashSet<String>(arrayListTags);
+    return new HashSet<>(arrayListTags);
   }
 
   public void addTags(String[] newTags) {
@@ -37,7 +39,7 @@ public class Contract implements Comparable<Contract> {
         tags.add(newTag.toLowerCase(ENGLISH));
       }
     }
-    info.put("tags", new ArrayList<String>(tags));
+    info.put("tags", new ArrayList<>(tags));
   }
 
   public Map<String, Object> readInfo() {

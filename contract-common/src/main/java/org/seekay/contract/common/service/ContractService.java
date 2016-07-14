@@ -1,10 +1,12 @@
 package org.seekay.contract.common.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.model.domain.Contract;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 public class ContractService {
 
     private Set<Contract> contracts = new HashSet<>();
@@ -30,4 +32,25 @@ public class ContractService {
     public void deleteContracts() {
         contracts = new HashSet<>();
     }
+
+  public void enableFilters(String[] filters) {
+    if(filters != null) {
+      log.info("Disabling contracts not matching {}", filters);
+      for (Contract contract : readAll()) {
+        contract.setEnabled(false);
+        for (String tag : filters) {
+          if (contract.readTags().contains(tag)) {
+            contract.setEnabled(true);
+          }
+        }
+      }
+    }
+  }
+
+  public void clearFilters() {
+    log.info("Enabling all contracts");
+    for (Contract contract : readAll()) {
+      contract.setEnabled(true);
+    }
+  }
 }

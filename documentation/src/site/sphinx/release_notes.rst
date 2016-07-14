@@ -4,6 +4,7 @@ Release Notes
 
 0.0.8
 -----
+* Feature     : Contracts can update the filters on the server
 * Feature     : ContractServer can now be stopped via function call
 * Improvement : Git checkout code will now reuse existing checkouts and not clone every time
 

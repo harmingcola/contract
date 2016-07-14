@@ -1,10 +1,8 @@
-//NOSONAR
 package org.seekay.contract.server.servet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.common.service.ContractService;
-import org.seekay.contract.model.domain.Contract;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,22 +31,11 @@ public class FilterServlet extends HttpServlet {
   protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
     String filterDefinition = from(httpRequest).readBody();
     String[] filters = objectMapper.readValue(filterDefinition, String[].class);
-    log.info("Disabling contracts not matching {}", filters);
-    for (Contract contract : contractService.readAll()) {
-      contract.setEnabled(false);
-      for (String tag : filters) {
-        if (contract.readTags().contains(tag)) {
-          contract.setEnabled(true);
-        }
-      }
-    }
+    contractService.enableFilters(filters);
   }
 
   @Override
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    log.info("Enabling all contracts");
-    for (Contract contract : contractService.readAll()) {
-      contract.setEnabled(true);
-    }
+    contractService.clearFilters();
   }
 }

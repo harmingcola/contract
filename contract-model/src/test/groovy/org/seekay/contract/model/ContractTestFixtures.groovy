@@ -36,6 +36,7 @@ class ContractTestFixtures {
                 .requestHeaders(['captain':'america'])
                 .responseHeaders(['captain':'america'])
                 .status('200')
+                .tags("get")
                 .responseBody('hello world')
     }
 
@@ -45,6 +46,7 @@ class ContractTestFixtures {
                 .requestBody("I'm the request body")
                 .requestHeaders(['captain':'america'])
                 .status('200')
+                .tags("post")
                 .responseHeaders(['incredible':'hulk'])
                 .responseBody('I like cheese')
     }
@@ -55,6 +57,7 @@ class ContractTestFixtures {
                 .requestBody("I'm the request body")
                 .requestHeaders(['iron':'man'])
                 .status('200')
+                .tags("put")
                 .responseHeaders(['war':'machine'])
                 .responseBody('I like eggs')
     }
@@ -64,6 +67,7 @@ class ContractTestFixtures {
                 .path('/builder/5')
                 .requestHeaders(['scarlet':'witch'])
                 .status('204')
+                .tags("delete")
     }
 
     static ContractTestBuilder getContractWithSetupBlock() {

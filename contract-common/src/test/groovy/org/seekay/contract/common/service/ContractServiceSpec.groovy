@@ -38,4 +38,34 @@ class ContractServiceSpec extends Specification {
 		then:
 			service.readEnabled().size() == 0
 	}
+
+	def "contracts can be disabled by their tags" () {
+		given:
+			ContractService service = new ContractService()
+			for(Contract contract : oneDefaultContractOfEachMethod()) {
+				service.create(contract)
+			}
+			assert service.readEnabled().size() == 4
+		when:
+			service.enableFilters("get", "post")
+		then:
+			service.readEnabled().size() == 2
+			service.readAll().size() == 4
+	}
+
+	def "contracts can be disabled by their tags and then cleared" () {
+		given:
+			ContractService service = new ContractService()
+			for(Contract contract : oneDefaultContractOfEachMethod()) {
+				service.create(contract)
+			}
+			assert service.readEnabled().size() == 4
+			service.enableFilters("get", "post")
+			assert service.readEnabled().size() == 2
+		when:
+			service.clearFilters()
+		then:
+			service.readEnabled().size() == 4
+			service.readAll().size() == 4
+	}
 }
