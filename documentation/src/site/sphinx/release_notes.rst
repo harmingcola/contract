@@ -2,6 +2,11 @@
 Release Notes
 =============
 
+0.0.8
+-----
+* Feature     : ContractServer can now be stopped via function call
+* Improvement : Git checkout code will now reuse existing checkouts and not clone every time
+
 0.0.7
 -----
 * Bug fix     : Expression variables weren't being extracted correctly from complex JSON bodies

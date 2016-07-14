@@ -30,6 +30,12 @@ public class LocalConfigurationSource {
     objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
+  public List<Contract> loadFromDirectory(File directory) {
+    List<Contract> contracts = new ArrayList<Contract>();
+    loadFromDirectory(directory, directory, contracts);
+    return contracts;
+  }
+
   public List<Contract> loadFromDirectory(String directoryPath) {
     List<Contract> contracts = new ArrayList<Contract>();
     File directory = new File(directoryPath);

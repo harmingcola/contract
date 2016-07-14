@@ -1,7 +1,6 @@
 package org.seekay.contract.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -35,13 +34,26 @@ public class GitConfigurationSource {
   }
 
   public List<Contract> load() {
-    cloneFromGit();
-    return localSource.loadFromDirectory(DOWNLOAD_LOCATION);
+    File localRepositoryLocation = cloneFromGit();
+    return localSource.loadFromDirectory(localRepositoryLocation);
   }
 
-  private void cloneFromGit() {
-    File localPath = setupDownloadLocation();
-    setupRepositoryConnection(localPath);
+  private File cloneFromGit() {
+    String repositoryName = extractNameFromUrl(this.repositoryUrl);
+    File localRepositoryLocation = new File(DOWNLOAD_LOCATION + repositoryName);
+    if(localRepositoryLocation.exists()) {
+      updateLocalRepository(localRepositoryLocation);
+    }
+    else {
+      setupDownloadLocation(localRepositoryLocation);
+      setupRepositoryConnection(localRepositoryLocation);
+    }
+    return localRepositoryLocation;
+  }
+
+  private String extractNameFromUrl(String repositoryUrl) {
+    String[] tokens = repositoryUrl.split("/");
+    return tokens[tokens.length-1].replace(".git","");
   }
 
   private Git setupRepositoryConnection(File localPath) {
@@ -57,20 +69,16 @@ public class GitConfigurationSource {
     }
   }
 
-  private File setupDownloadLocation() {
-    File downloadLocation = new File(DOWNLOAD_LOCATION);
-    deleteExistingCheckout(downloadLocation);
-    downloadLocation.mkdir();
-    return downloadLocation;
+  private void setupDownloadLocation(File localRepositoryLocation) {
+    localRepositoryLocation.mkdir();
   }
 
-  private void deleteExistingCheckout(File localPath) {
-    if (localPath.exists()) {
-      try {
-        deleteDirectory(localPath);
-      } catch (IOException e) {
-        throw new IllegalStateException("Unable to remove old config source", e);
-      }
+  private void updateLocalRepository(File localRepositoryLocation) {
+    log.info("Updating existing repository at {}", localRepositoryLocation.getAbsolutePath());
+    try {
+      Git.open(localRepositoryLocation).pull();
+    } catch (IOException e) {
+      throw new IllegalStateException("Problem occurred pulling from existing repository",e);
     }
   }
 
@@ -93,12 +101,5 @@ public class GitConfigurationSource {
         .setURI(this.repositoryUrl)
         .setDirectory(localPath)
         .call();
-  }
-
-  /*
-   * Total testing hack, made public so an exception can be thrown via a Spy
-   */
-  public void deleteDirectory(File localPath) throws IOException {
-    FileUtils.deleteDirectory(localPath);
   }
 }

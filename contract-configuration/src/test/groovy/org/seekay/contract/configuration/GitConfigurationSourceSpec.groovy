@@ -62,18 +62,6 @@ class GitConfigurationSourceSpec extends Specification {
             thrown(IllegalStateException)
     }
 
-    def "a problem during deleting existing contracts should be thrown as an illegal state" () {
-        given:
-            GitConfigurationSource oldConfigurationSource = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git")
-            oldConfigurationSource.load()
-            GitConfigurationSource source = Spy(GitConfigurationSource, constructorArgs:["https://bitbucket.org/harmingcola/contract-test-public.git"])
-            source.deleteDirectory(_ as File) >> {throw new IOException("Its broken yo")}
-        when:
-            source.load()
-        then:
-            thrown(IllegalStateException)
-    }
-
 	def "contract files can be downloaded from our acceptance github repo and unmarshalled into contract objects" () {
 		given:
             GitConfigurationSource source = new GitConfigurationSource("https://github.com/harmingcola/kvServerContracts.git")
@@ -81,5 +69,25 @@ class GitConfigurationSourceSpec extends Specification {
 			source.load()
 		then:
 			noExceptionThrown()
+    }
+
+    def 'a public repository checkout can be reused' () {
+        given:
+            def firstLoad = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git").load()
+        when:
+            def secondLoad = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-public.git").load()
+        then:
+            noExceptionThrown()
+            firstLoad == secondLoad
+    }
+
+    def 'a private repository checkout can be reused' () {
+        given:
+            def firstLoad = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-private.git", 'seekay_test', 'seekay_test_password').load()
+        when:
+            def secondLoad = new GitConfigurationSource("https://bitbucket.org/harmingcola/contract-test-private.git", 'seekay_test', 'seekay_test_password').load()
+        then:
+            noExceptionThrown()
+            firstLoad == secondLoad
     }
 }
