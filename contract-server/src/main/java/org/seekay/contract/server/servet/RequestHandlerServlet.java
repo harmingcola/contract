@@ -76,6 +76,8 @@ public class RequestHandlerServlet extends HttpServlet {
     }
 
     private void enableFilters(Contract contract) {
-        contractService.enableFilters(contract.getFilters());
+        if(contract != null) {
+            contractService.enableFilters(contract.getFilters());
+        }
     }
 }
