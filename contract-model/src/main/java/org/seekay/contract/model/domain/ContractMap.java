@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /*
- * Mirror of Contract, allows pre-processing of contracts before being marshalled into an object
+ * Mirror of Contract, allows pre-processing of contracts before being marshaled into an object
  */
 @Data
 public class ContractMap  {
@@ -22,5 +22,6 @@ public class ContractMap  {
 
   private HashMap<String, Object> response;
 
+  private String[] filters;
 
 }

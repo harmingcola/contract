@@ -38,7 +38,10 @@ class JsonBodyFileLoaderSpec extends Specification {
                     body  : [
                             "matt": "murdock"
                     ]
-            ] as HashMap
+            ] as HashMap,
+            filters: [
+                    "filter1"
+            ]
     )
 
     JsonBodyFileLoader loader = new JsonBodyFileLoader()
@@ -83,5 +86,14 @@ class JsonBodyFileLoaderSpec extends Specification {
             def contract = loader.load(contents)
         then:
             contract.setup[0].response.body == """{"matt":"murdock"}"""
+    }
+
+    def 'filters should be loaded correctly' () {
+        given:
+            JsonBodyFileLoader loader = new JsonBodyFileLoader()
+        when:
+            def contract = loader.load(contents)
+        then:
+            contract.filters[0] == "filter1"
     }
 }

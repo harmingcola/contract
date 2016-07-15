@@ -26,7 +26,7 @@ public class ExpressionMatcher {
     if(containsAnExpression(contractString)) {
       String oneTimeStringRegex = contractString;
       if (anyStringPattern.matcher(oneTimeStringRegex).find()) {
-        oneTimeStringRegex = anyStringPattern.matcher(oneTimeStringRegex).replaceAll(".*?");
+        oneTimeStringRegex = anyStringPattern.matcher(oneTimeStringRegex).replaceAll("[\\\\w\\\\d\\\\s-_.]*");
       }
       if (anyNumberPattern.matcher(oneTimeStringRegex).find()) {
         oneTimeStringRegex = anyNumberPattern.matcher(oneTimeStringRegex).replaceAll("-?[0-9]+(\\\\.[0-9]+)?");
@@ -41,7 +41,7 @@ public class ExpressionMatcher {
         oneTimeStringRegex = positiveNumberVariablePattern.matcher(oneTimeStringRegex).replaceAll("?[0-9]+(\\\\.[0-9]+)?");
       }
       if (stringVariablePattern.matcher(oneTimeStringRegex).find()) {
-        oneTimeStringRegex = stringVariablePattern.matcher(oneTimeStringRegex).replaceAll(".*?");
+        oneTimeStringRegex = stringVariablePattern.matcher(oneTimeStringRegex).replaceAll("[\\\\w\\\\d\\\\s-_.]*");
       }
 
       try {

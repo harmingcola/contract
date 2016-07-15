@@ -84,4 +84,12 @@ class ExpressionMatcherSpec extends Specification {
         expect:
             !matcher.isMatch(contract, actual)
     }
+
+    def 'the end part of a for break should cause an expression not to match' () {
+        given:
+            String contract = '''/ct/services/servers/${contract.var.string.serverId}'''
+            String actual = '''/ct/services/servers/4/start'''
+        expect:
+            !matcher.isMatch(contract, actual)
+    }
 }

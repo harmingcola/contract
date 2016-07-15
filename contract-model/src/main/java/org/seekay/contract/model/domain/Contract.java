@@ -6,6 +6,10 @@ import java.util.*;
 
 import static java.util.Locale.*;
 
+/*
+ * Note: When adding fields to contract, ensure a matching field
+ * is added to ContractMap.java
+ */
 @Data
 public class Contract implements Comparable<Contract> {
 

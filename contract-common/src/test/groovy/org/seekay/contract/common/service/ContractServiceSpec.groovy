@@ -48,7 +48,7 @@ class ContractServiceSpec extends Specification {
 			assert service.readEnabled().size() == 4
 		when:
 			service.enableFilters("get", "post")
-		then:
+        then:
 			service.readEnabled().size() == 2
 			service.readAll().size() == 4
 	}
