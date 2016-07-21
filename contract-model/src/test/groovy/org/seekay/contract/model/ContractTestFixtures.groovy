@@ -8,7 +8,9 @@ class ContractTestFixtures {
                 defaultGetContract().build(),
                 defaultPostContract().build(),
                 defaultPutContract().build(),
-                defaultDeleteContract().build()
+                defaultDeleteContract().build(),
+                defaultHeadContract().build(),
+                defaultOptionsContract().build()
         ]
     }
 
@@ -17,7 +19,9 @@ class ContractTestFixtures {
                 defaultGetContract().requestHeaders(null).build(),
                 defaultPostContract().requestHeaders(null).build(),
                 defaultPutContract().requestHeaders(null).build(),
-                defaultDeleteContract().requestHeaders(null).build()
+                defaultDeleteContract().requestHeaders(null).build(),
+                defaultHeadContract().requestHeaders(null).build(),
+                defaultOptionsContract().requestHeaders(null).build()
         ]
     }
 
@@ -68,6 +72,17 @@ class ContractTestFixtures {
                 .requestHeaders(['scarlet':'witch'])
                 .status('204')
                 .tags("delete")
+    }
+
+    static ContractTestBuilder defaultHeadContract() {
+        return ContractTestBuilder.head()
+                .status('200')
+    }
+
+    static ContractTestBuilder defaultOptionsContract() {
+        return ContractTestBuilder.options()
+                .responseHeaders(['Allow':'GET, HEAD, POST, PUT, DELETE, OPTIONS'])
+                .status('200')
     }
 
     static ContractTestBuilder getContractWithSetupBlock() {

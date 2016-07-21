@@ -32,7 +32,7 @@ class ContractServiceSpec extends Specification {
 			for(Contract contract : oneDefaultContractOfEachMethod()) {
 				service.create(contract)
 			}
-			assert service.readEnabled().size() == 4
+			assert service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
 		when:
 			service.deleteContracts()
 		then:
@@ -45,12 +45,12 @@ class ContractServiceSpec extends Specification {
 			for(Contract contract : oneDefaultContractOfEachMethod()) {
 				service.create(contract)
 			}
-			assert service.readEnabled().size() == 4
+			assert service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
 		when:
 			service.enableFilters("get", "post")
         then:
 			service.readEnabled().size() == 2
-			service.readAll().size() == 4
+			service.readAll().size() == oneDefaultContractOfEachMethod().size()
 	}
 
 	def "contracts can be disabled by their tags and then cleared" () {
@@ -59,13 +59,13 @@ class ContractServiceSpec extends Specification {
 			for(Contract contract : oneDefaultContractOfEachMethod()) {
 				service.create(contract)
 			}
-			assert service.readEnabled().size() == 4
+			assert service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
 			service.enableFilters("get", "post")
 			assert service.readEnabled().size() == 2
 		when:
 			service.clearFilters()
 		then:
-			service.readEnabled().size() == 4
-			service.readAll().size() == 4
+			service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
+			service.readAll().size() == oneDefaultContractOfEachMethod().size()
 	}
 }

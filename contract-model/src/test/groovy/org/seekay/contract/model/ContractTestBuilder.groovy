@@ -47,6 +47,14 @@ class ContractTestBuilder {
         return new ContractTestBuilder(DELETE)
     }
 
+    static ContractTestBuilder head() {
+        return new ContractTestBuilder(HEAD)
+    }
+
+    static ContractTestBuilder options() {
+        return new ContractTestBuilder(OPTIONS)
+    }
+
 
     /*
      * Parameter methods

@@ -6,6 +6,7 @@ import org.seekay.contract.common.match.MatchingService
 import org.seekay.contract.common.match.body.BodyMatchingService
 import org.seekay.contract.common.match.body.ExpressionBodyMatcher
 import org.seekay.contract.common.match.body.JsonBodyMatcher
+import org.seekay.contract.common.match.body.SymmetricJsonBodyMatcher
 import org.seekay.contract.common.match.body.WhiteSpaceIgnoringBodyMatcher
 import org.seekay.contract.common.match.common.ExpressionMatcher
 import org.seekay.contract.common.match.path.*
@@ -34,6 +35,7 @@ class ApplicationContext {
     static LocalConfigurationSource localConfigurationSource
     static VariableStore variableStore
     static JsonBodyMatcher jsonBodyMatcher
+    static SymmetricJsonBodyMatcher symmetricJsonBodyMatcher
     static JsonBodyVariableExtractor jsonBodyVariableExtractor
 
     public static ContractService contractService() {
@@ -106,7 +108,8 @@ class ApplicationContext {
                     expressionBodyMatcher: new ExpressionBodyMatcher(
                             expressionMatcher: expressionMatcher()
                     ),
-                    jsonBodyMatcher : jsonBodyMatcher()
+                    jsonBodyMatcher : jsonBodyMatcher(),
+                    symmetricJsonBodyMatcher : symmetricJsonBodyMatcher()
             )
         }
         return bodyMatchService
@@ -119,6 +122,15 @@ class ApplicationContext {
                 expressionMatcher: expressionMatcher()
         )
         return jsonBodyMatcher
+    }
+
+    public static SymmetricJsonBodyMatcher symmetricJsonBodyMatcher() {
+        if(symmetricJsonBodyMatcher == null) {}
+        symmetricJsonBodyMatcher = new SymmetricJsonBodyMatcher(
+                objectMapper: objectMapper(),
+                expressionMatcher: expressionMatcher()
+        )
+        return symmetricJsonBodyMatcher
     }
 
     public static EnricherService enricherService() {

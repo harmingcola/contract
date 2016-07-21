@@ -8,6 +8,7 @@ Release Notes
 * Feature     : ContractServer can now be stopped via function call
 * Improvement : Git checkout code will now reuse existing checkouts and not clone every time
 * Bug fix     : Pattern matching for urls matched all of a url not ignoring '/'
+* Improvement : JSON body matching, will now match a fully populated body before an empty body
 
 0.0.7
 -----

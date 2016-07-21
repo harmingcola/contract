@@ -69,10 +69,10 @@ public class PathMatchingService {
   }
 
   private boolean isMatch(PathMatcher pathMatcher, String contractPath, String actualPath) {
-    if(contractPath == null && actualPath == null) {
+    if(contractPath == null) {
       return true;
     }
-    if(contractPath == null ^ actualPath == null) {
+    if(actualPath == null) {
       return false;
     }
     return pathMatcher.isMatch(contractPath, actualPath);

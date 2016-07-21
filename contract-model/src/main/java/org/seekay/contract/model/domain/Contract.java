@@ -54,6 +54,15 @@ public class Contract implements Comparable<Contract> {
   }
 
   public int compareTo(Contract otherContract) {
+    if(this.request.getPath() == null && otherContract.getRequest().getPath() == null) {
+      return 0;
+    }
+    if(this.request.getPath() == null && otherContract.getRequest().getPath() != null) {
+      return -1;
+    }
+    if(this.request.getPath() != null && otherContract.getRequest().getPath() == null) {
+      return 1;
+    }
     return this.request.getPath().compareTo(otherContract.request.getPath());
   }
 }

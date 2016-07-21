@@ -24,6 +24,9 @@ public class MapTools {
   }
 
   public static boolean containsEntry(Map.Entry<String, String> entry, Map<String, String> map) {
+    if(map == null) {
+      return false;
+    }
     return map.containsKey(entry.getKey()) && map.get(entry.getKey()).equals(entry.getValue());
   }
 }

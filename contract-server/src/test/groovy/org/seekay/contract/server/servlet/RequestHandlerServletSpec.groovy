@@ -94,6 +94,29 @@ class RequestHandlerServletSpec extends Specification {
             response.getStatus() == 204
     }
 
+    def "a HEAD request should be handled correctly" () {
+        given:
+            HttpServletRequest request = buildServletRequest()
+            HttpServletResponse response = new MockHttpServletResponse()
+            1 * matchingService.matchHeadRequest(_ as ContractRequest) >> {defaultHeadContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultHeadContract().build()}
+        when:
+            servlet.doHead(request, response)
+        then:
+            response.getStatus() == 200
+    }
+
+    def "an OPTIONS request should be handled correctly" () {
+        given:
+            HttpServletRequest request = buildServletRequest()
+            HttpServletResponse response = new MockHttpServletResponse()
+            1 * matchingService.matchOptionsRequest(_ as ContractRequest) >> {defaultOptionsContract().build()}
+            1 * enricherService.enrichResponse(_ as Contract) >> {defaultOptionsContract().build()}
+        when:
+            servlet.doOptions(request, response)
+        then:
+            response.getStatus() == 200
+    }
 
     HttpServletRequest buildServletRequest() {
         MockHttpServletRequest request = new MockHttpServletRequest()

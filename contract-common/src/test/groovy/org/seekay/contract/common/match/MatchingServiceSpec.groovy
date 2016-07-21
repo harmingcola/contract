@@ -99,6 +99,36 @@ class MatchingServiceSpec extends Specification{
             matchedContract.response.headers == contract.response.headers
     }
 
+    def "a head contract matching all parameters should return correctly"() {
+        given:
+            Contract contract = ContractTestFixtures.defaultHeadContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, HEAD) >> {[contract]}
+            pathMatchingService.findMatches(_ as Set<Contract>, null) >> {[contract]}
+            headerMatcher.isMatch(_ as Set<Contract>, null) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
+        when:
+            Contract matchedContract = service.matchHeadRequest(contract.request)
+        then:
+            matchedContract.response.status == contract.response.status
+            matchedContract.response.body == contract.response.body
+            matchedContract.response.headers == contract.response.headers
+    }
+
+    def "an options contract matching all parameters should return correctly"() {
+        given:
+            Contract contract = ContractTestFixtures.defaultOptionsContract().build()
+            methodMatcher.findMatches(_ as Set<Contract>, OPTIONS) >> {[contract]}
+            pathMatchingService.findMatches(_ as Set<Contract>, null) >> {[contract]}
+            headerMatcher.isMatch(_ as Set<Contract>, null) >> {[contract]}
+            bodyMatchService.findMatches(_ as Set<Contract>,_ as ContractRequest) >> {[contract]}
+        when:
+            Contract matchedContract = service.matchOptionsRequest(contract.request)
+        then:
+            matchedContract.response.status == contract.response.status
+            matchedContract.response.body == contract.response.body
+            matchedContract.response.headers == contract.response.headers
+    }
+
     def "a contract not matching method should return null"() {
         given:
             Contract contract = ContractTestFixtures.defaultGetContract().build()

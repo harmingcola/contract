@@ -76,11 +76,11 @@ class PathMatchingServiceSpec extends Specification {
             isMatch
     }
 
-    def 'Contract null and actual not null should not match' () {
+    def 'Contract is null and actual not null should match' () {
         when:
            def isMatch = service.isMatch(exactPathMatcher, null, "/index")
         then:
-            !isMatch
+            isMatch
     }
 
     def 'Contract not null and actual null should not match' () {

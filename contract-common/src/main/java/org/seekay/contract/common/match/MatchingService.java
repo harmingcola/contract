@@ -86,6 +86,32 @@ public class MatchingService {
     return match;
   }
 
+  public Contract matchHeadRequest(ContractRequest contractRequest) {
+    logRequest(contractRequest);
+    Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
+    Set<Contract> matchedByPath = matchByPath(contractRequest);
+    Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
+    }
+    logResponse(match);
+    return match;
+  }
+
+  public Contract matchOptionsRequest(ContractRequest contractRequest) {
+    logRequest(contractRequest);
+    Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
+    Set<Contract> matchedByPath = matchByPath(contractRequest);
+    Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
+    if(match != null) {
+      variableStore.updateForRequest(match, contractRequest);
+    }
+    logResponse(match);
+    return match;
+  }
+
   private void logRequest(ContractRequest contractRequest) {
     log.info("Request received {}", prettyPrint(contractRequest, objectMapper));
   }
@@ -130,4 +156,7 @@ public class MatchingService {
             + prettyPrint(matchedContracts, objectMapper));
     }
   }
+
+
+
 }

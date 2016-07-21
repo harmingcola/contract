@@ -12,9 +12,9 @@ import java.util.*;
 @Slf4j
 public class JsonBodyMatcher implements BodyMatcher {
 
-  private ObjectMapper objectMapper;
+  protected ObjectMapper objectMapper;
 
-  private ExpressionMatcher expressionMatcher;
+  protected ExpressionMatcher expressionMatcher;
 
   public boolean isMatch(String contractBody, String actualBody) {
     try {
@@ -78,6 +78,9 @@ public class JsonBodyMatcher implements BodyMatcher {
     }
     else if(expressionMatcher.containsAnExpression(contractString)) {
       return expressionMatcher.isMatch(contractString, actualString);
+    }
+    else if(expressionMatcher.containsAnExpression(actualString)) {
+      return expressionMatcher.isMatch(actualString, contractString);
     }
     return false;
   }

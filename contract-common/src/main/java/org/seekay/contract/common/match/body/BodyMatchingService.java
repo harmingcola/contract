@@ -27,6 +27,8 @@ public class BodyMatchingService {
 
   private JsonBodyMatcher jsonBodyMatcher;
 
+  private SymmetricJsonBodyMatcher symmetricJsonBodyMatcher;
+
   public Set<Contract> findMatches(Set<Contract> contracts, ContractRequest actualRequest) {
     Set<Contract> results = new HashSet<Contract>();
 
@@ -37,7 +39,7 @@ public class BodyMatchingService {
       }
     }
 
-    log.info("Is results empty {}", results.isEmpty());
+    log.info("MK1 No of results {}", results.size());
 
     // Find text matches using expressions
     if(results.isEmpty()) {
@@ -48,6 +50,19 @@ public class BodyMatchingService {
       }
     }
 
+    log.info("MK2 No of results {}", results.size());
+
+    // Look for symmetric json specific matches
+    if(results.isEmpty()) {
+      for(Contract contract : contracts) {
+        if(isMatch(symmetricJsonBodyMatcher, contract.getRequest().getBody(), actualRequest.getBody())) {
+          results.add(contract);
+        }
+      }
+    }
+
+    log.info("MK3 No of results {}", results.size());
+
     // Look for json specific matches
     if(results.isEmpty()) {
       for(Contract contract : contracts) {
@@ -56,6 +71,8 @@ public class BodyMatchingService {
         }
       }
     }
+
+    log.info("MK4 No of results {}", results.size());
 
     return results;
   }

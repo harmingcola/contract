@@ -10,11 +10,13 @@ class BodyMatchingServiceSpec extends Specification {
     WhiteSpaceIgnoringBodyMatcher whiteSpaceIgnoringBodyMatcher = Mock(WhiteSpaceIgnoringBodyMatcher)
     ExpressionBodyMatcher expressionBodyMatcher = Mock(ExpressionBodyMatcher)
     JsonBodyMatcher jsonBodyMatcher = Mock(JsonBodyMatcher)
+    SymmetricJsonBodyMatcher symmetricJsonBodyMatcher = Mock(SymmetricJsonBodyMatcher)
 
     BodyMatchingService service = new BodyMatchingService(
             whiteSpaceIgnoringBodyMatcher: whiteSpaceIgnoringBodyMatcher,
             expressionBodyMatcher: expressionBodyMatcher,
-            jsonBodyMatcher :jsonBodyMatcher
+            jsonBodyMatcher :jsonBodyMatcher,
+            symmetricJsonBodyMatcher: symmetricJsonBodyMatcher
     )
 
     def 'if no exact body match is found, the expression body matcher should be called'() {
@@ -107,7 +109,7 @@ class BodyMatchingServiceSpec extends Specification {
     }
 
     def 'for two bodies, if no matcher matches, there is no match'() {
-        when:jsonBodyMatcher
+        when:
             def isMatch = service.isMatch('/index', '/index')
         then:
             1 * whiteSpaceIgnoringBodyMatcher.isMatch(_ as String, _ as String) >> { return false }
@@ -129,4 +131,6 @@ class BodyMatchingServiceSpec extends Specification {
         expect:
             service.isMatch("", "")
     }
+
+
 }
