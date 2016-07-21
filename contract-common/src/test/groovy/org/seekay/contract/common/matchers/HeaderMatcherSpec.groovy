@@ -77,4 +77,20 @@ class HeaderMatcherSpec extends Specification {
             expressionMatcher.isMatch(_,_) >> {return false}
             result.size() == 0
     }
+
+    def "a contract will not match with empty headers if an exact match is found" () {
+        given:
+            Set contracts = [
+                    defaultGetContract().path("/entity/1").requestHeaders(["iron":"man"]).responseBody("I should match").build(),
+                    defaultGetContract().path("/entity/1").requestHeaders(null).responseBody("I shouldnt").build(),
+            ]
+        when:
+            Set result = matcher.isMatch(contracts, ["iron":"man"])
+        then:
+            expressionMatcher.containsAnExpression(_) >> {return false}
+            result.size() == 1
+            result.collect { contract ->
+                assert contract.response.body == "I should match"
+            }
+    }
 }

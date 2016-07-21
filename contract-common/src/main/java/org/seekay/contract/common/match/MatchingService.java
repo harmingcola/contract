@@ -134,13 +134,13 @@ public class MatchingService {
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
     Set<Contract> matches = headerMatcher.isMatch(contractService.readEnabled(), contractRequest.getHeaders());
-    log.debug("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
+    log.info("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
     return matches;
   }
   
   private Set<Contract> matchByBody(ContractRequest contractRequest) {
     Set<Contract> matches = bodyMatchingService.findMatches(contractService.readEnabled(), contractRequest);
-    log.info("Matched by body : {} ",  prettyPrint(matches, objectMapper));
+    log.debug("Matched by body : {} ",  prettyPrint(matches, objectMapper));
     return matches;
   }
   

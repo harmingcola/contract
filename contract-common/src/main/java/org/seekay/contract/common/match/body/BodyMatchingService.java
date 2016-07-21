@@ -39,8 +39,6 @@ public class BodyMatchingService {
       }
     }
 
-    log.info("MK1 No of results {}", results.size());
-
     // Find text matches using expressions
     if(results.isEmpty()) {
       for (Contract contract : contracts) {
@@ -49,8 +47,6 @@ public class BodyMatchingService {
         }
       }
     }
-
-    log.info("MK2 No of results {}", results.size());
 
     // Look for symmetric json specific matches
     if(results.isEmpty()) {
@@ -61,8 +57,6 @@ public class BodyMatchingService {
       }
     }
 
-    log.info("MK3 No of results {}", results.size());
-
     // Look for json specific matches
     if(results.isEmpty()) {
       for(Contract contract : contracts) {
@@ -71,8 +65,6 @@ public class BodyMatchingService {
         }
       }
     }
-
-    log.info("MK4 No of results {}", results.size());
 
     return results;
   }
