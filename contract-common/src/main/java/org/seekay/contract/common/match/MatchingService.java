@@ -134,7 +134,8 @@ public class MatchingService {
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
     Set<Contract> matches = headerMatcher.isMatch(contractService.readEnabled(), contractRequest.getHeaders());
-    log.info("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
+    log.debug("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
+    log.debug("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
     return matches;
   }
   
