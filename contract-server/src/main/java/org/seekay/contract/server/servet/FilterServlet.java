@@ -27,7 +27,6 @@ public class FilterServlet extends HttpServlet {
     objectMapper = objectMapper();
   }
 
-
   @Override
   protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
     String filterDefinition = from(httpRequest).readBody();
