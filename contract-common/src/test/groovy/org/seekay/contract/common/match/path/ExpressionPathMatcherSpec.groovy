@@ -41,4 +41,9 @@ class ExpressionPathMatcherSpec extends Specification {
         expect:
             !matcher.isMatch('/${contract.gibberish}', 'I am Iron Man')
     }
+
+    def 'a url should match' () {
+        expect:
+            matcher.isMatch('/ct/services/repositories/${contract.var.string.repoId}', '/ct/services/repositories/R001')
+    }
 }

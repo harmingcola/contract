@@ -37,6 +37,8 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -51,6 +53,8 @@ public class MatchingService {
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}] Body[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size(), matchedByBody.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -65,6 +69,8 @@ public class MatchingService {
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
     Set<Contract> matchedByBody = matchByBody(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}] Body[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size(), matchedByBody.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders, matchedByBody);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -78,6 +84,8 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -91,6 +99,8 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -104,6 +114,8 @@ public class MatchingService {
     Set<Contract> matchedByMethod = matchByMethod(contractRequest.getMethod());
     Set<Contract> matchedByPath = matchByPath(contractRequest);
     Set<Contract> matchedByHeaders = matchByHeaders(contractRequest);
+    log.info("Matches : Method[{}] Path[{}] Headers[{}]",
+        matchedByMethod.size(), matchedByPath.size(), matchedByHeaders.size());
     Contract match = getResult(matchedByMethod, matchedByPath, matchedByHeaders);
     if(match != null) {
       variableStore.updateForRequest(match, contractRequest);
@@ -134,7 +146,6 @@ public class MatchingService {
   
   private Set<Contract> matchByHeaders(ContractRequest contractRequest) {
     Set<Contract> matches = headerMatcher.isMatch(contractService.readEnabled(), contractRequest.getHeaders());
-    log.debug("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
     log.debug("Matched by headers : {} ",  prettyPrint(matches, objectMapper));
     return matches;
   }

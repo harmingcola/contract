@@ -47,7 +47,7 @@ class ContractServiceSpec extends Specification {
 			}
 			assert service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
 		when:
-			service.enableFilters("get", "post")
+			service.enableFilters(["get", "post"])
         then:
 			service.readEnabled().size() == 2
 			service.readAll().size() == oneDefaultContractOfEachMethod().size()
@@ -60,7 +60,7 @@ class ContractServiceSpec extends Specification {
 				service.create(contract)
 			}
 			assert service.readEnabled().size() == oneDefaultContractOfEachMethod().size()
-			service.enableFilters("get", "post")
+			service.enableFilters(["get", "post"])
 			assert service.readEnabled().size() == 2
 		when:
 			service.clearFilters()

@@ -70,7 +70,6 @@ public class BodyMatchingService {
   }
 
   private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
-    log.debug("Checking {} against contract {} using {}", actualBody, contractBody, bodyMatcher);
     if(contractBody == null) {
       return false;
     }

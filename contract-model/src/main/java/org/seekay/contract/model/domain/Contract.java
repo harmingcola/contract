@@ -25,7 +25,7 @@ public class Contract implements Comparable<Contract> {
 
   private Boolean enabled = true;
 
-  private String[] filters;
+  private List<String> filters;
 
   public Set<String> readTags() {
     List<String> arrayListTags = (ArrayList<String>) readInfo().get("tags");

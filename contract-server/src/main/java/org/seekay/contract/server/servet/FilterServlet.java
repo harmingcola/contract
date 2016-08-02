@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.seekay.contract.common.ApplicationContext.contractService;
 import static org.seekay.contract.common.ApplicationContext.objectMapper;
@@ -30,7 +31,7 @@ public class FilterServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
     String filterDefinition = from(httpRequest).readBody();
-    String[] filters = objectMapper.readValue(filterDefinition, String[].class);
+    ArrayList<String> filters = objectMapper.readValue(filterDefinition, ArrayList.class);
     contractService.enableFilters(filters);
   }
 

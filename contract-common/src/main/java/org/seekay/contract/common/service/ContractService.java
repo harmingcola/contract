@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.seekay.contract.model.domain.Contract;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -33,7 +34,7 @@ public class ContractService {
         contracts = new HashSet<>();
     }
 
-  public void enableFilters(String[] filters) {
+  public void enableFilters(List<String> filters) {
     if(filters != null) {
       log.info("Disabling contracts not matching {}", filters);
       for (Contract contract : readAll()) {

@@ -57,7 +57,7 @@ public class ExpressionMatcher {
           return true;
         }
       } catch (PatternSyntaxException e) {
-        log.info("Problem occurred compiling regex for : " + oneTimeStringRegex);
+        log.trace("Problem occurred compiling regex for : " + oneTimeStringRegex);
       }
     }
     return false;

@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * Matches the path a request is made on with its contract.
- *
+ * <p>
  * 1. Looks for an exact match
  * 2. Looks for a match with query params out of order
  * 3. Looks for a match with query params out of order with expressions
@@ -31,48 +31,41 @@ public class PathMatchingService {
     Set<Contract> results = new HashSet<Contract>();
 
     // Find exact matches
-    for(Contract contract : contracts) {
-      if(isMatch(exactPathMatcher, contract.getRequest().getPath(), actualPath)) {
+    for (Contract contract : contracts) {
+      if (isMatch(exactPathMatcher, contract.getRequest().getPath(), actualPath)) {
         results.add(contract);
       }
     }
 
     // Find matches using expressions
-    if(results.isEmpty()) {
-      for(Contract contract : contracts) {
-        if(isMatch(expressionPathMatcher, contract.getRequest().getPath(), actualPath)) {
-          results.add(contract);
-        }
+    for (Contract contract : contracts) {
+      if (isMatch(expressionPathMatcher, contract.getRequest().getPath(), actualPath)) {
+        results.add(contract);
       }
     }
 
     // Find matches with query params out of order
-    if(results.isEmpty()) {
-      for(Contract contract : contracts) {
-        if(isMatch(queryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
-          results.add(contract);
-        }
+    for (Contract contract : contracts) {
+      if (isMatch(queryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
+        results.add(contract);
       }
     }
 
     // Find matches with query params out of order using expressions
-    if(results.isEmpty()) {
-      for(Contract contract : contracts) {
-        if(isMatch(expressionQueryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
-          results.add(contract);
-        }
+    for (Contract contract : contracts) {
+      if (isMatch(expressionQueryParamPathMatcher, contract.getRequest().getPath(), actualPath)) {
+        results.add(contract);
       }
     }
-
 
     return results;
   }
 
   private boolean isMatch(PathMatcher pathMatcher, String contractPath, String actualPath) {
-    if(contractPath == null) {
+    if (contractPath == null) {
       return true;
     }
-    if(actualPath == null) {
+    if (actualPath == null) {
       return false;
     }
     return pathMatcher.isMatch(contractPath, actualPath);
