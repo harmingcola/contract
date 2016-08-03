@@ -132,5 +132,10 @@ class BodyMatchingServiceSpec extends Specification {
             service.isMatch("", "")
     }
 
+    def 'a null contract body and an empty response should match' () {
+        expect:
+            service.isMatch(null, "")
+    }
+
 
 }

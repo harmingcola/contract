@@ -32,7 +32,7 @@ public class ResponseWriter {
         try {
             ServletOutputStream out = response.getOutputStream();
             if(body != null) {
-                out.write(body.getBytes()); //NOSONAR
+                out.write(body.getBytes());
             }
             out.flush();
             out.close();
