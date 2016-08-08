@@ -1,7 +1,9 @@
 package org.seekay.contract.common.match.body
 
+import org.seekay.contract.common.ApplicationContext
 import spock.lang.Specification
 
+import static org.seekay.contract.common.ApplicationContext.*
 import static org.seekay.contract.model.ContractTestFixtures.defaultGetContract
 import static org.seekay.contract.model.ContractTestFixtures.defaultPostContract
 
@@ -137,5 +139,12 @@ class BodyMatchingServiceSpec extends Specification {
             service.isMatch(null, "")
     }
 
-
+    def 'Integration test 001' () {
+        given:
+            BodyMatchingService bodyMatchingService = bodyMatchingService()
+            String contractBody = '{"id":"S001","name":"${contract.var.string.name}","repositoryId":"R001","port":"${contract.var.positiveNumber.port}","status":"STARTED"}'
+            String actualBody = '{"id":"S001","name":"hair","repositoryId":"R001","port":1744096943,"status":"STARTED"}'
+        expect:
+            bodyMatchingService.isMatch(contractBody, actualBody)
+    }
 }

@@ -42,7 +42,7 @@ public class ExpressionMatcher {
         oneTimeStringRegex = numberVariablePattern.matcher(oneTimeStringRegex).replaceAll("-?[0-9]+(\\\\.[0-9]+)?");
       }
       if (positiveNumberVariablePattern.matcher(oneTimeStringRegex).find()) {
-        oneTimeStringRegex = positiveNumberVariablePattern.matcher(oneTimeStringRegex).replaceAll("?[0-9]+(\\\\.[0-9]+)?");
+        oneTimeStringRegex = positiveNumberVariablePattern.matcher(oneTimeStringRegex).replaceAll("[0-9]+(\\\\.[0-9]+)?");
       }
       if (stringVariablePattern.matcher(oneTimeStringRegex).find()) {
         if(oneTimeStringRegex.contains("/")) {

@@ -1,5 +1,7 @@
 package org.seekay.contract.server.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.util.Map;
 
 import static java.lang.Integer.*;
 
+@Slf4j
 public class ResponseWriter {
 
     private HttpServletResponse response;
@@ -21,6 +24,7 @@ public class ResponseWriter {
 
     public ResponseWriter headers(Map<String, String> headers) {
         if(headers != null) {
+            log.debug("Writing headers to response {}", headers);
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 response.addHeader(entry.getKey(), entry.getValue());
             }

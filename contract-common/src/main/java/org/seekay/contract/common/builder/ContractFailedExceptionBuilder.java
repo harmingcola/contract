@@ -1,5 +1,6 @@
 package org.seekay.contract.common.builder;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.seekay.contract.common.variable.VariableStore;
 import org.seekay.contract.model.domain.Contract;
@@ -21,6 +22,7 @@ public class ContractFailedExceptionBuilder extends RuntimeException {
 
   private ContractFailedExceptionBuilder(String contractText) {
     this.contractText = contractText;
+      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   public ContractFailedException build() {

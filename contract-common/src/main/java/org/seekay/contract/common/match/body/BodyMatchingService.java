@@ -69,25 +69,11 @@ public class BodyMatchingService {
     return results;
   }
 
-  private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
-    if(contractBody == null) {
-      return false;
-    }
-    if(actualBody != null && actualBody.trim().isEmpty()) {
-      return false;
-    }
-    Boolean result = bodyMatcher.isMatch(contractBody, actualBody);
-    return result;
-  }
-
   public boolean isMatch(String contractBody, String actualBody) {
-    if(contractBody == null && actualBody == null) {
+    if(contractBody == null || contractBody.isEmpty()) {
       return true;
     }
-    if(contractBody == null && actualBody.isEmpty()) {
-      return true;
-    }
-    if(contractBody.isEmpty() && actualBody.isEmpty()) {
+    if(actualBody == null || actualBody.isEmpty()) {
       return true;
     }
 
@@ -101,5 +87,16 @@ public class BodyMatchingService {
       return true;
     }
     return false;
+  }
+
+  private boolean isMatch(BodyMatcher bodyMatcher, String contractBody, String actualBody) {
+    if(contractBody == null) {
+      return false;
+    }
+    if(actualBody != null && actualBody.trim().isEmpty()) {
+      return false;
+    }
+    Boolean result = bodyMatcher.isMatch(contractBody, actualBody);
+    return result;
   }
 }

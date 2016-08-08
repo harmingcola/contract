@@ -108,4 +108,12 @@ class ExpressionMatcherSpec extends Specification {
         expect:
             matcher.isMatch(contract, actual)
     }
+
+    def 'A positive number variable should match' () {
+        given:
+            String contract = '''${contract.var.positiveNumber.port}'''
+            String actual = '''1744096943'''
+        expect:
+            matcher.isMatch(contract, actual)
+    }
 }
