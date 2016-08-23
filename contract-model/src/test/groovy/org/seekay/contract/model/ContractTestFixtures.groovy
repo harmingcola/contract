@@ -1,4 +1,5 @@
 package org.seekay.contract.model
+
 import org.seekay.contract.model.domain.Contract
 
 class ContractTestFixtures {
@@ -37,8 +38,8 @@ class ContractTestFixtures {
     static ContractTestBuilder defaultGetContract() {
         return ContractTestBuilder.get()
                 .path('/builder/2')
-                .requestHeaders(['captain':'america'])
-                .responseHeaders(['captain':'america'])
+                .requestHeaders(['captain': 'america'])
+                .responseHeaders(['captain': 'america'])
                 .status('200')
                 .tags("get")
                 .responseBody('hello world')
@@ -48,10 +49,10 @@ class ContractTestFixtures {
         return ContractTestBuilder.post()
                 .path('/builder/3')
                 .requestBody("I'm the request body")
-                .requestHeaders(['captain':'america'])
+                .requestHeaders(['captain': 'america'])
                 .status('200')
                 .tags("post")
-                .responseHeaders(['incredible':'hulk'])
+                .responseHeaders(['incredible': 'hulk'])
                 .responseBody('I like cheese')
     }
 
@@ -59,17 +60,17 @@ class ContractTestFixtures {
         return ContractTestBuilder.put()
                 .path('/builder/4')
                 .requestBody("I'm the request body")
-                .requestHeaders(['iron':'man'])
+                .requestHeaders(['iron': 'man'])
                 .status('200')
                 .tags("put")
-                .responseHeaders(['war':'machine'])
+                .responseHeaders(['war': 'machine'])
                 .responseBody('I like eggs')
     }
 
     static ContractTestBuilder defaultDeleteContract() {
         return ContractTestBuilder.delete()
                 .path('/builder/5')
-                .requestHeaders(['scarlet':'witch'])
+                .requestHeaders(['scarlet': 'witch'])
                 .status('204')
                 .tags("delete")
     }
@@ -81,7 +82,7 @@ class ContractTestFixtures {
 
     static ContractTestBuilder defaultOptionsContract() {
         return ContractTestBuilder.options()
-                .responseHeaders(['Allow':'GET, HEAD, POST, PUT, DELETE, OPTIONS'])
+                .responseHeaders(['Allow': 'GET, HEAD, POST, PUT, DELETE, OPTIONS'])
                 .status('200')
     }
 
@@ -89,8 +90,8 @@ class ContractTestFixtures {
         return ContractTestBuilder.get()
                 .setup(defaultPostContract().build())
                 .path('/builder/2')
-                .requestHeaders(['captain':'america'])
-                .responseHeaders(['captain':'america'])
+                .requestHeaders(['captain': 'america'])
+                .responseHeaders(['captain': 'america'])
                 .status('200')
                 .responseBody('hello world')
     }
@@ -99,20 +100,23 @@ class ContractTestFixtures {
         return ContractTestBuilder.post()
                 .path('/builder/${contract.parameter.door}')
                 .requestBody('This body contains a parameter ${contract.parameter.window}')
-                .requestHeaders(['captain':'a${contract.parameter.hero}'])
+                .requestHeaders([
+                    'captain': 'a${contract.parameter.hero}',
+                    'bobby': '${contract.parameter.noMatchingParameter}'
+                ])
                 .status('${contract.parameter.status}')
-                .responseHeaders(['incredible':'${contract.parameter.nameExpression}'])
+                .responseHeaders(['incredible': '${contract.parameter.nameExpression}'])
                 .responseBody('${contract.parameter.responseBody}')
                 .parameters([
-                    [
-                        'door':'blue',
-                        'window': 'red',
-                        'hero': 'merica',
-                        'status': "200",
+                [
+                        'door'          : 'blue',
+                        'window'        : 'red',
+                        'hero'          : 'merica',
+                        'status'        : "200",
                         'nameExpression': '\\$\\{contract.anyString\\}',
-                        'responseBody': 'Im huuuuuuge'
-                    ] as Map
-                ] as List)
+                        'responseBody'  : 'Im huuuuuuge'
+                ] as Map
+        ] as List)
     }
 
     static ContractTestBuilder postContractWithOneParameterBlockAndASetupBlock() {
@@ -120,19 +124,19 @@ class ContractTestFixtures {
                 .path('/builder/${contract.parameter.door}')
                 .setup(defaultGetContract().requestBody('This body also has a parameter ${contract.parameter.window}').build())
                 .requestBody('This body contains a parameter ${contract.parameter.window}')
-                .requestHeaders(['captain':'a${contract.parameter.hero}'])
+                .requestHeaders(['captain': 'a${contract.parameter.hero}'])
                 .status('${contract.parameter.status}')
-                .responseHeaders(['incredible':'${contract.parameter.nameExpression}'])
+                .responseHeaders(['incredible': '${contract.parameter.nameExpression}'])
                 .responseBody('${contract.parameter.responseBody}')
                 .parameters([
-                    [
-                        'door':'blue',
-                        'window': 'red',
-                        'hero': 'merica',
-                        'status': "200",
+                [
+                        'door'          : 'blue',
+                        'window'        : 'red',
+                        'hero'          : 'merica',
+                        'status'        : "200",
                         'nameExpression': '\\$\\{contract.anyString\\}',
-                        'responseBody': 'Im huuuuuuge'
-                    ] as Map
-                ] as List)
+                        'responseBody'  : 'Im huuuuuuge'
+                ] as Map
+        ] as List)
     }
 }

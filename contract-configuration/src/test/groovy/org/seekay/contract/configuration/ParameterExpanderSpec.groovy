@@ -48,14 +48,19 @@ class ParameterExpanderSpec extends Specification {
             result.response.body == 'Im huuuuuuge'
     }
 
+    def 'a parameter without a match will be replaced with an empty string' () {
+        expect:
+            result.request.headers['bobby'] == ''
+    }
+
     def 'a setup block will also have parameters expanded' () {
         given:
             Contract contract = postContractWithOneParameterBlockAndASetupBlock().build()
         when:
             List contracts = expander.expandParameters(contract)
-            Contract setupContract = first(first(contracts).getSetup())
+            Contract setupContract = first(contracts)
         then:
-            setupContract.request.body == 'This body also has a parameter red'
+            setupContract.request.body == 'This body contains a parameter red'
 
     }
 }
